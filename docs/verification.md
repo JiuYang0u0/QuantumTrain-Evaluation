@@ -7,6 +7,7 @@
 - 全套28項pytest通過。
 - 三份notebook fresh-kernel smoke均通過（11、9、7節）。第三份包含預測分布、受控mapping比較、20筆過擬合、整段訓練梯度與activation、結果判讀。
 - 正式第二輪協定見 mapping-protocol.md；是否完成與結果以 reports/mapping 的實測報告為準。
+- 第二輪 `mapping-710a60bdbc` 已完成12/12 runs；report_mapping.py成功匯出summary、逐epoch manifest與兩張圖，三seed完整。所有run最後epoch固定probe的ReLU零比例1.0、logits跨圖片標準差0.0；Tanh未改善。完整解讀見 reports/mapping/interpretation.md。
 
 ## 2026-10-07 第一輪
 

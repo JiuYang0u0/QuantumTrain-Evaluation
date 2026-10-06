@@ -55,6 +55,8 @@ uv run python scripts/verify_notebooks.py --mode smoke
 
 ## 理解結果
 
+第二輪診斷12/12次完成：Tanh未改善，最後epoch固定train probe的hidden ReLU皆失活。詳見 [mapping報告](reports/mapping/mapping-study.md) 與 [診斷解讀](reports/mapping/interpretation.md)。這是validation-only結果，與第一輪test指標不同。
+
 已完成第一輪12次正式實驗，結果見 [報告](reports/depth-study.md) 與 [解讀](reports/interpretation.md)。這組適配設定中，Classical 平均74.26%，QT約10.2%；量子更新檢查通過並不代表有分類收益。
 
 - 目標 MLP 64→8→10，共610個參數；QT mapping 16,761個、量子10/30/50個，因此本小例子**沒有参数壓縮優勢**。

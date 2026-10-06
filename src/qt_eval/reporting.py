@@ -99,7 +99,13 @@ def write_report(run_dirs, output_dir, allow_smoke=False, expected_groups=None):
         display[c]=display[c].map(lambda x:'N/A' if pd.isna(x) else f'{x:.6f}')
     title='SMOKE 工程檢查（不可用於研究結論）' if frame.iloc[0]['mode']=='smoke' else 'QuantumTrain 電路深度適配實驗'
     failures='\n'.join(f"- {r['path'].name}: {r['result']['status']} {r['result'].get('error','')}" for r in records)
-    manifest=[{'run_id':r['path'].name,'config':r['config'],'result':r['result']} for r in records]
+    manifest=[]
+    for r in records:
+        entry={'run_id':r['path'].name,'config':r['config'],'result':r['result']}
+        for name in ('environment','diagnostics'):
+            artifact=r['path']/f'{name}.json'
+            entry[name]=json.loads(artifact.read_text(encoding='utf-8')) if artifact.exists() else None
+        manifest.append(entry)
     (output/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
     text=f'# {title}\n\n研究問題：同 epoch 預算下，1/3/5 層電路如何影響精度與成本？\n\n'
     text+='來源：[QuantumTrain](https://github.com/Hon-Hai-Quantum-Computing/QuantumTrain)，參照 commit d5b654116565ae9550e540e021ab0d4160a15c86。\n\n'

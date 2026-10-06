@@ -23,7 +23,7 @@ def check_training_step(model, inputs, targets):
         for key, parameters in groups.items():
             present = all(p.grad is not None for _,p in parameters)
             finite = present and all(bool(torch.isfinite(p.grad).all()) for _,p in parameters)
-            norm = sum(float(p.grad.norm())**2 for _,p in parameters if p.grad is not None)**0.5
+            norm = sum(float(p.grad.norm())**2 for _,p in parameters)**0.5 if finite else None
             details[key] = dict(has_grad=present, finite=finite, norm=norm)
         if all(d['finite'] for d in details.values()):
             optimizer.step()

@@ -75,3 +75,36 @@ def test_invalid_config(change):
     from qt_eval.config import validate_config
     with pytest.raises(ValueError):
         validate_config(change)
+
+
+def test_wire_zero_is_most_significant_probability_bit():
+    import pennylane as qml
+    from qt_eval.quantum import basis_codes
+    @qml.qnode(qml.device('default.qubit',wires=2))
+    def known_state():
+        qml.PauliX(0)
+        return qml.probs(wires=[0,1])
+    index=int(np.argmax(known_state()))
+    assert index==2
+    assert basis_codes(2)[index].tolist()==[1,-1]
+
+
+def test_nonfinite_gradient_diagnostic_is_json_serializable():
+    import json
+    from qt_eval.diagnostics import check_training_step
+    class BadBackward(torch.autograd.Function):
+        @staticmethod
+        def forward(ctx,x):
+            return x.clone()
+        @staticmethod
+        def backward(ctx,gradient):
+            return torch.full_like(gradient,float('nan'))
+    class BadModel(torch.nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.weight=torch.nn.Parameter(torch.ones(64,10,dtype=torch.float64))
+        def forward(self,x):
+            return x@BadBackward.apply(self.weight)
+    result=check_training_step(BadModel(),torch.ones(3,64,dtype=torch.float64),torch.tensor([0,1,2]))
+    assert result['status']=='failed'
+    json.dumps(result,allow_nan=False)

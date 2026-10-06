@@ -52,6 +52,8 @@ uv run python scripts/verify_notebooks.py --mode smoke
 
 ## 理解結果
 
+已完成第一輪12次正式實驗，結果見 [報告](reports/depth-study.md) 與 [解讀](reports/interpretation.md)。這組適配設定中，Classical 平均74.26%，QT約10.2%；量子更新檢查通過並不代表有分類收益。
+
 - 目標 MLP 64→8→10，共610個參數；QT mapping 16,761個、量子10/30/50個，因此本小例子**沒有参数壓縮優勢**。
 - 理想模擬、CPU float64、backprop，並未量測 QPU 性能。
 - 最佳 checkpoint 由 validation loss 選擇，test 僅最後評估。

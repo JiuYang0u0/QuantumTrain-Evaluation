@@ -15,6 +15,8 @@
 
 ## 教材閱讀檢視
 
+正式矩陣 `study-8091e80c8e` 已完成12/12 runs，逐一檢查 completed、diagnostics passed 與 best.pt 存在；最終報告已從原始 artifacts 重建至 reports/。具體觀察與限制見 reports/interpretation.md。
+
 已逐節檢查生成來源的20個 section：每節包含目標、理由、shape、程式定位、操作、觀察、判讀、問題及解答。Notebook 01 有可執行的資料圖、電路圖、shape trace、detach 反例與重載驗證；Notebook 02 有明確矩陣、validation-only pilot、缺漏判讀與報告產出。
 
 這是作者／工程檢視，不等於已由真正零背景的新讀者完成 usability 測試。後續可請一位新人記錄卡住的 section，再迭代教材。

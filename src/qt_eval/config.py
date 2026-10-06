@@ -6,7 +6,7 @@ from pathlib import Path
 DEFAULTS = dict(mode="smoke", model="quantum", q_depth=3, q_delta=0.001,
                 diff_method="backprop", shots=None, dtype="float64",
                 learning_rate=0.001, batch_size=64, epochs=2, seed=11,
-                split_seed=2026, torch_threads=1)
+                split_seed=2026, torch_threads=1, mapping_activation='affine')
 
 
 def validate_config(config):
@@ -14,6 +14,8 @@ def validate_config(config):
     if unknown:
         raise ValueError(f"Unknown configuration keys: {sorted(unknown)}")
     c = DEFAULTS | config
+    if c['mapping_activation'] not in ('affine','tanh'):
+        raise ValueError('mapping_activation must be affine or tanh')
     for key in ('epochs', 'batch_size', 'torch_threads', 'q_depth'):
         if type(c[key]) is not int or c[key] <= 0:
             raise ValueError(f'{key} must be a positive integer')

@@ -1,5 +1,13 @@
 # 驗證紀錄
 
+## 第二輪：訓練診斷與 mapping 延伸
+
+- 新增 affine/Tanh mapping 配置；預設 affine，原實驗配置與模型 state_dict 結構保持相容。
+- 新增4項測試：兩组相同初始Linear/量子參數、snapshot不改模型與RNG、diagnostic runner只接train/validation、新配置驗證。
+- 全套28項pytest通過。
+- 三份notebook fresh-kernel smoke均通過（11、9、7節）。第三份包含預測分布、受控mapping比較、20筆過擬合、整段訓練梯度與activation、結果判讀。
+- 正式第二輪協定見 mapping-protocol.md；是否完成與結果以 reports/mapping 的實測報告為準。
+
 ## 2026-10-07 第一輪
 
 - 在新建獨立 Git repo 的 `feat/quantumtrain-evaluation` 分支實作。

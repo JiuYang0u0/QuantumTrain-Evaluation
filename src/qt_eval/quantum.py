@@ -34,13 +34,19 @@ def probability_features(p, n_qubits):
 
 
 class QuantumTrain(nn.Module):
-    def __init__(self, depth=3, delta=0.001):
+    def __init__(self, depth=3, delta=0.001, mapping_activation='affine'):
         super().__init__()
+        if mapping_activation not in ('affine','tanh'):
+            raise ValueError('Unsupported mapping activation')
         self.n_qubits = 10
         self.q_params = nn.Parameter(delta*torch.randn(depth,10,dtype=torch.float64))
         widths = [11,40,200,40,1]
-        self.mapping = nn.Sequential(*[nn.Linear(a,b,dtype=torch.float64)
-                                       for a,b in zip(widths[:-1],widths[1:])])
+        layers=[]
+        for index,(a,b) in enumerate(zip(widths[:-1],widths[1:])):
+            layers.append(nn.Linear(a,b,dtype=torch.float64))
+            if mapping_activation=='tanh' and index < len(widths)-2:
+                layers.append(nn.Tanh())
+        self.mapping = nn.Sequential(*layers)
         self.register_buffer('codes', basis_codes(10)[:TARGET_PARAMETERS])
         self.qnode = make_qnode(10)
         self.detach_quantum = False

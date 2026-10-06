@@ -17,6 +17,9 @@ uv run jupyter lab
 
 1. [01 QuantumTrain Workbook](notebooks/01_quantumtrain_workbook.ipynb)：資料圖像 → MLP → 小量子電路 → 機率與權重 → 梯度中斷反例 → 訓練 → 重載模型。
 2. [02 Depth Evaluation](notebooks/02_depth_evaluation.ipynb)：定義問題 → 固定矩陣 → pilot 預算 → 批次實驗 → 完整性檢查 → 曲線解讀 → 報告。
+3. [03 Training Diagnostics](notebooks/03_training_diagnostics.ipynb)：類別塌縮、權重與activation診斷 → 20筆過擬合 → affine/Tanh mapping對照。僅使用train/validation。
+
+第三份教材文字來源是 `scripts/build_diagnostics_notebook.py`，可用 `uv run python scripts/build_diagnostics_notebook.py` 重建。批次診斷使用 `uv run python -m qt_eval.training_diagnostics`（smoke），加 `--full` 則執行固定depth3、三seeds的20筆200epochs與完整train20epochs對照。此輪不使用test選模或評估；初始Linear與量子參數在同seed下完全對齊，只有mapping隱藏層的Tanh不同。
 
 每一節都有學習目標、設計理由、張量 shape、操作指引、預期觀察、常見錯誤與折疊解答。先閱讀 Markdown，再執行 code。**第一次保留 MODE=smoke，用 Restart Kernel and Run All 從頭執行。**
 

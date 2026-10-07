@@ -6,6 +6,7 @@
 - 34項pytest通過，包含驗證設定實際傳入Adam、寫入artifact，以及無效LR不建立run。
 - LR三組smoke及報告匯出整合檢查通過。
 - 第三份教材擴為10節，新增學習率、時間波動與未收斂的判讀；fresh-kernel smoke通過。
+- 正式study learning-rate-f37260840c完成9/9runs，報告成功匯出。較低LR減少後20epochs loss時間波動，但未改善同200epochs預算的平均擬合或validation表現；具體數字與限制見reports/learning-rate/interpretation.md。
 
 ## 第四輪：固定LeakyReLU的mapping比較
 

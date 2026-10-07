@@ -55,6 +55,8 @@ uv run python scripts/verify_notebooks.py --mode smoke
 
 ## 理解結果
 
+第五輪結果：[learning-rate解讀](reports/learning-rate/interpretation.md)。降低LR使後段loss波動變小，但固定200epochs下的擬合與validation未改善；平穩不等於已學會或已收斂。
+
 第五輪 [learning-rate協定](docs/learning-rate-protocol.md) 固定Tanh/LeakyReLU，比較1e-3、3e-4、1e-4；使用 `uv run python scripts/learning_rate_study.py` 執行9runs，或加 `--smoke`。第三份教材第9節解釋最好epoch、最後表現與時間波動的差異。
 
 第四輪結果已完成：[固定LeakyReLU的mapping比較](reports/leaky-mapping/interpretation.md)。Tanh提高20筆資料上的最高訓練擬合（平均21.67%→46.67%），但validation收益不穩定，且部分run後期退化；不能只報最好epoch。

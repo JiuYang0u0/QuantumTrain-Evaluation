@@ -78,11 +78,14 @@ class QuantumTrain(nn.Module):
         self.qnode = make_qnode(10)
         self.detach_quantum = False
 
-    def generated_weights(self):
+    def feature_values(self):
         probabilities = self.qnode(self.q_params)[:TARGET_PARAMETERS]
         if self.detach_quantum:
             probabilities = probabilities.detach()
-        feature = probability_features(probabilities, self.n_qubits)*self.feature_scale
+        return probability_features(probabilities, self.n_qubits)*self.feature_scale
+
+    def generated_weights(self):
+        feature = self.feature_values()
         inputs = torch.cat([self.codes, feature[:,None]], dim=1)
         weights=self.mapping(inputs).flatten()
         if self.weight_transform=='center_fanin':

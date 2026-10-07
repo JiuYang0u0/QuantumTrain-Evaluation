@@ -37,6 +37,7 @@ def measure_sensitivity(model,x,y):
                 without=fanin_weight_blocks(without)
             zero_logits=functional_mlp(x,without,m.target_activation)
             return dict(quantum_loss_grad_norm=float(grad.norm()),feature_std=float(features.std(unbiased=False)),
+                scaled_feature_std=float(features.std(unbiased=False))*m.feature_scale,
                 perturbations=rows,zero_feature_weight_relative_delta=float((without-w).norm()/w.norm().clamp_min(1e-15)),
                 zero_feature_logits_relative_delta=float((zero_logits-logits).norm()/logits.norm().clamp_min(1e-15)),
                 zero_feature_loss_delta=float(F.cross_entropy(zero_logits,y)-loss),

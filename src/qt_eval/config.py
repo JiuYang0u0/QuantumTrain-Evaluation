@@ -6,7 +6,7 @@ from pathlib import Path
 DEFAULTS = dict(mode="smoke", model="quantum", q_depth=3, q_delta=0.001,
                 diff_method="backprop", shots=None, dtype="float64",
                 learning_rate=0.001, batch_size=64, epochs=2, seed=11,
-                split_seed=2026, torch_threads=1, mapping_activation='affine',target_activation='relu',weight_transform='none')
+                split_seed=2026, torch_threads=1, mapping_activation='affine',target_activation='relu',weight_transform='none',feature_scale=1.)
 
 
 def validate_config(config):
@@ -26,7 +26,7 @@ def validate_config(config):
     for key in ('seed', 'split_seed'):
         if type(c[key]) is not int or not 0 <= c[key] < 2**32:
             raise ValueError(f'{key} must be an unsigned 32-bit integer')
-    for key in ('learning_rate', 'q_delta'):
+    for key in ('learning_rate', 'q_delta','feature_scale'):
         if not isinstance(c[key], (float, int)) or not math.isfinite(c[key]) or c[key] <= 0:
             raise ValueError(f'{key} must be finite and positive')
     if c['mode'] not in ('smoke', 'full') or c['model'] not in ('classical', 'quantum'):

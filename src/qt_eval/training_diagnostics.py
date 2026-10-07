@@ -8,7 +8,7 @@ import pandas as pd
 import torch
 from torch.nn import functional as F
 from torch.utils.data import DataLoader, TensorDataset
-from .quantum import QuantumTrain
+from .quantum import QuantumTrain,probability_features
 from .data import load_digits_splits
 from .experiment import evaluate
 from .config import validate_config
@@ -23,10 +23,18 @@ def snapshot(model,x):
         preactivation=F.linear(x,weights[:512].reshape(8,64),weights[512:520])
         hidden=activate_hidden(preactivation,model.target_activation)
         logits=F.linear(hidden,weights[520:600].reshape(10,8),weights[600:])
+        feature=probability_features(model.qnode(model.q_params)[:610],10)*model.feature_scale
+        activation=torch.cat([model.codes,feature[:,None]],dim=1)
+        saturation=[]
+        for layer in model.mapping:
+            activation=layer(activation)
+            if isinstance(layer,torch.nn.Tanh):
+                saturation.append(float((activation.abs()>.99).double().mean()))
         def stats(t):
             return dict(count=t.numel(),mean=float(t.mean()),std=float(t.std(unbiased=False)),
                         minimum=float(t.min()),maximum=float(t.max()))
         return dict(weights=stats(weights),logits=stats(logits),
+                    scaled_feature_std=float(feature.std(unbiased=False)),mapping_tanh_saturation=saturation,
                     blocks={k:stats(w) for k,w in [('W1',weights[:512]),('b1',weights[512:520]),('W2',weights[520:600]),('b2',weights[600:])]},
                     logits_between_images_std=float(logits.std(dim=0,unbiased=False).mean()),
                     prediction_counts=torch.bincount(logits.argmax(1),minlength=10).tolist(),
@@ -36,9 +44,9 @@ def snapshot(model,x):
                     hidden_active_fraction=(hidden>0).double().mean(0).tolist())
 
 
-def run_diagnostic(activation,seed,splits,output,epochs=20,tiny=False,target_activation='relu',learning_rate=.001,weight_transform='none',train_quantum=True):
+def run_diagnostic(activation,seed,splits,output,epochs=20,tiny=False,target_activation='relu',learning_rate=.001,weight_transform='none',train_quantum=True,feature_scale=1.):
     """Only train/validation are accessed. Tiny subset has two examples per class."""
-    config=validate_config(dict(mode='full',mapping_activation=activation,seed=seed,epochs=epochs,q_depth=3,target_activation=target_activation,learning_rate=learning_rate,weight_transform=weight_transform))
+    config=validate_config(dict(mode='full',mapping_activation=activation,seed=seed,epochs=epochs,q_depth=3,target_activation=target_activation,learning_rate=learning_rate,weight_transform=weight_transform,feature_scale=feature_scale))
     if type(train_quantum) is not bool:
         raise ValueError('train_quantum must be bool')
     path=Path(output)/(f'{activation}-seed{seed}-'+('tiny' if tiny else 'full'))
@@ -50,7 +58,7 @@ def run_diagnostic(activation,seed,splits,output,epochs=20,tiny=False,target_act
         torch.set_num_threads(1)
         with torch.random.fork_rng(devices=[]):
             torch.manual_seed(seed)
-            model=QuantumTrain(3,mapping_activation=activation,target_activation=target_activation,weight_transform=weight_transform)
+            model=QuantumTrain(3,mapping_activation=activation,target_activation=target_activation,weight_transform=weight_transform,feature_scale=feature_scale)
             model.q_params.requires_grad_(train_quantum)
             train=splits['train']
             x,y=train.tensors
@@ -104,7 +112,7 @@ def run_diagnostic(activation,seed,splits,output,epochs=20,tiny=False,target_act
                     torch.save({'model_state':model.state_dict(),'epoch':epoch,'val_loss':best},path/'best.pt')
             checkpoint=torch.load(path/'best.pt',weights_only=True)
             model.load_state_dict(checkpoint['model_state'])
-            result=dict(status='completed',activation=activation,target_activation=target_activation,learning_rate=config['learning_rate'],weight_transform=weight_transform,train_quantum=train_quantum,seed=seed,tiny=tiny,train_samples=len(train),
+            result=dict(status='completed',activation=activation,target_activation=target_activation,learning_rate=config['learning_rate'],weight_transform=weight_transform,train_quantum=train_quantum,feature_scale=feature_scale,seed=seed,tiny=tiny,train_samples=len(train),
                         initial=initial,history=history,best_epoch=checkpoint['epoch'],
                         best_validation=evaluate(model,validation),best_train=evaluate(model,DataLoader(train,batch_size=64)),
                          final_observation=history[-1]['observation'],best_observation=snapshot(model,probe))

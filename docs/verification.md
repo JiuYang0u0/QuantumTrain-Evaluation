@@ -1,9 +1,10 @@
 # 驗證紀錄
 
-## 第八輪：量子敏感度與消融（進行中）
+## 第八輪：量子敏感度與消融（完成）
 - 41項pytest通過；固定量子參數每epoch delta=0、mapping更新，以及敏感度不改原模型/RNG均驗證。
 - 第三份教材13節fresh-kernel smoke通過；配對smoke與報告匯出通過。
 - 正式6runs於核心/協定commit58cd77a後背景啟動，未使用test；結果待完成。
+- Study quantum-ablation-11d5b7a1fc完成6/6，報告逐run核對completed、train_quantum旗標與Frozen delta=0後成功匯出。兩組best-checkpoint validation accuracy逐seed相同，未見量子訓練增量收益；量子feature置零在所測checkpoint的前向作用很小。詳見reports/quantum-ablation/interpretation.md。
 
 ## 第七輪：fan-in尺度（完成）
 

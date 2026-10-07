@@ -6,6 +6,7 @@
 - 32項pytest通過，新增加性/非加性/零矩陣結構指標測試。
 - 第三份notebook擴為9節，新增權重加性結構與奇異值教學；fresh-kernel smoke通過。
 - 首次前景執行因200秒上限中斷，保留results/leaky-mapping-cb2f5b230f，不納入正式比較；完整矩陣改背景執行，結果待完成後匯出。
+- 背景study `leaky-mapping-b5be7b4cfc` 6/6完成，報告匯出成功。Tanh最高train平均46.67%，affine21.67%；validation平均約15.60%與15.13%，沒有穩定泛化改善。完整限制及不穩定現象見reports/leaky-mapping/interpretation.md。
 
 ## 第三輪：目標activation
 

@@ -169,4 +169,19 @@ display(Markdown((ROOT/'docs/feature-scale-protocol.md').read_text(encoding='utf
 saved=ROOT/'reports/feature-scale/interpretation.md'
 if saved.exists():
     display(Markdown(saved.read_text(encoding='utf-8')))''')
+cells+=section('14. 對照傳統特徵：參數量匹配仍不等於完全公平','分辨特徵存在、可訓練性與量子機制。','1000×量子參數更新改善train，還需要其他可訓練特徵來判斷是否為量子特有。',
+ '610×30固定隨機基底 × 30個係數 → 610個feature；mapping輸入仍(610,11)。','五組共享mapping初值；非零feature初始std一致。傳統gain僅初始化校準一次，random fixed與classical trainable起始feature逐元素一致。',
+ '列印各組feature std與可訓練參數量；完整15runs用協定命令執行，不在此cell自動跑。','zero的feature std為0，其他組近似相同；傳統與量子trainable均多30個參數。','匹配參數量不等於表達能力或運算成本匹配；隨機基底另占儲存。驗證差異不能直接宣稱量子優勢。',
+ 'random fixed與quantum frozen不同時，能歸因於量子學習嗎？','兩者都沒有訓練feature參數，差異來自表示及優化互動；需要同表示固定/可訓練的配對。',
+ '''from qt_eval.feature_controls import make_controls
+controls=make_controls(11)
+for name,m in controls.items():
+    with torch.no_grad():
+        print(name, 'feature std:',float(m.feature_values().std(unbiased=False)),
+              'trainable parameters:',sum(p.numel() for p in m.parameters() if p.requires_grad))
+torch.testing.assert_close(controls['random_fixed'].feature_values(),controls['classical_trainable'].feature_values())
+display(Markdown((ROOT/'docs/classical-feature-protocol.md').read_text(encoding='utf-8')))
+saved=ROOT/'reports/classical-features/interpretation.md'
+if saved.exists():
+    display(Markdown(saved.read_text(encoding='utf-8')))''')
 write('03_training_diagnostics.ipynb','# QuantumTrain 工具書03：有梯度卻學不會\n\n透過20筆過擬合測試與affine/Tanh對照，學習定位訓練問題。',cells)

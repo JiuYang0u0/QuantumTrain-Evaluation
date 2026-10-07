@@ -1,5 +1,10 @@
 # 驗證紀錄
 
+## 第十輪：傳統特徵重訓對照（進行中）
+- 46項pytest通過，含共享mapping初值、非零feature尺度對齊、固定旗標與傳統30參數梯度檢查。
+- 五組smoke訓練與報告匯出成功；第三份15節教材fresh-kernel smoke通過。
+- 正式15runs於核心/協定commit476518c後啟動，背景執行中；未使用test。設定見classical-feature-protocol.md。
+
 ## 第九輪：量子feature尺度（完成）
 - 44項pytest通過，含同初始化倍率隔離、有限量子梯度、scaled敏感度、Tanh飽和、無效倍率及Frozen delta檢查。
 - 第三份14節教材fresh-kernel smoke通過；2×2四組smoke與報告匯出通過。

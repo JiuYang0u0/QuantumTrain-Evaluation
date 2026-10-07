@@ -55,6 +55,8 @@ uv run python scripts/verify_notebooks.py --mode smoke
 
 ## 理解結果
 
+第十輪 [傳統特徵對照協定](docs/classical-feature-protocol.md)：量子固定/可訓練、零特徵、固定隨機特徵與30參數傳統可訓練特徵，共15runs；初始非零feature std與mapping權重對齊。`uv run python scripts/classical_feature_study.py`，可加`--smoke`。第三份教材第14節說明表示與參數預算的比較限制。
+
 第九輪完成：[特徵尺度結果](reports/feature-scale/interpretation.md)。1000×下可訓練量子參數的最後train平均61.67%，固定組50%；但三seed validation accuracy都較固定組低。前向敏感度增加，尚無泛化或量子優勢證據。
 
 第九輪 [特徵尺度×量子可訓練性](docs/feature-scale-protocol.md)：1×/1000×各配對Frozen/Trainable，三seeds共12runs。命令 `uv run python scripts/feature_scale_study.py`，加`--smoke`為四組短測。第三份教材第13節說明尺度、梯度與飽和，避免把倍率收益誤稱量子學習收益。

@@ -40,10 +40,20 @@ def center_weight_blocks(weights):
                       weights[520:600]-weights[520:600].mean(),weights[600:]])
 
 
+def fanin_weight_blocks(weights):
+    centered=center_weight_blocks(weights)
+    def scale(block,fan):
+        # Floor the variance BEFORE sqrt: constant blocks have finite backward.
+        denominator=block.square().mean().clamp_min(1e-12).sqrt()
+        return block/denominator/(3*fan)**0.5
+    return torch.cat([scale(centered[:512],64),centered[512:520],
+                      scale(centered[520:600],8),centered[600:]])
+
+
 class QuantumTrain(nn.Module):
     def __init__(self, depth=3, delta=0.001, mapping_activation='affine',target_activation='relu',weight_transform='none'):
         super().__init__()
-        if weight_transform not in ('none','center_weights'):
+        if weight_transform not in ('none','center_weights','center_fanin'):
             raise ValueError('Unsupported weight_transform')
         self.weight_transform=weight_transform
         if target_activation not in ('relu','leaky_relu'):
@@ -71,6 +81,8 @@ class QuantumTrain(nn.Module):
         feature = probability_features(probabilities, self.n_qubits)
         inputs = torch.cat([self.codes, feature[:,None]], dim=1)
         weights=self.mapping(inputs).flatten()
+        if self.weight_transform=='center_fanin':
+            return fanin_weight_blocks(weights)
         return center_weight_blocks(weights) if self.weight_transform=='center_weights' else weights
 
     def forward(self, x):

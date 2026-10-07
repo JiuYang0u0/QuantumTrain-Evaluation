@@ -14,7 +14,7 @@ def validate_config(config):
     if unknown:
         raise ValueError(f"Unknown configuration keys: {sorted(unknown)}")
     c = DEFAULTS | config
-    if c['weight_transform'] not in ('none','center_weights'):
+    if c['weight_transform'] not in ('none','center_weights','center_fanin'):
         raise ValueError('Unsupported weight_transform')
     if c['target_activation'] not in ('relu','leaky_relu'):
         raise ValueError('target_activation must be relu or leaky_relu')

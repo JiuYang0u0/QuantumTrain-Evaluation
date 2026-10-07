@@ -55,6 +55,8 @@ uv run python scripts/verify_notebooks.py --mode smoke
 
 ## 理解結果
 
+第十輪完成：[傳統特徵重訓結果](reports/classical-features/interpretation.md)。傳統30參數特徵最後train平均90%，量子30參數61.67%；validation仍低且逐seed不一致，沒有量子優勢證據。建議先整理研究脈絡，再設計完整train協定。
+
 第十輪 [傳統特徵對照協定](docs/classical-feature-protocol.md)：量子固定/可訓練、零特徵、固定隨機特徵與30參數傳統可訓練特徵，共15runs；初始非零feature std與mapping權重對齊。`uv run python scripts/classical_feature_study.py`，可加`--smoke`。第三份教材第14節說明表示與參數預算的比較限制。
 
 第九輪完成：[特徵尺度結果](reports/feature-scale/interpretation.md)。1000×下可訓練量子參數的最後train平均61.67%，固定組50%；但三seed validation accuracy都較固定組低。前向敏感度增加，尚無泛化或量子優勢證據。

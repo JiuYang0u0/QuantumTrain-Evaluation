@@ -15,6 +15,8 @@ uv run jupyter lab
 
 ### 教材閱讀順序
 
+第二階段入口：[十輪研究總結](docs/research-summary.md)、[完整train協定](docs/full-validation-protocol.md)、[04完整資料工具書](notebooks/04_full_validation.ipynb)。正式矩陣命令：`uv run python scripts/full_validation_study.py`；加`--smoke`快速檢查。第四份教材可由 `scripts/build_full_validation_notebook.py` 重建。
+
 1. [01 QuantumTrain Workbook](notebooks/01_quantumtrain_workbook.ipynb)：資料圖像 → MLP → 小量子電路 → 機率與權重 → 梯度中斷反例 → 訓練 → 重載模型。
 2. [02 Depth Evaluation](notebooks/02_depth_evaluation.ipynb)：定義問題 → 固定矩陣 → pilot 預算 → 批次實驗 → 完整性檢查 → 曲線解讀 → 報告。
 3. [03 Training Diagnostics](notebooks/03_training_diagnostics.ipynb)：類別塌縮、權重與activation診斷 → 20筆過擬合 → affine/Tanh mapping對照。僅使用train/validation。

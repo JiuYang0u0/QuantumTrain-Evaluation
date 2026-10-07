@@ -36,12 +36,14 @@ def snapshot(model,x):
                     hidden_active_fraction=(hidden>0).double().mean(0).tolist())
 
 
-def run_diagnostic(activation,seed,splits,output,epochs=20,tiny=False,target_activation='relu',learning_rate=.001,weight_transform='none'):
+def run_diagnostic(activation,seed,splits,output,epochs=20,tiny=False,target_activation='relu',learning_rate=.001,weight_transform='none',train_quantum=True):
     """Only train/validation are accessed. Tiny subset has two examples per class."""
     config=validate_config(dict(mode='full',mapping_activation=activation,seed=seed,epochs=epochs,q_depth=3,target_activation=target_activation,learning_rate=learning_rate,weight_transform=weight_transform))
+    if type(train_quantum) is not bool:
+        raise ValueError('train_quantum must be bool')
     path=Path(output)/(f'{activation}-seed{seed}-'+('tiny' if tiny else 'full'))
     path.mkdir(parents=True,exist_ok=False)
-    write_json(path/'config.json',config|{'tiny':tiny,'purpose':'validation-only diagnostics'})
+    write_json(path/'config.json',config|{'tiny':tiny,'purpose':'validation-only diagnostics','train_quantum':train_quantum})
     write_json(path/'result.json',{'status':'running'})
     previous_threads=torch.get_num_threads()
     try:
@@ -49,6 +51,7 @@ def run_diagnostic(activation,seed,splits,output,epochs=20,tiny=False,target_act
         with torch.random.fork_rng(devices=[]):
             torch.manual_seed(seed)
             model=QuantumTrain(3,mapping_activation=activation,target_activation=target_activation,weight_transform=weight_transform)
+            model.q_params.requires_grad_(train_quantum)
             train=splits['train']
             x,y=train.tensors
             if tiny:
@@ -60,7 +63,7 @@ def run_diagnostic(activation,seed,splits,output,epochs=20,tiny=False,target_act
             probe=x[:min(40,len(x))]
             loader=DataLoader(train,batch_size=64,shuffle=True,generator=torch.Generator().manual_seed(seed))
             validation=DataLoader(splits['validation'],batch_size=64)
-            optimizer=torch.optim.Adam(model.parameters(),lr=config['learning_rate'])
+            optimizer=torch.optim.Adam((p for p in model.parameters() if p.requires_grad),lr=config['learning_rate'])
             history=[]
             initial=snapshot(model,probe)
             best=float('inf')
@@ -78,9 +81,10 @@ def run_diagnostic(activation,seed,splits,output,epochs=20,tiny=False,target_act
                     if not torch.isfinite(loss):
                         raise RuntimeError('non-finite loss')
                     loss.backward()
-                    if any(p.grad is None or not torch.isfinite(p.grad).all() for p in model.parameters()):
+                    if any(p.grad is None or not torch.isfinite(p.grad).all() for p in model.parameters() if p.requires_grad):
                         raise RuntimeError('missing/non-finite gradient')
-                    qnorms.append(float(model.q_params.grad.norm()))
+                    if train_quantum:
+                        qnorms.append(float(model.q_params.grad.norm()))
                     mnorms.append(sum(float(p.grad.norm())**2 for p in model.mapping.parameters())**.5)
                     optimizer.step()
                     elapsed+=time.perf_counter()-start
@@ -89,7 +93,7 @@ def run_diagnostic(activation,seed,splits,output,epochs=20,tiny=False,target_act
                 observation=snapshot(model,probe)
                 row=dict(epoch=epoch,train_loss=train_metrics['loss'],train_accuracy=train_metrics['accuracy'],
                          val_loss=val_metrics['loss'],val_accuracy=val_metrics['accuracy'],train_seconds=elapsed,
-                         quantum_grad_norm=float(np.mean(qnorms)),mapping_grad_norm=float(np.mean(mnorms)),
+                         quantum_grad_norm=float(np.mean(qnorms)) if qnorms else None,mapping_grad_norm=float(np.mean(mnorms)),
                          quantum_max_delta=float((model.q_params.detach()-before_q).abs().max()),
                          mapping_max_delta=max(float((p.detach()-old).abs().max()) for p,old in zip(model.mapping.parameters(),before_m)),
                          observation=observation)
@@ -100,10 +104,12 @@ def run_diagnostic(activation,seed,splits,output,epochs=20,tiny=False,target_act
                     torch.save({'model_state':model.state_dict(),'epoch':epoch,'val_loss':best},path/'best.pt')
             checkpoint=torch.load(path/'best.pt',weights_only=True)
             model.load_state_dict(checkpoint['model_state'])
-            result=dict(status='completed',activation=activation,target_activation=target_activation,learning_rate=config['learning_rate'],weight_transform=weight_transform,seed=seed,tiny=tiny,train_samples=len(train),
+            result=dict(status='completed',activation=activation,target_activation=target_activation,learning_rate=config['learning_rate'],weight_transform=weight_transform,train_quantum=train_quantum,seed=seed,tiny=tiny,train_samples=len(train),
                         initial=initial,history=history,best_epoch=checkpoint['epoch'],
                         best_validation=evaluate(model,validation),best_train=evaluate(model,DataLoader(train,batch_size=64)),
-                        final_observation=history[-1]['observation'],best_observation=snapshot(model,probe))
+                         final_observation=history[-1]['observation'],best_observation=snapshot(model,probe))
+            if not train_quantum and any(h['quantum_max_delta']!=0 for h in history):
+                raise RuntimeError('Frozen quantum parameters changed')
             write_json(path/'diagnostic.json',result)
             write_json(path/'result.json',{'status':'completed'})
             return result

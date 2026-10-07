@@ -34,8 +34,11 @@ def probability_features(p, n_qubits):
 
 
 class QuantumTrain(nn.Module):
-    def __init__(self, depth=3, delta=0.001, mapping_activation='affine'):
+    def __init__(self, depth=3, delta=0.001, mapping_activation='affine',target_activation='relu'):
         super().__init__()
+        if target_activation not in ('relu','leaky_relu'):
+            raise ValueError('Unsupported target activation')
+        self.target_activation=target_activation
         if mapping_activation not in ('affine','tanh'):
             raise ValueError('Unsupported mapping activation')
         self.n_qubits = 10
@@ -60,4 +63,4 @@ class QuantumTrain(nn.Module):
         return self.mapping(inputs).flatten()
 
     def forward(self, x):
-        return functional_mlp(x, self.generated_weights())
+        return functional_mlp(x, self.generated_weights(),self.target_activation)

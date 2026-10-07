@@ -55,6 +55,8 @@ uv run python scripts/verify_notebooks.py --mode smoke
 
 ## 理解結果
 
+第三輪 [ReLU/LeakyReLU對照](reports/target-activation/interpretation.md)：LeakyReLU恢復輸入差異，但20筆最高訓練accuracy僅20–25%；同樣目標MLP直接訓練可達85–95%。新增的教材第7節說明此現象。重跑：`uv run python scripts/target_activation_study.py`（正式6 runs），或加 `--smoke` 快速檢查；報告命令用 `--report results/<study> --output reports/<新目錄>`。
+
 第二輪診斷12/12次完成：Tanh未改善，最後epoch固定train probe的hidden ReLU皆失活。詳見 [mapping報告](reports/mapping/mapping-study.md) 與 [診斷解讀](reports/mapping/interpretation.md)。這是validation-only結果，與第一輪test指標不同。
 
 已完成第一輪12次正式實驗，結果見 [報告](reports/depth-study.md) 與 [解讀](reports/interpretation.md)。這組適配設定中，Classical 平均74.26%，QT約10.2%；量子更新檢查通過並不代表有分類收益。

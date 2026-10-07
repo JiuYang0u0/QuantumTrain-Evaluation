@@ -70,4 +70,16 @@ cells+=section('6. 統計與結論的界線','從驗證結果提出下一個可�
  '''display(summary.groupby(['tiny','activation'])[['train_accuracy','val_accuracy','max_train_accuracy','train_seconds']].agg(['mean','std']))
 print('Scope:', 'smoke pipeline only' if MODE=='smoke' else 'validation-only exploratory mapping comparison')
 print('No test split was passed to diagnostic training.')''')
+cells+=section('7. 負區域梯度：ReLU與LeakyReLU','解釋失活與仍有量子梯度如何同時存在。','當hidden全零，logits只剩生成b2；量子梯度仍可通過b2，但圖片差異消失。',
+ '(20,64) → preactivation (20,8) → hidden → logits。','LeakyReLU在負區域保留.01斜率；snapshot的hidden_zero_fraction是實際輸出零比例，relu_zero_fraction則是preactivation≤0的比例，兩者不能混用。',
+ '用相同seed比較初始化觀察，再閱讀第三輪報告；此cell不啟動正式研究。','LeakyReLU可能恢復輸入依賴，但不保證20筆能擬合。','這是改target模型的新協定，不能合併到原深度報告；真正受控比較應保持mapping及其他設定一致。',
+ '為什麼第二輪Tanh沒用，不代表非線性mapping永遠沒用？','如果target hidden已經全零，mapping改善可能被遮蔽；需在可傳遞負區域梯度的target下再比較。',
+ '''for target in ('relu','leaky_relu'):
+    torch.manual_seed(11)
+    observed=QuantumTrain(3,target_activation=target)
+    s=snapshot(observed,probe)
+    print(target,{k:s[k] for k in ['hidden_zero_fraction','relu_zero_fraction','logits_between_images_std']})
+interpretation=ROOT/'reports/target-activation/interpretation.md'
+if interpretation.exists():
+    display(Markdown(interpretation.read_text(encoding='utf-8')))''')
 write('03_training_diagnostics.ipynb','# QuantumTrain 工具書03：有梯度卻學不會\n\n透過20筆過擬合測試與affine/Tanh對照，學習定位訓練問題。',cells)

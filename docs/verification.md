@@ -1,5 +1,12 @@
 # 驗證紀錄
 
+## 第三輪：目標activation
+
+- 31項pytest通過；新增負區域梯度、snapshot與真實forward一致、protocol保存測試。
+- 三份notebook fresh-kernel smoke通過（11/9/8節）；第3份新增ReLU/LeakyReLU教學。
+- 正式6-run target-6d2e608121完成；另做6次train-only Classical tiny控制。結果與限制見reports/target-activation/interpretation.md。
+- 保留舊欄位relu_zero_fraction，定義為若使用ReLU時的零比例（preactivation≤0）；新增hidden_zero_fraction表示實際activation的零比例。LeakyReLU下兩者不同。
+
 ## 第二輪：訓練診斷與 mapping 延伸
 
 - 新增 affine/Tanh mapping 配置；預設 affine，原實驗配置與模型 state_dict 結構保持相容。

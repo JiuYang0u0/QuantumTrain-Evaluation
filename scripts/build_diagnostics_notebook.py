@@ -138,4 +138,20 @@ display(Markdown((ROOT/'docs/fanin-protocol.md').read_text(encoding='utf-8')))
 saved=ROOT/'reports/fanin/interpretation.md'
 if saved.exists():
     display(Markdown(saved.read_text(encoding='utf-8')))''')
+cells+=section('12. 有梯度，量子特徵卻可能影響很小','分辨連接、敏感度與訓練貢獻。','既然一般調參仍難擬合，先問量子分支是否真正影響weights/logits。',
+ 'theta(3,10)擾動 → 1024個機率 → 610個權重 → (20,10)logits與loss。','measure_sensitivity在副本上測一個固定單位方向及feature置零；Frozen訓練是固定初始機率、只更新mapping。',
+ '先看初始化的擾動結果；正式六組訓練用協定命令執行，此cell只做觀察。','差值可以非零卻非常小；不能只以有grad判定有任務收益。','單方向不是全局Jacobian；置零是未重訓干預。Frozen的null grad是預期，不可當detach bug；量子delta須恆為0。',
+ 'Frozen仍能分類，是否表示完全不需要量子？','它仍使用初始量子機率；需另有zero/random/classical特徵與重訓baseline才可判斷更廣的作用。',
+ '''from qt_eval.sensitivity import measure_sensitivity
+torch.manual_seed(11)
+m=QuantumTrain(3,mapping_activation='tanh',target_activation='leaky_relu',weight_transform='center_weights')
+sx,sy=data['train'].tensors
+ids=torch.cat([torch.where(sy==i)[0][:2] for i in range(10)])
+evidence=measure_sensitivity(m,sx[ids],sy[ids])
+display(pd.DataFrame(evidence['perturbations']))
+print({k:v for k,v in evidence.items() if k!='perturbations'})
+display(Markdown((ROOT/'docs/quantum-ablation-protocol.md').read_text(encoding='utf-8')))
+saved=ROOT/'reports/quantum-ablation/interpretation.md'
+if saved.exists():
+    display(Markdown(saved.read_text(encoding='utf-8')))''')
 write('03_training_diagnostics.ipynb','# QuantumTrain 工具書03：有梯度卻學不會\n\n透過20筆過擬合測試與affine/Tanh對照，學習定位訓練問題。',cells)

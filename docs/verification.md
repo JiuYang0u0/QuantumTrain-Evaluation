@@ -1,5 +1,10 @@
 # 驗證紀錄
 
+## 第八輪：量子敏感度與消融（進行中）
+- 41項pytest通過；固定量子參數每epoch delta=0、mapping更新，以及敏感度不改原模型/RNG均驗證。
+- 第三份教材13節fresh-kernel smoke通過；配對smoke與報告匯出通過。
+- 正式6runs於核心/協定commit58cd77a後背景啟動，未使用test；結果待完成。
+
 ## 第七輪：fan-in尺度（完成）
 
 - 39項pytest通過；新增目標std、bias保留、一般block梯度及常數block有限backward測試。

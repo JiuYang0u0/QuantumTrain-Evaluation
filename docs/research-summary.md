@@ -25,4 +25,6 @@
 
 ## 第二階段的決策
 
+第二階段已完成12runs（full-validation-9c8e7d4048）。開發性validation平均：直接MLP80.22%、傳統生成器58.59%、量子可訓練41.04%、量子固定23.96%；量子學習具有配對增量效用，仍未超越傳統對照。11/12的best epoch在20上限，尚未證明充分收斂。完整解讀見../reports/full-validation/interpretation.md。
+
 停止20筆局部調參，固定四組在完整train/validation上跑20epochs；保留20筆資料研究作診斷證據，不將其排名當完整任務排名。協定見full-validation-protocol.md。此階段也是開發性評估，不是新的盲測或正式量子優勢測試。

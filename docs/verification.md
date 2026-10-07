@@ -1,10 +1,11 @@
 # 驗證紀錄
 
-## 第二階段：完整train/validation（進行中）
+## 第二階段：完整train/validation（完成）
 - 十輪研究樹與限制整理於research-summary.md；凍結協定見full-validation-protocol.md。
 - 48項pytest通過，新測試驗證runner只接train/validation、Frozen不變與一致target activation。
 - 第四份教學notebook五節fresh-kernel smoke通過，含完整四組短訓練與報告匯出。
 - 正式12runs於核心/協定commit1dd4cfa之後背景啟動，未使用test；結果待完成。
+- Study full-validation-9c8e7d4048完成12/12。報告核對condition/seed、完成狀態、固定參數delta與20epoch歷史後成功匯出；結果及收斂限制見reports/full-validation/interpretation.md。
 
 ## 第十輪：傳統特徵重訓對照（完成）
 - 46項pytest通過，含共享mapping初值、非零feature尺度對齊、固定旗標與傳統30參數梯度檢查。

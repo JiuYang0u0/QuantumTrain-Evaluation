@@ -1,5 +1,12 @@
 # 驗證紀錄
 
+## 第五輪：Learning rate
+
+- 實驗與協定在commit 678e462提交後啟動，正式9runs背景執行中；不使用test。
+- 34項pytest通過，包含驗證設定實際傳入Adam、寫入artifact，以及無效LR不建立run。
+- LR三組smoke及報告匯出整合檢查通過。
+- 第三份教材擴為10節，新增學習率、時間波動與未收斂的判讀；fresh-kernel smoke通過。
+
 ## 第四輪：固定LeakyReLU的mapping比較
 
 - 固定depth3、affine/Tanh、相同seeds11/22/33、20筆train、200epochs；未使用test。

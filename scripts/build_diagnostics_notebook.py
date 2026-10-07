@@ -97,4 +97,17 @@ cells+=section('8. 生成權重是否只是列與欄的偏移？','用矩陣結�
 saved=ROOT/'reports/leaky-mapping/interpretation.md'
 if saved.exists():
     display(Markdown(saved.read_text(encoding='utf-8')))''')
+cells+=section('9. 小學習率比較穩，還是只是學得慢？','區分訓練波動、退化與尚未收斂。','第四輪部分seed最高準確率和最後準確率差很多，因此單看最好epoch會誤導。',
+ 'epoch history → peak-to-final drop、最後20epochs loss的時間標準差。','第五輪只改Adam learning rate .001/.0003/.0001，固定Tanh/LeakyReLU、20筆、200epochs、三seeds。跨seed SD與同一run的時間SD不是一回事。',
+ '先用下面的當次smoke資料學會計算指標；正式研究命令見learning-rate-protocol.md，不在本cell自動啟動。','印出drop與時間波動。若研究報告已存在，再讀其結果。','smoke只有2epochs，不能判斷後期退化；小LR波動小也可能完全沒學會，須同時看accuracy及loss。',
+ '如果小LR最後20epochs仍緩慢下降，可以宣稱已收斂嗎？','不能；本輪僅比较同200epochs預算，不代表不同LR都達收斂。',
+ '''import numpy as np
+d=json.loads((study/'tanh-seed11-full'/'diagnostic.json').read_text())
+acc=[r['train_accuracy'] for r in d['history']]
+loss=[r['train_loss'] for r in d['history']]
+print({'peak_to_final_drop':max(acc)-acc[-1], 'tail_loss_std':float(np.std(loss[-20:]))})
+display(Markdown((ROOT/'docs/learning-rate-protocol.md').read_text(encoding='utf-8')))
+lr_report=ROOT/'reports/learning-rate/interpretation.md'
+if lr_report.exists():
+    display(Markdown(lr_report.read_text(encoding='utf-8')))''')
 write('03_training_diagnostics.ipynb','# QuantumTrain 工具書03：有梯度卻學不會\n\n透過20筆過擬合測試與affine/Tanh對照，學習定位訓練問題。',cells)

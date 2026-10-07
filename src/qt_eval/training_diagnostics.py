@@ -35,9 +35,9 @@ def snapshot(model,x):
                     hidden_active_fraction=(hidden>0).double().mean(0).tolist())
 
 
-def run_diagnostic(activation,seed,splits,output,epochs=20,tiny=False,target_activation='relu'):
+def run_diagnostic(activation,seed,splits,output,epochs=20,tiny=False,target_activation='relu',learning_rate=.001):
     """Only train/validation are accessed. Tiny subset has two examples per class."""
-    config=validate_config(dict(mode='full',mapping_activation=activation,seed=seed,epochs=epochs,q_depth=3,target_activation=target_activation))
+    config=validate_config(dict(mode='full',mapping_activation=activation,seed=seed,epochs=epochs,q_depth=3,target_activation=target_activation,learning_rate=learning_rate))
     path=Path(output)/(f'{activation}-seed{seed}-'+('tiny' if tiny else 'full'))
     path.mkdir(parents=True,exist_ok=False)
     write_json(path/'config.json',config|{'tiny':tiny,'purpose':'validation-only diagnostics'})
@@ -59,7 +59,7 @@ def run_diagnostic(activation,seed,splits,output,epochs=20,tiny=False,target_act
             probe=x[:min(40,len(x))]
             loader=DataLoader(train,batch_size=64,shuffle=True,generator=torch.Generator().manual_seed(seed))
             validation=DataLoader(splits['validation'],batch_size=64)
-            optimizer=torch.optim.Adam(model.parameters(),lr=.001)
+            optimizer=torch.optim.Adam(model.parameters(),lr=config['learning_rate'])
             history=[]
             initial=snapshot(model,probe)
             best=float('inf')
@@ -99,7 +99,7 @@ def run_diagnostic(activation,seed,splits,output,epochs=20,tiny=False,target_act
                     torch.save({'model_state':model.state_dict(),'epoch':epoch,'val_loss':best},path/'best.pt')
             checkpoint=torch.load(path/'best.pt',weights_only=True)
             model.load_state_dict(checkpoint['model_state'])
-            result=dict(status='completed',activation=activation,target_activation=target_activation,seed=seed,tiny=tiny,train_samples=len(train),
+            result=dict(status='completed',activation=activation,target_activation=target_activation,learning_rate=config['learning_rate'],seed=seed,tiny=tiny,train_samples=len(train),
                         initial=initial,history=history,best_epoch=checkpoint['epoch'],
                         best_validation=evaluate(model,validation),best_train=evaluate(model,DataLoader(train,batch_size=64)),
                         final_observation=history[-1]['observation'],best_observation=snapshot(model,probe))

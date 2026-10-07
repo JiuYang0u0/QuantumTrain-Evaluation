@@ -1,11 +1,12 @@
 # 驗證紀錄
 
-## 第六輪：生成權重中心化（進行中）
+## 第六輪：生成權重中心化（完成）
 
 - 36項pytest通過；新增中心化保持std/bias、梯度連接及diagnostic配置保存測試。
 - 三份notebooks fresh-kernel smoke通過（11/9/11節）；第三份新增每層weight/bias及preactivation統計。
 - Centering兩組smoke及報告匯出整合檢查通過。
 - 正式6runs在核心及協定commit 6b34131之後背景啟動，結果待完成；設定見centering-protocol.md。
+- Study centering-7f231401b6完成6/6，報告匯出成功。中心化平均最高/最後train為60.00%/51.67%，原始46.67%/33.33%；但seed22退步，三seed最佳validation loss皆較差。見reports/centering/interpretation.md。
 
 ## 第五輪：Learning rate
 

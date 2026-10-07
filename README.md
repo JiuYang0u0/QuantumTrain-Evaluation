@@ -55,6 +55,8 @@ uv run python scripts/verify_notebooks.py --mode smoke
 
 ## 理解結果
 
+第六輪 [中心化结果](reports/centering/interpretation.md)：平均最後train accuracy由33.33%到51.67%，但seed22退步；三seed最佳validation loss皆變差，沒有可靠泛化收益。
+
 第六輪 [權重中心化協定](docs/centering-protocol.md)：初始化先比較W1/b1/W2/b2與preactivation，再固定Tanh/LeakyReLU、LR1e-3，只對W1/W2各自減平均。執行 `uv run python scripts/centering_study.py`（6runs），可加 `--smoke`。第三份教材第10節說明中心化與尺度正規化的差異。
 
 第五輪結果：[learning-rate解讀](reports/learning-rate/interpretation.md)。降低LR使後段loss波動變小，但固定200epochs下的擬合與validation未改善；平穩不等於已學會或已收斂。

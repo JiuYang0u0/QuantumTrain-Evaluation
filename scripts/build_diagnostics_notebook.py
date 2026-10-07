@@ -82,4 +82,19 @@ cells+=section('7. 負區域梯度：ReLU與LeakyReLU','解釋失活與仍有量
 interpretation=ROOT/'reports/target-activation/interpretation.md'
 if interpretation.exists():
     display(Markdown(interpretation.read_text(encoding='utf-8')))''')
+cells+=section('8. 生成權重是否只是列與欄的偏移？','用矩陣結構解釋表達限制。','Affine mapping作用在索引bits上，可能生成高度相關的權重；這個限制不能單看參數總數。',
+ '前512個weights → W1(8,64) → row/column加性近似與8個奇異值。','A=row_mean+column_mean-global_mean；relative=norm(W1-A)/norm(W1)。純加性矩陣rank至多2，但量子機率特徵可能提供額外結構。',
+ '先計算初始化權重的加性殘差；完整研究固定LeakyReLU後對照affine/Tanh，執行命令見README。','殘差小表示近似加性；殘差大不保證分類好。','這裡是初始化教學值，不能當最佳checkpoint的研究結果；rank或殘差不是量子優勢指標。',
+ '為什麼在LeakyReLU下重新比較mapping？','第二輪可能被target ReLU失活遮蔽；固定可傳遞負區域梯度的target，可更清楚測量mapping變因。',
+ '''for mapping in ('affine','tanh'):
+    torch.manual_seed(11)
+    m=QuantumTrain(3,mapping_activation=mapping,target_activation='leaky_relu')
+    with torch.no_grad():
+        w=m.generated_weights()[:512].reshape(8,64)
+        additive=w.mean(0,keepdim=True)+w.mean(1,keepdim=True)-w.mean()
+        print(mapping,'initial nonadditive relative:',float((w-additive).norm()/w.norm().clamp_min(1e-15)))
+        print('singular values:',torch.linalg.svdvals(w).tolist())
+saved=ROOT/'reports/leaky-mapping/interpretation.md'
+if saved.exists():
+    display(Markdown(saved.read_text(encoding='utf-8')))''')
 write('03_training_diagnostics.ipynb','# QuantumTrain 工具書03：有梯度卻學不會\n\n透過20筆過擬合測試與affine/Tanh對照，學習定位訓練問題。',cells)

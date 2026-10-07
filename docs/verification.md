@@ -1,5 +1,12 @@
 # 驗證紀錄
 
+## 第四輪：固定LeakyReLU的mapping比較
+
+- 固定depth3、affine/Tanh、相同seeds11/22/33、20筆train、200epochs；未使用test。
+- 32項pytest通過，新增加性/非加性/零矩陣結構指標測試。
+- 第三份notebook擴為9節，新增權重加性結構與奇異值教學；fresh-kernel smoke通過。
+- 首次前景執行因200秒上限中斷，保留results/leaky-mapping-cb2f5b230f，不納入正式比較；完整矩陣改背景執行，結果待完成後匯出。
+
 ## 第三輪：目標activation
 
 - 31項pytest通過；新增負區域梯度、snapshot與真實forward一致、protocol保存測試。

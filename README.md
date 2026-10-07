@@ -55,6 +55,8 @@ uv run python scripts/verify_notebooks.py --mode smoke
 
 ## 理解結果
 
+第七輪完成：[fan-in結果解讀](reports/fanin/interpretation.md)。持續fan-in縮放使平均最後train accuracy由51.67%降到21.67%；validation loss兩好一壞，平均accuracy僅約15.9%，未建立可靠擬合baseline。
+
 第七輪 [fan-in尺度協定](docs/fanin-protocol.md)：固定中心化，對照每次forward是否將W1/W2標準差調至1/sqrt(3*fan_in)，bias不變。執行 `uv run python scripts/fanin_study.py`（6runs），加`--smoke`快速檢查。第三份教材第11節解釋持續重參數化與單純初始化的差異。
 
 第六輪 [中心化结果](reports/centering/interpretation.md)：平均最後train accuracy由33.33%到51.67%，但seed22退步；三seed最佳validation loss皆變差，沒有可靠泛化收益。

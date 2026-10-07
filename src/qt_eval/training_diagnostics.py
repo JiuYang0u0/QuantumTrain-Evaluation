@@ -27,6 +27,7 @@ def snapshot(model,x):
             return dict(count=t.numel(),mean=float(t.mean()),std=float(t.std(unbiased=False)),
                         minimum=float(t.min()),maximum=float(t.max()))
         return dict(weights=stats(weights),logits=stats(logits),
+                    blocks={k:stats(w) for k,w in [('W1',weights[:512]),('b1',weights[512:520]),('W2',weights[520:600]),('b2',weights[600:])]},
                     logits_between_images_std=float(logits.std(dim=0,unbiased=False).mean()),
                     prediction_counts=torch.bincount(logits.argmax(1),minlength=10).tolist(),
                     relu_zero_fraction=float((preactivation<=0).double().mean()),
@@ -35,9 +36,9 @@ def snapshot(model,x):
                     hidden_active_fraction=(hidden>0).double().mean(0).tolist())
 
 
-def run_diagnostic(activation,seed,splits,output,epochs=20,tiny=False,target_activation='relu',learning_rate=.001):
+def run_diagnostic(activation,seed,splits,output,epochs=20,tiny=False,target_activation='relu',learning_rate=.001,weight_transform='none'):
     """Only train/validation are accessed. Tiny subset has two examples per class."""
-    config=validate_config(dict(mode='full',mapping_activation=activation,seed=seed,epochs=epochs,q_depth=3,target_activation=target_activation,learning_rate=learning_rate))
+    config=validate_config(dict(mode='full',mapping_activation=activation,seed=seed,epochs=epochs,q_depth=3,target_activation=target_activation,learning_rate=learning_rate,weight_transform=weight_transform))
     path=Path(output)/(f'{activation}-seed{seed}-'+('tiny' if tiny else 'full'))
     path.mkdir(parents=True,exist_ok=False)
     write_json(path/'config.json',config|{'tiny':tiny,'purpose':'validation-only diagnostics'})
@@ -47,7 +48,7 @@ def run_diagnostic(activation,seed,splits,output,epochs=20,tiny=False,target_act
         torch.set_num_threads(1)
         with torch.random.fork_rng(devices=[]):
             torch.manual_seed(seed)
-            model=QuantumTrain(3,mapping_activation=activation,target_activation=target_activation)
+            model=QuantumTrain(3,mapping_activation=activation,target_activation=target_activation,weight_transform=weight_transform)
             train=splits['train']
             x,y=train.tensors
             if tiny:
@@ -99,7 +100,7 @@ def run_diagnostic(activation,seed,splits,output,epochs=20,tiny=False,target_act
                     torch.save({'model_state':model.state_dict(),'epoch':epoch,'val_loss':best},path/'best.pt')
             checkpoint=torch.load(path/'best.pt',weights_only=True)
             model.load_state_dict(checkpoint['model_state'])
-            result=dict(status='completed',activation=activation,target_activation=target_activation,learning_rate=config['learning_rate'],seed=seed,tiny=tiny,train_samples=len(train),
+            result=dict(status='completed',activation=activation,target_activation=target_activation,learning_rate=config['learning_rate'],weight_transform=weight_transform,seed=seed,tiny=tiny,train_samples=len(train),
                         initial=initial,history=history,best_epoch=checkpoint['epoch'],
                         best_validation=evaluate(model,validation),best_train=evaluate(model,DataLoader(train,batch_size=64)),
                         final_observation=history[-1]['observation'],best_observation=snapshot(model,probe))

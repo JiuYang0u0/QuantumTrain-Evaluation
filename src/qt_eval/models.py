@@ -36,4 +36,4 @@ def make_model(config):
     if config['model'] == 'classical':
         return ClassicalMLP(config.get('target_activation','relu')).double()
     from .quantum import QuantumTrain
-    return QuantumTrain(config['q_depth'], config['q_delta'],config.get('mapping_activation','affine'),config.get('target_activation','relu'))
+    return QuantumTrain(config['q_depth'], config['q_delta'],config.get('mapping_activation','affine'),config.get('target_activation','relu'),config.get('weight_transform','none'))

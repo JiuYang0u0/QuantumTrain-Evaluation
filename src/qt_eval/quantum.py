@@ -33,9 +33,19 @@ def probability_features(p, n_qubits):
     return transformed - transformed.mean()
 
 
+def center_weight_blocks(weights):
+    if weights.ndim!=1 or weights.numel()!=610:
+        raise ValueError('Expected 610 target parameters')
+    return torch.cat([weights[:512]-weights[:512].mean(),weights[512:520],
+                      weights[520:600]-weights[520:600].mean(),weights[600:]])
+
+
 class QuantumTrain(nn.Module):
-    def __init__(self, depth=3, delta=0.001, mapping_activation='affine',target_activation='relu'):
+    def __init__(self, depth=3, delta=0.001, mapping_activation='affine',target_activation='relu',weight_transform='none'):
         super().__init__()
+        if weight_transform not in ('none','center_weights'):
+            raise ValueError('Unsupported weight_transform')
+        self.weight_transform=weight_transform
         if target_activation not in ('relu','leaky_relu'):
             raise ValueError('Unsupported target activation')
         self.target_activation=target_activation
@@ -60,7 +70,8 @@ class QuantumTrain(nn.Module):
             probabilities = probabilities.detach()
         feature = probability_features(probabilities, self.n_qubits)
         inputs = torch.cat([self.codes, feature[:,None]], dim=1)
-        return self.mapping(inputs).flatten()
+        weights=self.mapping(inputs).flatten()
+        return center_weight_blocks(weights) if self.weight_transform=='center_weights' else weights
 
     def forward(self, x):
         return functional_mlp(x, self.generated_weights(),self.target_activation)

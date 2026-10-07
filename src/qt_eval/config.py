@@ -6,7 +6,7 @@ from pathlib import Path
 DEFAULTS = dict(mode="smoke", model="quantum", q_depth=3, q_delta=0.001,
                 diff_method="backprop", shots=None, dtype="float64",
                 learning_rate=0.001, batch_size=64, epochs=2, seed=11,
-                split_seed=2026, torch_threads=1, mapping_activation='affine',target_activation='relu')
+                split_seed=2026, torch_threads=1, mapping_activation='affine',target_activation='relu',weight_transform='none')
 
 
 def validate_config(config):
@@ -14,6 +14,8 @@ def validate_config(config):
     if unknown:
         raise ValueError(f"Unknown configuration keys: {sorted(unknown)}")
     c = DEFAULTS | config
+    if c['weight_transform'] not in ('none','center_weights'):
+        raise ValueError('Unsupported weight_transform')
     if c['target_activation'] not in ('relu','leaky_relu'):
         raise ValueError('target_activation must be relu or leaky_relu')
     if c['mapping_activation'] not in ('affine','tanh'):

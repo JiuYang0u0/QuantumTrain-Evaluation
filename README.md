@@ -55,6 +55,8 @@ uv run python scripts/verify_notebooks.py --mode smoke
 
 ## 理解結果
 
+第七輪 [fan-in尺度協定](docs/fanin-protocol.md)：固定中心化，對照每次forward是否將W1/W2標準差調至1/sqrt(3*fan_in)，bias不變。執行 `uv run python scripts/fanin_study.py`（6runs），加`--smoke`快速檢查。第三份教材第11節解釋持續重參數化與單純初始化的差異。
+
 第六輪 [中心化结果](reports/centering/interpretation.md)：平均最後train accuracy由33.33%到51.67%，但seed22退步；三seed最佳validation loss皆變差，沒有可靠泛化收益。
 
 第六輪 [權重中心化協定](docs/centering-protocol.md)：初始化先比較W1/b1/W2/b2與preactivation，再固定Tanh/LeakyReLU、LR1e-3，只對W1/W2各自減平均。執行 `uv run python scripts/centering_study.py`（6runs），可加 `--smoke`。第三份教材第10節說明中心化與尺度正規化的差異。

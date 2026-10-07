@@ -125,4 +125,17 @@ display(Markdown((ROOT/'docs/centering-protocol.md').read_text(encoding='utf-8')
 saved=ROOT/'reports/centering/interpretation.md'
 if saved.exists():
     display(Markdown(saved.read_text(encoding='utf-8')))''')
+cells+=section('11. Fan-in尺度：初始化與重參數化不同','理解尺度目標與穩定分母。','中心化只移除偏移，不保證不同層的weight尺度適合其輸入維度。',
+ 'W1 fan_in64、W2 fan_in8 → 目標std 1/sqrt(192)、1/sqrt(24)。','center_fanin每次forward都中心化並縮放；分母sqrt(max(mean(centered²),1e-12))。bias不變，梯度穿過分母。',
+ '以同seed印出center_weights與center_fanin的分層統計；看協定的數值邊界。','一般非退化block會達到指定std；常數block仍是零，不能假裝有變異。','這不是只改初始化，而是持續限制尺度的可微分重參數化；不能直接把結果歸因於更好的初始值。',
+ '為什麼先floor variance再sqrt？','避免零點sqrt導數不穩定；clamp也會改變小variance區域的梯度，必須揭露其門檻。',
+ '''for transform in ('center_weights','center_fanin'):
+    torch.manual_seed(11)
+    m=QuantumTrain(3,mapping_activation='tanh',target_activation='leaky_relu',weight_transform=transform)
+    print(transform)
+    display(pd.DataFrame(snapshot(m,probe)['blocks']).T)
+display(Markdown((ROOT/'docs/fanin-protocol.md').read_text(encoding='utf-8')))
+saved=ROOT/'reports/fanin/interpretation.md'
+if saved.exists():
+    display(Markdown(saved.read_text(encoding='utf-8')))''')
 write('03_training_diagnostics.ipynb','# QuantumTrain 工具書03：有梯度卻學不會\n\n透過20筆過擬合測試與affine/Tanh對照，學習定位訓練問題。',cells)

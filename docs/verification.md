@@ -1,5 +1,11 @@
 # 驗證紀錄
 
+## 第七輪：fan-in尺度（進行中）
+
+- 39項pytest通過；新增目標std、bias保留、一般block梯度及常數block有限backward測試。
+- 第三份教材擴為12節，fresh-kernel smoke通過；fan-in兩組實驗與報告整合smoke通過。
+- 正式6runs於核心及協定commit 0f63870之後啟動，背景執行中，未讀test。設定詳見fanin-protocol.md。
+
 ## 第六輪：生成權重中心化（完成）
 
 - 36項pytest通過；新增中心化保持std/bias、梯度連接及diagnostic配置保存測試。

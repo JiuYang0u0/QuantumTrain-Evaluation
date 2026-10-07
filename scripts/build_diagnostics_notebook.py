@@ -110,4 +110,19 @@ display(Markdown((ROOT/'docs/learning-rate-protocol.md').read_text(encoding='utf
 lr_report=ROOT/'reports/learning-rate/interpretation.md'
 if lr_report.exists():
     display(Markdown(lr_report.read_text(encoding='utf-8')))''')
+cells+=section('10. 每層權重偏移與中心化','區分平均偏移、尺度與bias。','digits輸入為非負，W1共同偏移經64維加總可能使hidden整體偏正或偏負。',
+ '生成610參數分成W1(8,64)、b1(8)、W2(10,8)、b2(10)。','中心化只把兩個weight矩陣各自減平均，bias不變、std不變。這與每個neuron减平均或fan-in scaling不同。',
+ '在相同seed初始化的模型上查看四個block及preactivation；比較none/center_weights。','W1/W2均值接近零，std維持不變；preactivation仍受bias和輸入結構影響，不一定為零。','初始化變得均衡不代表訓練一定改善；正式結果仍需完整6runs與validation。',
+ '為什麼不把所有610個參數一起減平均？','不同層及bias角色不同；全域中心化不能隔離每層權重共同偏移。',
+ '''for transform in ('none','center_weights'):
+    torch.manual_seed(11)
+    m=QuantumTrain(3,mapping_activation='tanh',target_activation='leaky_relu',weight_transform=transform)
+    observed=snapshot(m,probe)
+    print(transform)
+    display(pd.DataFrame(observed['blocks']).T)
+    print('Preactivation:',observed['preactivation'])
+display(Markdown((ROOT/'docs/centering-protocol.md').read_text(encoding='utf-8')))
+saved=ROOT/'reports/centering/interpretation.md'
+if saved.exists():
+    display(Markdown(saved.read_text(encoding='utf-8')))''')
 write('03_training_diagnostics.ipynb','# QuantumTrain 工具書03：有梯度卻學不會\n\n透過20筆過擬合測試與affine/Tanh對照，學習定位訓練問題。',cells)

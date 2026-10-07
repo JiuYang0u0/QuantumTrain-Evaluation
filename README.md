@@ -55,6 +55,8 @@ uv run python scripts/verify_notebooks.py --mode smoke
 
 ## 理解結果
 
+第六輪 [權重中心化協定](docs/centering-protocol.md)：初始化先比較W1/b1/W2/b2與preactivation，再固定Tanh/LeakyReLU、LR1e-3，只對W1/W2各自減平均。執行 `uv run python scripts/centering_study.py`（6runs），可加 `--smoke`。第三份教材第10節說明中心化與尺度正規化的差異。
+
 第五輪結果：[learning-rate解讀](reports/learning-rate/interpretation.md)。降低LR使後段loss波動變小，但固定200epochs下的擬合與validation未改善；平穩不等於已學會或已收斂。
 
 第五輪 [learning-rate協定](docs/learning-rate-protocol.md) 固定Tanh/LeakyReLU，比較1e-3、3e-4、1e-4；使用 `uv run python scripts/learning_rate_study.py` 執行9runs，或加 `--smoke`。第三份教材第9節解釋最好epoch、最後表現與時間波動的差異。

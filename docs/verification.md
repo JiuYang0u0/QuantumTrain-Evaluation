@@ -1,5 +1,12 @@
 # 驗證紀錄
 
+## 第六輪：生成權重中心化（進行中）
+
+- 36項pytest通過；新增中心化保持std/bias、梯度連接及diagnostic配置保存測試。
+- 三份notebooks fresh-kernel smoke通過（11/9/11節）；第三份新增每層weight/bias及preactivation統計。
+- Centering兩組smoke及報告匯出整合檢查通過。
+- 正式6runs在核心及協定commit 6b34131之後背景啟動，結果待完成；設定見centering-protocol.md。
+
 ## 第五輪：Learning rate
 
 - 實驗與協定在commit 678e462提交後啟動，正式9runs背景執行中；不使用test。

@@ -154,4 +154,19 @@ display(Markdown((ROOT/'docs/quantum-ablation-protocol.md').read_text(encoding='
 saved=ROOT/'reports/quantum-ablation/interpretation.md'
 if saved.exists():
     display(Markdown(saved.read_text(encoding='utf-8')))''')
+cells+=section('13. 放大量子特徵：尺度改善不等於量子學習收益','用2×2設計分離尺度與參數更新。','量子feature std約1e-4，bit編碼為±1；固定倍率可能改變mapping的依賴方式。',
+ '610個後處理量子特徵乘1或1000 → (610,11)mapping輸入；其他欄不變。','固定倍率在中心化機率特徵後施加，同時放大量子分支梯度；不等於變動std標準化。',
+ '觀察兩倍率的初始化feature std、梯度與Tanh飽和；完整12runs命令見協定。','同seed原始参数相同，但輸出與梯度可不同；放大太多可能飽和。','若Frozen放大也改善，不可將改善歸因於量子參數學習；需比較同倍率的Frozen/Trainable。',
+ '量子feature變大後梯度變大，是學得更好的證明嗎？','不是；需看完整訓練、validation與飽和。固定optimizer LR不代表量子通路的有效更新尺度相同。',
+ '''for scale in (1.,1000.):
+    torch.manual_seed(11)
+    m=QuantumTrain(3,mapping_activation='tanh',target_activation='leaky_relu',weight_transform='center_weights',feature_scale=scale)
+    obs=snapshot(m,sx[ids])
+    sense=measure_sensitivity(m,sx[ids],sy[ids])
+    print(scale, {'feature_std':obs['scaled_feature_std'],'tanh_saturation':obs['mapping_tanh_saturation'],
+                  'quantum_grad_norm':sense['quantum_loss_grad_norm']})
+display(Markdown((ROOT/'docs/feature-scale-protocol.md').read_text(encoding='utf-8')))
+saved=ROOT/'reports/feature-scale/interpretation.md'
+if saved.exists():
+    display(Markdown(saved.read_text(encoding='utf-8')))''')
 write('03_training_diagnostics.ipynb','# QuantumTrain 工具書03：有梯度卻學不會\n\n透過20筆過擬合測試與affine/Tanh對照，學習定位訓練問題。',cells)

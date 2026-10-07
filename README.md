@@ -55,6 +55,8 @@ uv run python scripts/verify_notebooks.py --mode smoke
 
 ## 理解結果
 
+第九輪 [特徵尺度×量子可訓練性](docs/feature-scale-protocol.md)：1×/1000×各配對Frozen/Trainable，三seeds共12runs。命令 `uv run python scripts/feature_scale_study.py`，加`--smoke`為四組短測。第三份教材第13節說明尺度、梯度與飽和，避免把倍率收益誤稱量子學習收益。
+
 第八輪完成：[量子敏感度與消融結果](reports/quantum-ablation/interpretation.md)。固定與可訓練量子參數的best-checkpoint validation accuracy逐seed相同；所測checkpoint對量子feature置零的反應很小。這僅描述當前低表現設定，不代表一般QML無效。
 
 第八輪 [量子敏感度與消融協定](docs/quantum-ablation-protocol.md)：先量測機率→權重→logits的擾動影響，再比較固定與可訓練量子參數。`uv run python scripts/quantum_ablation_study.py` 執行六組；加`--smoke`快速檢查。第三份教材第12節區分梯度連接、敏感度與實際貢獻。

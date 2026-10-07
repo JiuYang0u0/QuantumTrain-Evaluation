@@ -1,5 +1,10 @@
 # 驗證紀錄
 
+## 第九輪：量子feature尺度（進行中）
+- 44項pytest通過，含同初始化倍率隔離、有限量子梯度、scaled敏感度、Tanh飽和、無效倍率及Frozen delta檢查。
+- 第三份14節教材fresh-kernel smoke通過；2×2四組smoke與報告匯出通過。
+- 正式12runs於核心/協定commit206f1aa後背景啟動，未使用test；結果待完成。
+
 ## 第八輪：量子敏感度與消融（完成）
 - 41項pytest通過；固定量子參數每epoch delta=0、mapping更新，以及敏感度不改原模型/RNG均驗證。
 - 第三份教材13節fresh-kernel smoke通過；配對smoke與報告匯出通過。

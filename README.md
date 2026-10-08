@@ -1,5 +1,7 @@
 # QuantumTrain Evaluation — 教學型實驗與評估工具
 
+固定r3 [500epoch結果](reports/paper-r3-budget/interpretation.md) 已完成：best-checkpoint validation CNN91.00%、QT53.00%，QT457/6690=6.83%參數。第500節點QT平均51.33%（不同於best53%），比第50節點17.17%明顯進步，仍非論文完整MNIST重現。
+
 固定r3的[更新預算研究](docs/paper-r3-budget-protocol.md)：同1000/200資料，CNN/QT16各三seed跑500epochs（4000updates），在50/100/200/500保存節點。命令 `uv run python scripts/paper_r3_budget.py`；不讀official test，並非完整MNIST重現。
 
 MNIST r3 [配對pilot結果](reports/paper-r3/interpretation.md) 已完成：原始/上游機率後處理的平均validation accuracy為16.50%/17.17%。後處理顯著改變量子feature與梯度尺度，但400updates下accuracy改善僅0.67pp，尚未重現論文準確率。

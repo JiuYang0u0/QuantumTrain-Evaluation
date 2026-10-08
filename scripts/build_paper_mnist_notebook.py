@@ -54,4 +54,13 @@ for name,m in [('r1',r1),('r2',r2)]:
 display(Markdown((ROOT/'docs/paper-centering-protocol.md').read_text(encoding='utf-8')))
 report=ROOT/'reports/paper-centering/interpretation.md'
 if report.exists():display(Markdown(report.read_text(encoding='utf-8')))''')
+cells+=section('5. 長一點的pilot：相同epochs不是相同資料預算','知道50epochs小子集仍不是論文50epochs。','數值穩定後要觀察loss與更新的持續性，不能只以短測低accuracy定論。',
+ '1000train / batch128 → 每epoch8steps，50epochs400steps。','論文60000train每epoch469steps，50epochs23450steps；還有不同樣本覆蓋，不能只對齊steps代替資料。',
+ '閱讀凍結協定；正式命令只顯示不在本教材自動啟動。結果可用--report從既有study產生。','更新紀錄分量子/mapping，norm是最後batch，不是整epoch平均；best/final分開。','參數比6.83%與accuracy gap分開報；validation不是官方test。',
+ '如果只有mapping更新、theta完全不動，該做什麼？','先看theta梯度是否None、有限或接近零，以及步驟delta；不要只根據loss下降宣稱量子有學習。',
+ '''display(Markdown((ROOT/'docs/paper-r2-learning-protocol.md').read_text(encoding='utf-8')))
+print('uv run python scripts/paper_r2_learning_pilot.py')
+print('Pilot updates:',50*8,'paper-size updates:',50*469)
+saved=ROOT/'reports/paper-r2-learning/interpretation.md'
+if saved.exists():display(Markdown(saved.read_text(encoding='utf-8')))''')
 write('06_paper_mnist_reconstruction.ipynb','# 工具書06：MNIST QT-16有假設重建\n\n建立正確壓縮配置，再驗證可微分訓練與純CNN匯出。',cells)

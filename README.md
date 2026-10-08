@@ -1,5 +1,7 @@
 # QuantumTrain Evaluation — 教學型實驗與評估工具
 
+固定MNIST r2的[50epoch小資料學習pilot協定](docs/paper-r2-learning-protocol.md)：1000train/200validation、三seeds、CNN/QT16六runs。`uv run python scripts/paper_r2_learning_pilot.py`。雖50epochs，只有400次更新，不等於論文完整資料50epochs；教材06第5節有說明。
+
 MNIST r2 [尺度診斷與配對pilot](reports/paper-centering/interpretation.md) 已完成：上游全域weights/bias中心化使巨量loss回到約2.3–2.6，仍457參數，純CNN匯出一致。這只解決數值尺度，未重現論文accuracy；教材06已新增來源處理比較。
 
 第三階段已採用明列假設的MNIST QT-16重建：[協定](docs/paper-mnist-protocol.md)、[工具書06](notebooks/06_paper_mnist_reconstruction.ipynb)。Target CNN6690，QT457（6.83%）；參數與梯度/匯出已驗證，準確率需另測。真實MNIST短程pilot：`uv run python scripts/paper_mnist_pilot.py`，只下載train，不讀官方test。不是精確論文復現。

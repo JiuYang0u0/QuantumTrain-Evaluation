@@ -1,5 +1,7 @@
 # QuantumTrain Evaluation — 教學型實驗與評估工具
 
+> **範圍修正（2026-10-08）：** 前十輪與digits完整資料比較是小型適配/診斷，不是論文壓縮結果重現。新的第三階段見 [論文與程式稽核](docs/paper-reproduction-audit.md)、[參數取捨表](reports/paper-audit/audit.md) 與 [工具書05](notebooks/05_paper_compression_audit.ipynb)。已發現公開MNIST範例的U3/CU3與論文RY/CNOT不一致，尚未啟動精確數值重現。
+
 沿用 **PennyLane QuantumTrain 的方法思想**，以小型 digits 分類任务學習權重生成、量子梯度與可信實驗。提供可逐節閱讀的繁體中文 notebook、測試及自動化評估。這是獨立適配作品，不是原論文數值重現。
 
 ## 開始操作（Windows PowerShell）

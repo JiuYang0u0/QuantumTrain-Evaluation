@@ -1,5 +1,12 @@
 # 驗證紀錄
 
+## 第三階段：論文壓縮來源稽核（2026-10-08）
+- 讀取arXiv v1/v2與固定上游MNIST notebook，核對main/chenyu_dev相同blob。
+- 參數表稽核2項測試通過；published-claims.csv/audit.md已產生，accuracy標為published_not_reproduced。
+- 第五份教材4節fresh-kernel smoke通過。
+- 明確阻礙：論文RY/CNOT QT16=457；公開MNIST U3/CU3結構1497，mapping activation及評估也不一致。未啟動MNIST訓練、沒有新的準確率。
+- 詳細來源與待確認設定見paper-reproduction-audit.md；需要對應程式或使用者選定公開假設重建路徑。
+
 ## 第二階段：完整train/validation（完成）
 - 十輪研究樹與限制整理於research-summary.md；凍結協定見full-validation-protocol.md。
 - 48項pytest通過，新測試驗證runner只接train/validation、Frozen不變與一致target activation。

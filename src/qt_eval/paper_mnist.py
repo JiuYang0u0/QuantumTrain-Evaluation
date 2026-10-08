@@ -53,8 +53,10 @@ def ry_chain(n_qubits):
 
 
 class PaperQuantumTrain(nn.Module):
-    def __init__(self,blocks=16,global_center=False):
+    def __init__(self,blocks=16,global_center=False,probability_processing='raw'):
         super().__init__()
+        if probability_processing not in ('raw','upstream'):raise ValueError('Unknown probability processing')
+        self.probability_processing=probability_processing
         if type(global_center)is not bool:raise ValueError('global_center must be bool')
         self.global_center=global_center
         if type(blocks)is not int or blocks<1:raise ValueError('Positive blocks required')
@@ -67,7 +69,11 @@ class PaperQuantumTrain(nn.Module):
         self.qnode=ry_chain(13)
 
     def mapping_inputs(self,probabilities):
-        return torch.cat([self.codes,probabilities[:6690,None]],dim=1)
+        feature=probabilities[:6690]
+        if self.probability_processing=='upstream':
+            feature=(.8*torch.tanh(.1*4096*feature)).pow(.3)
+            feature=feature-feature.mean()
+        return torch.cat([self.codes,feature[:,None]],dim=1)
 
     def generated_weights(self):
         weights=self.mapping(self.mapping_inputs(self.qnode(self.theta))).flatten()

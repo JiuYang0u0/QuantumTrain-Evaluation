@@ -1,9 +1,10 @@
 # 驗證紀錄
 
-## MNIST r3機率後處理（進行中）
+## MNIST r3機率後處理（完成，2026-10-09）
 - 全套58項pytest通過，新增來源公式不重複平方p、同初始化、梯度/匯出一致性與無效設定測試。
 - 單seed2epoch raw/upstream配對smoke與report通過；第六份7節教材fresh-kernel通過。
 - 正式三seed×兩組50epoch pilot於核心/協定commit b727010後背景啟動；未使用official test。詳細假設見paper-r3-protocol.md。
+- Study paper-r3-ad19c7a0dc完成6/6，報告核對狀態/condition/seed/50epoch紀錄後匯出；raw重現前輪r2，三個r3全部50epochs量子delta非零，所有匯出delta0。Validation平均16.50%→17.17%，僅小改善，原論文accuracy仍未重現。詳見reports/paper-r3/interpretation.md。
 
 ## 固定MNIST r2較長pilot（完成）
 - 全套56項pytest通過，新增epoch observer不改訓練與checkpoint的回歸驗證。

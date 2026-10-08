@@ -1,5 +1,7 @@
 # QuantumTrain Evaluation — 教學型實驗與評估工具
 
+MNIST r3 [配對pilot結果](reports/paper-r3/interpretation.md) 已完成：原始/上游機率後處理的平均validation accuracy為16.50%/17.17%。後處理顯著改變量子feature與梯度尺度，但400updates下accuracy改善僅0.67pp，尚未重現論文準確率。
+
 MNIST r3 [機率前處理協定](docs/paper-r3-protocol.md)：只比較raw p與上游tanh/冪次/中心化，不再平方p；其餘r2固定。命令 `uv run python scripts/paper_r3_pilot.py`，加`--smoke`短測。教材06第6節說明振幅與機率的移植差異。
 
 MNIST r2 [50epoch小資料pilot結果](reports/paper-r2-learning/interpretation.md)：CNN validation85.00%，QT16 16.50%，QT仍457/6690=6.83%參數；量子/mapping每epoch持續更新但準確率維持未驗證。資料與來源假設不等同原論文，不能據此否定原表。

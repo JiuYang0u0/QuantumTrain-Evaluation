@@ -1,5 +1,11 @@
 # 驗證紀錄
 
+## MNIST r2全域中心化
+- 三seed同初始化/同probe前向對照確認共同偏移造成巨量CNN輸出；詳見paper-scale-5450d2a62d。
+- 直接CNN/r1/r2三組三seed的2epoch MNIST pilot完成9/9；r2 val loss回到2.31–2.46，accuracy尚低，不判定論文效果。
+- 5項paper模型/中心化針對性測試通過；第六份5節教材fresh-kernel smoke通過。新增全域變換、有限梯度及匯出語意測試。
+- 報告與9run manifest位於reports/paper-centering；下一個長程pilot尚未啟動。
+
 ## MNIST QT-16 paper-guided reconstruction r1
 - 使用者同意明列假設重建；協定見paper-mnist-protocol.md。
 - 全套54項pytest通過；新增6690/457計數、functional CNN等價、量子梯度、2qubit解析機率/有限差分、原始p與0/1bit接口、獨立CNN匯出驗證。

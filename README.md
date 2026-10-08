@@ -1,5 +1,7 @@
 # QuantumTrain Evaluation — 教學型實驗與評估工具
 
+MNIST r2 [尺度診斷與配對pilot](reports/paper-centering/interpretation.md) 已完成：上游全域weights/bias中心化使巨量loss回到約2.3–2.6，仍457參數，純CNN匯出一致。這只解決數值尺度，未重現論文accuracy；教材06已新增來源處理比較。
+
 第三階段已採用明列假設的MNIST QT-16重建：[協定](docs/paper-mnist-protocol.md)、[工具書06](notebooks/06_paper_mnist_reconstruction.ipynb)。Target CNN6690，QT457（6.83%）；參數與梯度/匯出已驗證，準確率需另測。真實MNIST短程pilot：`uv run python scripts/paper_mnist_pilot.py`，只下載train，不讀官方test。不是精確論文復現。
 
 > **範圍修正（2026-10-08）：** 前十輪與digits完整資料比較是小型適配/診斷，不是論文壓縮結果重現。新的第三階段見 [論文與程式稽核](docs/paper-reproduction-audit.md)、[參數取捨表](reports/paper-audit/audit.md) 與 [工具書05](notebooks/05_paper_compression_audit.ipynb)。已發現公開MNIST範例的U3/CU3與論文RY/CNOT不一致，尚未啟動精確數值重現。

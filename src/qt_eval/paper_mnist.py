@@ -53,8 +53,10 @@ def ry_chain(n_qubits):
 
 
 class PaperQuantumTrain(nn.Module):
-    def __init__(self,blocks=16):
+    def __init__(self,blocks=16,global_center=False):
         super().__init__()
+        if type(global_center)is not bool:raise ValueError('global_center must be bool')
+        self.global_center=global_center
         if type(blocks)is not int or blocks<1:raise ValueError('Positive blocks required')
         # Uniform angles are a declared reconstruction assumption, not recovered author seeds.
         self.theta=nn.Parameter(torch.empty(blocks,13,dtype=torch.float64).uniform_(-math.pi,math.pi))
@@ -68,7 +70,8 @@ class PaperQuantumTrain(nn.Module):
         return torch.cat([self.codes,probabilities[:6690,None]],dim=1)
 
     def generated_weights(self):
-        return self.mapping(self.mapping_inputs(self.qnode(self.theta))).flatten()
+        weights=self.mapping(self.mapping_inputs(self.qnode(self.theta))).flatten()
+        return weights-weights.mean() if self.global_center else weights
 
     def forward(self,x):return functional_cnn(x,self.generated_weights())
 

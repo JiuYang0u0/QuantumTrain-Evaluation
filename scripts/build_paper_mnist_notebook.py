@@ -39,4 +39,19 @@ cells+=section('3. MNIST pilot與預算','以真實資料驗證資料路徑及�
 print('Protocol: docs/paper-mnist-protocol.md')
 print('Artifacts: results/paper-mnist-pilot-*/{classical_cnn,qt16}/')
 print('This workbook used synthetic data for correctness, not paper accuracy reproduction.')''')
+cells+=section('4. r2全域中心化：追溯缺少的來源處理','理解loss爆大的前向原因。','r1原始生成weights的共同偏移經CNN累積放大；上游MNIST code有全域中心化。',
+ '6690個生成weights/bias一起減平均 → 同架構CNN logits。','不同於舊digits的逐層weight中心化；r2只加此一步，457參數不變。',
+ '比較相同seed、合成probe的r1/r2權重均值及logit尺度，再讀真MNIST診斷協定。','r2的全域均值近零，但不保證各層均值都零，也不保證準確率高。','小loss並不代表學到；這是去除數值放大的一步，非論文復現成功。',
+ '為何要保留r1而不是直接覆寫？','因為重建假設變了；保留對照才能追溯哪個來源處理影響數值。',
+ '''torch.manual_seed(11)
+r1=PaperQuantumTrain()
+torch.manual_seed(11)
+r2=PaperQuantumTrain(global_center=True)
+for name,m in [('r1',r1),('r2',r2)]:
+    with torch.no_grad():
+        w=m.generated_weights()
+        print(name,'weight mean',float(w.mean()),'logits absmax',float(m(x).abs().max()))
+display(Markdown((ROOT/'docs/paper-centering-protocol.md').read_text(encoding='utf-8')))
+report=ROOT/'reports/paper-centering/interpretation.md'
+if report.exists():display(Markdown(report.read_text(encoding='utf-8')))''')
 write('06_paper_mnist_reconstruction.ipynb','# 工具書06：MNIST QT-16有假設重建\n\n建立正確壓縮配置，再驗證可微分訓練與純CNN匯出。',cells)

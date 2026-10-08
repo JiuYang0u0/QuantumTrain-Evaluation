@@ -1,5 +1,7 @@
 """Dataset-size comparison with exactly matched update/sample budgets."""
 import argparse
+import json
+import shutil
 import uuid
 from pathlib import Path
 import torch
@@ -10,7 +12,7 @@ from qt_eval.artifacts import write_json,environment
 from qt_eval.config import validate_config
 
 
-def run(output='results',smoke=False,extended=False):
+def run(output='results',smoke=False,extended=False,recover_from=None):
     root=Path(output)/(('paper-data-extended-' if extended else 'paper-data-budget-')+uuid.uuid4().hex[:10]);root.mkdir(parents=True)
     protocol=dict(smoke=smoke,seeds=[11] if smoke else [11,22,33],sizes=[10000] if extended else [1000,10000],
         conditions=['cnn','qt16_r3'],updates=4 if smoke else (12000 if extended else 4000),batch_size=128,
@@ -28,11 +30,40 @@ def run(output='results',smoke=False,extended=False):
     protocol['nested_subsets']=None if extended else overlap==1000
     write_json(root/'protocol.json',protocol)
     for n,d in datasets.items():write_json(root/f'indices-{n}.json',d['indices'])
+    if recover_from is not None:
+        source=Path(recover_from)
+        original=json.loads((source/'protocol.json').read_text())
+        for key in ('smoke','seeds','sizes','conditions','updates','batch_size','eval_every','sampling','test_access','milestone_updates'):
+            if original.get(key)!=protocol.get(key):raise ValueError(f'Recovery protocol mismatch: {key}')
+        for n in protocol['sizes']:
+            if json.loads((source/f'indices-{n}.json').read_text())!=datasets[n]['indices']:
+                raise ValueError('Recovery data indices mismatch')
+        reused=[];restarted=[]
+        for seed in protocol['seeds']:
+            for n in protocol['sizes']:
+                for condition in protocol['conditions']:
+                    name=f'{condition}-n{n}-seed{seed}'
+                    folder=source/name
+                    result=json.loads((folder/'result.json').read_text()) if (folder/'result.json').exists() else {}
+                    if result.get('status')=='completed':
+                        if (result['updates']!=protocol['updates'] or result['seed']!=seed or
+                            result['condition']!=condition or result['train_size']!=n or
+                            result['examples_seen']!=protocol['updates']*protocol['batch_size']):
+                            raise ValueError('Completed recovery result mismatch')
+                        checkpoint=torch.load(folder/'best.pt',weights_only=True)
+                        if 'model_state' not in checkpoint:raise ValueError('Invalid recovery checkpoint')
+                        shutil.copytree(folder,root/name);reused.append(name)
+                    else:restarted.append(name)
+        write_json(root/'recovery.json',dict(source=str(source.resolve()),reused_completed=reused,
+            restarted_from_initialization=restarted,exact_resume=False,original_preserved=True))
     old=torch.get_num_threads();torch.set_num_threads(1)
     try:
         for seed in protocol['seeds']:
             for n in protocol['sizes']:
                 for condition in protocol['conditions']:
+                    if (root/f'{condition}-n{n}-seed{seed}'/'result.json').exists():
+                        print('Reused completed',condition,n,seed,flush=True)
+                        continue
                     print(condition,n,seed,flush=True)
                     folder=root/f'{condition}-n{n}-seed{seed}';folder.mkdir()
                     write_json(folder/'result.json',{'status':'running'})
@@ -64,4 +95,5 @@ def run(output='results',smoke=False,extended=False):
 
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--smoke',action='store_true');p.add_argument('--output',default='results');p.add_argument('--extended',action='store_true')
-    a=p.parse_args();run(a.output,a.smoke,a.extended)
+    p.add_argument('--recover-from')
+    a=p.parse_args();run(a.output,a.smoke,a.extended,a.recover_from)

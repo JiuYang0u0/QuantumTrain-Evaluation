@@ -1,9 +1,10 @@
 # 驗證紀錄
 
-## 固定MNIST r2較長pilot（進行中）
+## 固定MNIST r2較長pilot（完成）
 - 全套56項pytest通過，新增epoch observer不改訓練與checkpoint的回歸驗證。
 - 第六份6節教材fresh-kernel smoke通過；1000/200、2epoch、單seed CNN/QT的pilot/report整合smoke通過。
 - 50epoch六runs於核心/協定commit7a0ebd8後背景啟動；每run400updates，不是論文完整MNIST50epochs。記錄最後batch梯度與epoch首尾delta，未讀test。
+- Study paper-r2-learning-331edce2ee完成6/6，報告核對狀態、condition/seed與50epoch歷史後匯出。QT三seed量子/mapping在全部50epochs有非零delta，export delta0；CNN/QT validation平均85%/16.5%。參數比成立，accuracy維持尚未成立，解讀見reports/paper-r2-learning/interpretation.md。
 
 ## MNIST r2全域中心化
 - 三seed同初始化/同probe前向對照確認共同偏移造成巨量CNN輸出；詳見paper-scale-5450d2a62d。

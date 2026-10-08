@@ -1,5 +1,7 @@
 # QuantumTrain Evaluation — 教學型實驗與評估工具
 
+MNIST r2 [50epoch小資料pilot結果](reports/paper-r2-learning/interpretation.md)：CNN validation85.00%，QT16 16.50%，QT仍457/6690=6.83%參數；量子/mapping每epoch持續更新但準確率維持未驗證。資料與來源假設不等同原論文，不能據此否定原表。
+
 固定MNIST r2的[50epoch小資料學習pilot協定](docs/paper-r2-learning-protocol.md)：1000train/200validation、三seeds、CNN/QT16六runs。`uv run python scripts/paper_r2_learning_pilot.py`。雖50epochs，只有400次更新，不等於論文完整資料50epochs；教材06第5節有說明。
 
 MNIST r2 [尺度診斷與配對pilot](reports/paper-centering/interpretation.md) 已完成：上游全域weights/bias中心化使巨量loss回到約2.3–2.6，仍457參數，純CNN匯出一致。這只解決數值尺度，未重現論文accuracy；教材06已新增來源處理比較。

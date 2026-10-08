@@ -1,5 +1,10 @@
 # 驗證紀錄
 
+## 固定r3更新預算（進行中）
+- 同1000train/200validation，CNN/QT16三seeds，500epochs4000updates；核心/協定commit4c996c6後背景啟動。
+- 單seed2epoch smoke配對訓練、節點checkpoint/metrics、報告milestones.csv完整性檢查通過，重現既有r3短測數值。
+- 教材06八節fresh-kernel smoke通過。本輪改動為研究runner與文件；上一輪全套58項pytest通過，本輪沒有宣稱重新跑全套。
+
 ## MNIST r3機率後處理（完成，2026-10-09）
 - 全套58項pytest通過，新增來源公式不重複平方p、同初始化、梯度/匯出一致性與無效設定測試。
 - 單seed2epoch raw/upstream配對smoke與report通過；第六份7節教材fresh-kernel通過。

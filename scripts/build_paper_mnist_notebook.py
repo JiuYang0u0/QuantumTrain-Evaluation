@@ -76,4 +76,13 @@ cells+=section('6. r3機率前處理：p已經是機率','分辨振幅平方與�
 display(Markdown((ROOT/'docs/paper-r3-protocol.md').read_text(encoding='utf-8')))
 saved=ROOT/'reports/paper-r3/interpretation.md'
 if saved.exists():display(Markdown(saved.read_text(encoding='utf-8')))''')
+cells+=section('7. 固定資料增加更新：不要混淆樣本與步數','用預先指定節點觀察學習進度。','r3的best在50epoch上限，下一個單變因是訓練時間而非架構。',
+ '1000筆/batch128=8steps，50/100/200/500epochs對應400/800/1600/4000updates。','從頭重跑相同seed、r3設定；節點保存當下模型，best.pt另存validation loss最低者。',
+ '讀協定與命令，正式背景長跑不在此cell啟動；結果完成後讀milestones.csv。','第50節點可核對前輪r3，後續節點看loss與accuracy是否仍改善。','4000updates仍只重複1000筆，不能當作看到更多獨立資料；best與最後指標須分開。',
+ '節點更高train卻更低validation怎麼解讀？','可能過擬合或波動，需看同checkpoint的train/validation、loss及三seed，不能只挑高值。',
+ '''print([(epoch,epoch*8) for epoch in (50,100,200,500)])
+display(Markdown((ROOT/'docs/paper-r3-budget-protocol.md').read_text(encoding='utf-8')))
+print('uv run python scripts/paper_r3_budget.py')
+saved=ROOT/'reports/paper-r3-budget/interpretation.md'
+if saved.exists():display(Markdown(saved.read_text(encoding='utf-8')))''')
 write('06_paper_mnist_reconstruction.ipynb','# 工具書06：MNIST QT-16有假設重建\n\n建立正確壓縮配置，再驗證可微分訓練與純CNN匯出。',cells)

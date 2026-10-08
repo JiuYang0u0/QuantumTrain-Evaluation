@@ -63,4 +63,17 @@ print('uv run python scripts/paper_r2_learning_pilot.py')
 print('Pilot updates:',50*8,'paper-size updates:',50*469)
 saved=ROOT/'reports/paper-r2-learning/interpretation.md'
 if saved.exists():display(Markdown(saved.read_text(encoding='utf-8')))''')
+cells+=section('6. r3機率前處理：p已經是機率','分辨振幅平方與機率再次平方。','上游TorchQuantum先取振幅abs平方；PennyLane qml.probs已完成這步，移植時不能再平方。',
+ '8192個p → 前6690個 → f=(.8*tanh(.1*4096*p))^.3 → f-mean(f)。','r3只替換mapping最後一個feature欄；0/1bits、mapping與全域生成中心化不變。',
+ '印出raw/upstream的feature尺度，確認相同參數量，讀凍結配對協定。','後處理改變feature與梯度尺度；不能預設accuracy提升。','p=0的分數冪導數可能奇異；本輪未加epsilon，若non-finite就停止，不無聲改原式。',
+ '為什麼不是沿用之前digits的p²？','那是另一份範例的路徑；本輪對齊MNIST來源，必須追溯資料語意而非複製相似公式。',
+ '''for processing in ('raw','upstream'):
+    torch.manual_seed(11)
+    m=PaperQuantumTrain(global_center=True,probability_processing=processing)
+    with torch.no_grad():
+        p=m.qnode(m.theta);f=m.mapping_inputs(p)[:,-1]
+        print(processing,'p min',float(p.min()),'feature mean/std',float(f.mean()),float(f.std(unbiased=False)))
+display(Markdown((ROOT/'docs/paper-r3-protocol.md').read_text(encoding='utf-8')))
+saved=ROOT/'reports/paper-r3/interpretation.md'
+if saved.exists():display(Markdown(saved.read_text(encoding='utf-8')))''')
 write('06_paper_mnist_reconstruction.ipynb','# 工具書06：MNIST QT-16有假設重建\n\n建立正確壓縮配置，再驗證可微分訓練與純CNN匯出。',cells)

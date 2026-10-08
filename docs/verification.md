@@ -1,5 +1,10 @@
 # 驗證紀錄
 
+## MNIST r3機率後處理（進行中）
+- 全套58項pytest通過，新增來源公式不重複平方p、同初始化、梯度/匯出一致性與無效設定測試。
+- 單seed2epoch raw/upstream配對smoke與report通過；第六份7節教材fresh-kernel通過。
+- 正式三seed×兩組50epoch pilot於核心/協定commit b727010後背景啟動；未使用official test。詳細假設見paper-r3-protocol.md。
+
 ## 固定MNIST r2較長pilot（完成）
 - 全套56項pytest通過，新增epoch observer不改訓練與checkpoint的回歸驗證。
 - 第六份6節教材fresh-kernel smoke通過；1000/200、2epoch、單seed CNN/QT的pilot/report整合smoke通過。

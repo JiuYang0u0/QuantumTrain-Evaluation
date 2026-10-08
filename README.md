@@ -1,5 +1,7 @@
 # QuantumTrain Evaluation — 教學型實驗與評估工具
 
+固定10000筆[延長更新協定](docs/paper-data-extended-protocol.md)：CNN/QT16全部三seed從頭跑12000updates，保留4000/8000/12000節點。`uv run python scripts/paper_data_budget.py --extended`；教材06第9節說明慢啟動、選模機會與統一預算。
+
 MNIST [固定更新預算資料覆蓋結果](reports/paper-data-budget/interpretation.md)：1000→10000筆時CNN validation平均91.00%→94.33%，QT56.33%→39.83%，QT逐seed兩降一升、變異大；六個QT best皆在4000update上限。未證明資料增加一般有害，也未重現論文精度。
 
 MNIST [資料覆蓋協定](docs/paper-data-budget-protocol.md)：1000/10000 train × CNN/QT16 × 三seeds，固定4000updates及每batch128。`uv run python scripts/paper_data_budget.py`；報告用 `uv run python scripts/report_data_budget.py results/<study>`。教材06第8節解釋資料量與更新預算混淆。

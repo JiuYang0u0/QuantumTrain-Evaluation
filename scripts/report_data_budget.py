@@ -42,6 +42,18 @@ def report(root,output):
     text='# MNIST同更新預算資料覆蓋研究\n\nStudy: `'+root.name+'`\n\n'+('SMOKE：只驗證流程。\n\n' if protocol['smoke'] else '')
     text+=a.fillna('N/A').to_markdown()+'\n\n'+f.fillna('N/A').to_markdown(index=False)
     text+='\n\n![curves](curves.png)\n\n每線一個模型/資料量/seed；橫軸updates。兩組同updates、每batch128、相同validation及評估次數。使用有放回抽樣，不能直接與舊epoch shuffle研究混比。集合交集與nested狀態見manifest；best/final分開，validation曾參與開發，非盲測。未使用official test，不是完整論文MNIST重現。\n'
+    if protocol.get('milestone_updates'):
+        text=text.replace('# MNIST同更新預算資料覆蓋研究','# MNIST固定10000筆更新延長研究')
+        milestone_rows=[]
+        for record in records:
+            r=record['result']
+            for h in r['history']:
+                if h['update'] in protocol['milestone_updates']:
+                    milestone_rows.append(dict(condition=r['condition'],seed=r['seed'],update=h['update'],
+                        val_accuracy=h['validation']['accuracy'],val_loss=h['validation']['loss']))
+        if len(milestone_rows)!=len(records)*len(protocol['milestone_updates']):raise ValueError('Missing milestones')
+        mf=pd.DataFrame(milestone_rows);mf.to_csv(output/'milestones.csv',index=False)
+        text+='\n## 固定更新節點\n'+mf.to_markdown(index=False)+'\n\n本輪只固定10000筆延長updates，非新的1000/10000比較。Best有更多選模機會，應優先對照固定節點；尚非論文完整資料重現。\n'
     (output/'study.md').write_text(text,encoding='utf-8');print(a.to_string())
 
 

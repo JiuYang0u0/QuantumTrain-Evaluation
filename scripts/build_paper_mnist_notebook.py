@@ -94,4 +94,13 @@ display(Markdown((ROOT/'docs/paper-data-budget-protocol.md').read_text(encoding=
 print('uv run python scripts/paper_data_budget.py')
 saved=ROOT/'reports/paper-data-budget/interpretation.md'
 if saved.exists():display(Markdown(saved.read_text(encoding='utf-8')))''')
+cells+=section('9. 慢啟動：延長所有seed而非只救最差一次','區分低表現、梯度斷線與慢學習。','10000筆seed22後段loss才開始下降，需更多固定預算驗證，不能只換seed。',
+ '10000train固定，4000→12000updates，每次128；節點4000/8000/12000。','CNN/QT各三seed全部從頭跑，保持抽樣流；舊best.pt沒optimizer狀態，不作精確resume。',
+ '讀協定，完成後看固定節點與best/final；本cell不啟動長跑。','前4000可核對舊結果，後續觀察是否追上或仍停滯。','120次驗證比40次更容易選到好checkpoint，不能只報best提升；validation不是盲測。',
+ '為何不只延長seed22？','選擇性增加最差或最好seed的預算會使組間比較不一致。',
+ '''display(Markdown((ROOT/'docs/paper-data-extended-protocol.md').read_text(encoding='utf-8')))
+print('uv run python scripts/paper_data_budget.py --extended')
+print('Examples processed:',12000*128)
+saved=ROOT/'reports/paper-data-extended/interpretation.md'
+if saved.exists():display(Markdown(saved.read_text(encoding='utf-8')))''')
 write('06_paper_mnist_reconstruction.ipynb','# 工具書06：MNIST QT-16有假設重建\n\n建立正確壓縮配置，再驗證可微分訓練與純CNN匯出。',cells)

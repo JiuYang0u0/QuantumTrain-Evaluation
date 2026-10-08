@@ -1,5 +1,10 @@
 # 驗證紀錄
 
+## 固定10000筆延長updates（進行中）
+- 先讀前輪歷史：seed22末段loss下降、量子梯度增大；尚不能確認慢啟動根因。
+- CNN/QT全部三seeds從頭12000updates，核心協定commite48ce35後背景啟動；保留4000/8000/12000。
+- update-budget針對性測試、兩組真MNIST extended smoke、報告節點匯出、教材06十節fresh-kernel通過。未重跑全套測試，未讀test。
+
 ## MNIST資料覆蓋（完成）
 - 新update-budget測試通過：精確updates、完整batch曝光數、固定eval schedule及checkpoint。
 - 真實1000/10000資料四組4updates smoke完成，報告驗證train/validation互斥與validation相同、曝光預算及run身份後匯出。

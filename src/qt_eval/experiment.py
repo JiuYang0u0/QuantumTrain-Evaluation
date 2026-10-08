@@ -34,7 +34,7 @@ def evaluate(model, loader):
     return dict(loss=loss_sum/count, accuracy=correct/count, sample_count=count)
 
 
-def fit(model, splits, config, run_dir):
+def fit(model, splits, config, run_dir, epoch_observer=None):
     run_dir = Path(run_dir)
     generator = torch.Generator().manual_seed(config['seed'])
     train = DataLoader(splits['train'],batch_size=config['batch_size'],shuffle=True,generator=generator)
@@ -67,6 +67,8 @@ def fit(model, splits, config, run_dir):
         if metrics['loss'] < best:
             best = metrics['loss']
             torch.save(dict(model_state=model.state_dict(),epoch=epoch,val_loss=best),run_dir/'best.pt')
+        if epoch_observer is not None:
+            epoch_observer(model,epoch)
     return history
 
 

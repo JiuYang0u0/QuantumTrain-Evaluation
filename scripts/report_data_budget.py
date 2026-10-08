@@ -32,7 +32,8 @@ def report(root,output):
     output.mkdir(parents=True,exist_ok=True)
     f=pd.DataFrame(rows);f.to_csv(output/'runs.csv',index=False)
     a=f.groupby(['condition','train_size']).agg(n=('seed','count'),train_mean=('train_accuracy','mean'),val_mean=('val_accuracy','mean'),val_std=('val_accuracy','std'),val_loss_mean=('val_loss','mean'))
-    a.to_csv(output/'summary.csv');write_json(output/'manifest.json',dict(protocol=protocol,indices=indices,runs=records))
+    recovery=json.loads((root/'recovery.json').read_text()) if (root/'recovery.json').exists() else None
+    a.to_csv(output/'summary.csv');write_json(output/'manifest.json',dict(protocol=protocol,indices=indices,runs=records,recovery=recovery))
     fig,ax=plt.subplots(figsize=(10,5))
     for r in records:
         h=r['result']['history'];result=r['result']
@@ -54,6 +55,8 @@ def report(root,output):
         if len(milestone_rows)!=len(records)*len(protocol['milestone_updates']):raise ValueError('Missing milestones')
         mf=pd.DataFrame(milestone_rows);mf.to_csv(output/'milestones.csv',index=False)
         text+='\n## 固定更新節點\n'+mf.to_markdown(index=False)+'\n\n本輪只固定10000筆延長updates，非新的1000/10000比較。Best有更多選模機會，應優先對照固定節點；尚非論文完整資料重現。\n'
+    if recovery:
+        text+='\n## Recovery provenance\n原study：`'+recovery['source']+'`。已完成run沿用，未完成run從相同seed初始化重跑，不是optimizer精確續訓。詳見manifest.json的recovery欄位。\n'
     (output/'study.md').write_text(text,encoding='utf-8');print(a.to_string())
 
 

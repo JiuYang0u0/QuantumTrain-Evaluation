@@ -1,5 +1,11 @@
 # 驗證紀錄
 
+## 12000updates矩陣中斷恢復
+- 原paper-data-extended-c3e310decb有CNN11/QT11/CNN22三組完成，QT22保存至3800updates後程序消失；無error.txt，原因未確定，不再以running檔案狀態認定程序存活。
+- Recovery新增目錄，核對協定、資料索引、completed身份/預算與best.pt可讀後沿用；QT22/CNN33/QT33由相同seed初始化重跑，不覆寫原資料。
+- 兩組完整extended smoke的recovery驗證通過，原目錄保留，recovery.json列來源與重跑清單。
+- 核心commit3cf87af後重新啟動背景工作；結果待完成。恢復是run層級，不是optimizer/RNG續訓。
+
 ## 固定10000筆延長updates（進行中）
 - 先讀前輪歷史：seed22末段loss下降、量子梯度增大；尚不能確認慢啟動根因。
 - CNN/QT全部三seeds從頭12000updates，核心協定commite48ce35後背景啟動；保留4000/8000/12000。

@@ -10,18 +10,22 @@ from qt_eval.artifacts import write_json,environment
 from qt_eval.config import validate_config
 
 
-def run(output='results',smoke=False):
-    root=Path(output)/('paper-data-budget-'+uuid.uuid4().hex[:10]);root.mkdir(parents=True)
-    protocol=dict(smoke=smoke,seeds=[11] if smoke else [11,22,33],sizes=[1000,10000],
-        conditions=['cnn','qt16_r3'],updates=4 if smoke else 4000,batch_size=128,
+def run(output='results',smoke=False,extended=False):
+    root=Path(output)/(('paper-data-extended-' if extended else 'paper-data-budget-')+uuid.uuid4().hex[:10]);root.mkdir(parents=True)
+    protocol=dict(smoke=smoke,seeds=[11] if smoke else [11,22,33],sizes=[10000] if extended else [1000,10000],
+        conditions=['cnn','qt16_r3'],updates=4 if smoke else (12000 if extended else 4000),batch_size=128,
         eval_every=2 if smoke else 100,sampling='uniform with replacement',test_access=False,
         comparison='same initialization, LR1e-4, r3 architecture, total updates and 128 examples per update',status='running')
     write_json(root/'protocol.json',protocol)
     datasets={n:load_mnist_pilot('data/mnist',train_size=n) for n in protocol['sizes']}
-    assert datasets[1000]['indices']['validation']==datasets[10000]['indices']['validation']
-    overlap=len(set(datasets[1000]['indices']['train'])&set(datasets[10000]['indices']['train']))
+    if extended:
+        protocol['milestone_updates']=[4] if smoke else [4000,8000,12000]
+        protocol['purpose']='fixed10000 data, extend all CNN/QT seeds from scratch; same sampling stream'
+    else:
+        assert datasets[1000]['indices']['validation']==datasets[10000]['indices']['validation']
+    overlap=None if extended else len(set(datasets[1000]['indices']['train'])&set(datasets[10000]['indices']['train']))
     protocol['train_subset_overlap']=overlap
-    protocol['nested_subsets']=overlap==1000
+    protocol['nested_subsets']=None if extended else overlap==1000
     write_json(root/'protocol.json',protocol)
     for n,d in datasets.items():write_json(root/f'indices-{n}.json',d['indices'])
     old=torch.get_num_threads();torch.set_num_threads(1)
@@ -38,7 +42,8 @@ def run(output='results',smoke=False):
                         write_json(folder/'config.json',protocol|{'seed':seed,'train_size':n,'condition':condition})
                         write_json(folder/'environment.json',environment(validate_config({'seed':seed})))
                         result=train_updates(model,{k:datasets[n][k] for k in ['train','validation']},folder,
-                            updates=protocol['updates'],eval_every=protocol['eval_every'],seed=seed)
+                            updates=protocol['updates'],eval_every=protocol['eval_every'],seed=seed,
+                            milestones=protocol.get('milestone_updates',()))
                         delta=None
                         if condition!='cnn':
                             exported=model.export_classical();x=datasets[n]['train'].tensors[0][:16]
@@ -58,5 +63,5 @@ def run(output='results',smoke=False):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--smoke',action='store_true');p.add_argument('--output',default='results')
-    a=p.parse_args();run(a.output,a.smoke)
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--smoke',action='store_true');p.add_argument('--output',default='results');p.add_argument('--extended',action='store_true')
+    a=p.parse_args();run(a.output,a.smoke,a.extended)

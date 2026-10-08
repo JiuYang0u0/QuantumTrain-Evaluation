@@ -8,9 +8,11 @@ from .experiment import evaluate
 from .artifacts import write_json
 
 
-def train_updates(model,splits,output,updates=4000,batch_size=128,eval_every=100,seed=11):
+def train_updates(model,splits,output,updates=4000,batch_size=128,eval_every=100,seed=11,milestones=()):
     if set(splits)!={'train','validation'}:raise ValueError('Only train/validation accepted')
     if min(updates,batch_size,eval_every)<1:raise ValueError('Positive budgets required')
+    if any(type(m)is not int or m<1 or m>updates or (m%eval_every and m!=updates) for m in milestones):
+        raise ValueError('Milestones must be scheduled evaluation updates')
     path=Path(output);path.mkdir(parents=True,exist_ok=True)
     x,y=splits['train'].tensors
     generator=torch.Generator().manual_seed(seed)
@@ -33,6 +35,9 @@ def train_updates(model,splits,output,updates=4000,batch_size=128,eval_every=100
             write_json(path/'history.json',history)
             if val['loss']<best:
                 best=val['loss'];torch.save(dict(model_state=model.state_dict(),update=step),path/'best.pt')
+            if step in milestones:
+                torch.save(dict(model_state=model.state_dict(),update=step,validation=val),path/f'update-{step}.pt')
+                print('milestone',step,'validation',val,flush=True)
     loaders={k:DataLoader(v,batch_size=batch_size) for k,v in splits.items()}
     final={k:evaluate(model,v) for k,v in loaders.items()}
     checkpoint=torch.load(path/'best.pt',weights_only=True);model.load_state_dict(checkpoint['model_state'])

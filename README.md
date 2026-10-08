@@ -1,5 +1,7 @@
 # QuantumTrain Evaluation — 教學型實驗與評估工具
 
+MNIST [固定更新預算資料覆蓋結果](reports/paper-data-budget/interpretation.md)：1000→10000筆時CNN validation平均91.00%→94.33%，QT56.33%→39.83%，QT逐seed兩降一升、變異大；六個QT best皆在4000update上限。未證明資料增加一般有害，也未重現論文精度。
+
 MNIST [資料覆蓋協定](docs/paper-data-budget-protocol.md)：1000/10000 train × CNN/QT16 × 三seeds，固定4000updates及每batch128。`uv run python scripts/paper_data_budget.py`；報告用 `uv run python scripts/report_data_budget.py results/<study>`。教材06第8節解釋資料量與更新預算混淆。
 
 固定r3 [500epoch結果](reports/paper-r3-budget/interpretation.md) 已完成：best-checkpoint validation CNN91.00%、QT53.00%，QT457/6690=6.83%參數。第500節點QT平均51.33%（不同於best53%），比第50節點17.17%明顯進步，仍非論文完整MNIST重現。

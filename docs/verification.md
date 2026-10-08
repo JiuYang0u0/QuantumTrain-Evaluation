@@ -1,10 +1,11 @@
 # 驗證紀錄
 
-## MNIST資料覆蓋（進行中）
+## MNIST資料覆蓋（完成）
 - 新update-budget測試通過：精確updates、完整batch曝光數、固定eval schedule及checkpoint。
 - 真實1000/10000資料四組4updates smoke完成，報告驗證train/validation互斥與validation相同、曝光預算及run身份後匯出。
 - 教材06九節fresh-kernel通過。本輪未重跑全部測試，上一輪全套58通過，新增針對性測試1通過。
 - 正式12runs在核心/協定commitb9ad207後啟動，背景執行中，未讀official test。
+- Study paper-data-budget-9fc8b65ab4完成12/12，報告核對updates/exposure/identity、共用validation及索引互斥後匯出。Train集合交集947非nested；unique examples均覆蓋全組。CNN1000/10000 val91%/94.33%，QT56.33%/39.83%，所有QT export delta0；限制見reports/paper-data-budget/interpretation.md。
 
 ## 固定r3更新預算（完成）
 - 同1000train/200validation，CNN/QT16三seeds，500epochs4000updates；核心/協定commit4c996c6後背景啟動。

@@ -1,5 +1,12 @@
 # 驗證紀錄
 
+## MNIST QT-16 paper-guided reconstruction r1
+- 使用者同意明列假設重建；協定見paper-mnist-protocol.md。
+- 全套54項pytest通過；新增6690/457計數、functional CNN等價、量子梯度、2qubit解析機率/有限差分、原始p與0/1bit接口、獨立CNN匯出驗證。
+- 第六份教材4節fresh-kernel smoke通過。
+- 真實MNIST pilot兩組完成（1000train/200validation、2epochs）；官方train檔checksum通過。QT梯度有限、匯出logit delta0，但loss約11.7萬，需先診斷尺度，未啟動50epoch長跑。
+- 原始目錄results/paper-mnist-pilot-56567c7db0；報告reports/paper-mnist-pilot/interpretation.md；沒有新的論文準確率重現主張。
+
 ## 第三階段：論文壓縮來源稽核（2026-10-08）
 - 讀取arXiv v1/v2與固定上游MNIST notebook，核對main/chenyu_dev相同blob。
 - 參數表稽核2項測試通過；published-claims.csv/audit.md已產生，accuracy標為published_not_reproduced。

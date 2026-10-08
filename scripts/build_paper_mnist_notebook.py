@@ -85,4 +85,13 @@ display(Markdown((ROOT/'docs/paper-r3-budget-protocol.md').read_text(encoding='u
 print('uv run python scripts/paper_r3_budget.py')
 saved=ROOT/'reports/paper-r3-budget/interpretation.md'
 if saved.exists():display(Markdown(saved.read_text(encoding='utf-8')))''')
+cells+=section('8. 資料覆蓋：對齊updates與樣本處理次數','分開資料量與訓練預算。','固定epochs時更多資料也帶來更多updates，無法直接辨認資料覆蓋的作用。',
+ '1000/10000 train，各4000updates×128=512000次樣本處理，同200validation。','有放回均勻抽樣確保每batch128，記錄unique samples seen；每100updates評估，兩組40次選模機會。',
+ '讀協定；完整12runs需背景執行，此cell僅展示預算計數。','1000與10000集合共享validation但不假設nested；實際交集保存在protocol。','新抽樣與舊epoch shuffle不同，所以必須重跑1000控制；相同曝光次數不代表相同獨立資料量。',
+ '為什麼不能拿上一輪1000結果直接對10000？','除了資料量，batch尾批與抽樣協定也改變；新一輪重新對齊控制才可解釋。',
+ '''print('Examples processed per condition:',4000*128)
+display(Markdown((ROOT/'docs/paper-data-budget-protocol.md').read_text(encoding='utf-8')))
+print('uv run python scripts/paper_data_budget.py')
+saved=ROOT/'reports/paper-data-budget/interpretation.md'
+if saved.exists():display(Markdown(saved.read_text(encoding='utf-8')))''')
 write('06_paper_mnist_reconstruction.ipynb','# 工具書06：MNIST QT-16有假設重建\n\n建立正確壓縮配置，再驗證可微分訓練與純CNN匯出。',cells)

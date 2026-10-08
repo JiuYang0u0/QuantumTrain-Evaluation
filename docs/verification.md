@@ -1,5 +1,11 @@
 # 驗證紀錄
 
+## MNIST資料覆蓋（進行中）
+- 新update-budget測試通過：精確updates、完整batch曝光數、固定eval schedule及checkpoint。
+- 真實1000/10000資料四組4updates smoke完成，報告驗證train/validation互斥與validation相同、曝光預算及run身份後匯出。
+- 教材06九節fresh-kernel通過。本輪未重跑全部測試，上一輪全套58通過，新增針對性測試1通過。
+- 正式12runs在核心/協定commitb9ad207後啟動，背景執行中，未讀official test。
+
 ## 固定r3更新預算（完成）
 - 同1000train/200validation，CNN/QT16三seeds，500epochs4000updates；核心/協定commit4c996c6後背景啟動。
 - 單seed2epoch smoke配對訓練、節點checkpoint/metrics、報告milestones.csv完整性檢查通過，重現既有r3短測數值。

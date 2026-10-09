@@ -38,7 +38,7 @@ def run(output='results',smoke=False,extended=False,recover_from=None):
         for n in protocol['sizes']:
             if json.loads((source/f'indices-{n}.json').read_text())!=datasets[n]['indices']:
                 raise ValueError('Recovery data indices mismatch')
-        reused=[];restarted=[]
+        reused=[];restarted=[];resumed=[]
         for seed in protocol['seeds']:
             for n in protocol['sizes']:
                 for condition in protocol['conditions']:
@@ -53,28 +53,33 @@ def run(output='results',smoke=False,extended=False,recover_from=None):
                         checkpoint=torch.load(folder/'best.pt',weights_only=True)
                         if 'model_state' not in checkpoint:raise ValueError('Invalid recovery checkpoint')
                         shutil.copytree(folder,root/name);reused.append(name)
+                    elif (folder/'latest.pt').exists():
+                        shutil.copytree(folder,root/name);resumed.append(name)
                     else:restarted.append(name)
         write_json(root/'recovery.json',dict(source=str(source.resolve()),reused_completed=reused,
-            restarted_from_initialization=restarted,exact_resume=False,original_preserved=True))
+            restarted_from_initialization=restarted,resumed_from_latest=resumed,
+            exact_resume=bool(resumed) and not restarted,original_preserved=True))
     old=torch.get_num_threads();torch.set_num_threads(1)
     try:
         for seed in protocol['seeds']:
             for n in protocol['sizes']:
                 for condition in protocol['conditions']:
-                    if (root/f'{condition}-n{n}-seed{seed}'/'result.json').exists():
+                    existing=root/f'{condition}-n{n}-seed{seed}'
+                    if (existing/'result.json').exists() and json.loads((existing/'result.json').read_text()).get('status')=='completed':
                         print('Reused completed',condition,n,seed,flush=True)
                         continue
                     print(condition,n,seed,flush=True)
-                    folder=root/f'{condition}-n{n}-seed{seed}';folder.mkdir()
+                    folder=root/f'{condition}-n{n}-seed{seed}';folder.mkdir(exist_ok=True)
+                    resume=(folder/'latest.pt').exists()
                     write_json(folder/'result.json',{'status':'running'})
                     with torch.random.fork_rng(devices=[]):
                         torch.manual_seed(seed)
                         model=TargetCNN().double() if condition=='cnn' else PaperQuantumTrain(global_center=True,probability_processing='upstream')
                         write_json(folder/'config.json',protocol|{'seed':seed,'train_size':n,'condition':condition})
-                        write_json(folder/'environment.json',environment(validate_config({'seed':seed})))
+                        write_json(folder/('resume-environment.json' if resume else 'environment.json'),environment(validate_config({'seed':seed})))
                         result=train_updates(model,{k:datasets[n][k] for k in ['train','validation']},folder,
                             updates=protocol['updates'],eval_every=protocol['eval_every'],seed=seed,
-                            milestones=protocol.get('milestone_updates',()))
+                            milestones=protocol.get('milestone_updates',()),resume=resume)
                         delta=None
                         if condition!='cnn':
                             exported=model.export_classical();x=datasets[n]['train'].tensors[0][:16]

@@ -1,5 +1,11 @@
 # 驗證紀錄
 
+## QT106深度對照（進行中）
+- 新增QT106參數1627/量子1378、有限非零gradient、純CNN匯出一致性測試通過。
+- 真MNIST4updates smoke完成，milestone/latest/export保存成功。
+- CPU warmup後3step median：QT16 .166秒、QT106 1.001秒，三seed12000steps估計train-only約10.01小時，非完整工期；原數據results/qt106-step-benchmark.json。
+- 教材06十一節fresh-kernel smoke通過。正式三seed於核心協定commitc00140d後啟動，每100steps完整checkpoint；CNN/QT16引用已完成控制。
+
 ## 固定10000筆12000updates完成
 - 最終recovery study paper-data-extended-d206b2e56a完成6/6，報告核對完成身份、預算、索引互斥及milestones後成功匯出。
 - 沿用五組、QT33從頭重跑；QT33之4000/8000節點重現中斷前結果，12000完成，三QT export delta0。

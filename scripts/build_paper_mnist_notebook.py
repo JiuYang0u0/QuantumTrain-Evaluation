@@ -103,4 +103,14 @@ print('uv run python scripts/paper_data_budget.py --extended')
 print('Examples processed:',12000*128)
 saved=ROOT/'reports/paper-data-extended/interpretation.md'
 if saved.exists():display(Markdown(saved.read_text(encoding='utf-8')))''')
+cells+=section('10. QT106：多保留參數能否換回精度？','把參數量與accuracy同時放入比較。','QT16的457參數不該配上論文QT106的93.81%；需要各自訓練並報ratio。',
+ '16/106blocks → 208/1378theta，加249mapping=457/1627；目標仍6690。','固定10000train/12000updates，引用已完成CNN/QT16對照，新跑QT106三seed。',
+ '先手算比例，再讀協定；深電路正式執行用腳本，本cell不跑106block訓練。','參數比例6.83%→24.32%，與計算成本同時上升。','同seed不代表mapping初值一樣，因theta大小耗用亂數不同；同updates不等於同時間。',
+ '更多參數得到更高accuracy是否等於量子優勢？','不是；這是壓縮—精度曲線，还需傳統壓縮對照及獨立評估。',
+ '''print({'QT16':457/6690,'QT106':1627/6690})
+display(Markdown((ROOT/'docs/paper-depth-protocol.md').read_text(encoding='utf-8')))
+print('uv run python scripts/paper_depth_study.py')
+print('Resume: uv run python scripts/paper_depth_study.py --resume-root results/<study>')
+saved=ROOT/'reports/paper-depth/interpretation.md'
+if saved.exists():display(Markdown(saved.read_text(encoding='utf-8')))''')
 write('06_paper_mnist_reconstruction.ipynb','# 工具書06：MNIST QT-16有假設重建\n\n建立正確壓縮配置，再驗證可微分訓練與純CNN匯出。',cells)

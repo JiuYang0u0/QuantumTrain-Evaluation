@@ -56,7 +56,7 @@ def report(root,output):
         mf=pd.DataFrame(milestone_rows);mf.to_csv(output/'milestones.csv',index=False)
         text+='\n## 固定更新節點\n'+mf.to_markdown(index=False)+'\n\n本輪只固定10000筆延長updates，非新的1000/10000比較。Best有更多選模機會，應優先對照固定節點；尚非論文完整資料重現。\n'
     if recovery:
-        text+='\n## Recovery provenance\n原study：`'+recovery['source']+'`。已完成run沿用，未完成run從相同seed初始化重跑，不是optimizer精確續訓。詳見manifest.json的recovery欄位。\n'
+        text+='\n## Recovery provenance\n原study：`'+recovery['source']+'`。完成組沿用；初始化重跑：'+str(recovery['restarted_from_initialization'])+'；完整checkpoint續訓：'+str(recovery.get('resumed_from_latest',[]))+'。詳見manifest.json的recovery欄位；舊checkpoint無optimizer時不稱精確續訓。\n'
     (output/'study.md').write_text(text,encoding='utf-8');print(a.to_string())
 
 

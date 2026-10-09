@@ -1,5 +1,7 @@
 # QuantumTrain Evaluation — 教學型實驗與評估工具
 
+Update-budget長跑已加入[完整checkpoint續訓](docs/checkpoint-recovery.md)：每100updates原子保存模型/Adam/抽樣器/RNG及best狀態。`--recover-from`會保留原目錄，分別沿用完成組、續訓新checkpoint、重跑舊未完成組。
+
 固定10000筆[延長更新協定](docs/paper-data-extended-protocol.md)：CNN/QT16全部三seed從頭跑12000updates，保留4000/8000/12000節點。`uv run python scripts/paper_data_budget.py --extended`；教材06第9節說明慢啟動、選模機會與統一預算。
 
 MNIST [固定更新預算資料覆蓋結果](reports/paper-data-budget/interpretation.md)：1000→10000筆時CNN validation平均91.00%→94.33%，QT56.33%→39.83%，QT逐seed兩降一升、變異大；六個QT best皆在4000update上限。未證明資料增加一般有害，也未重現論文精度。

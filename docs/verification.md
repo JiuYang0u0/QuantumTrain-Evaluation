@@ -1,5 +1,11 @@
 # 驗證紀錄
 
+## 完整續訓保護
+- 全套61項pytest通過；含Dropout的中斷/不中斷對照：模型、Adam state、抽樣器、history及best/final指標一致；資料/預算不匹配拒絕且不覆寫。
+- latest.pt於每個驗證節點原子replace；包含best副本，恢復修正history/best的一致性。保存範圍與限制見checkpoint-recovery.md。
+- 原recovery aa21c465c5停在QT33的10200updates，無訓練程序。五個完成組保留；舊QT33無完整checkpoint必須從頭重跑。
+- 核心commitda9ef40後重新背景啟動，最後一組新訓練具完整保存保護。尚未取得本次完整结果。
+
 ## 12000updates矩陣中斷恢復
 - 原paper-data-extended-c3e310decb有CNN11/QT11/CNN22三組完成，QT22保存至3800updates後程序消失；無error.txt，原因未確定，不再以running檔案狀態認定程序存活。
 - Recovery新增目錄，核對協定、資料索引、completed身份/預算與best.pt可讀後沿用；QT22/CNN33/QT33由相同seed初始化重跑，不覆寫原資料。

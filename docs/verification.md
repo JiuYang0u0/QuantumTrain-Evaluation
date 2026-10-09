@@ -1,5 +1,11 @@
 # 驗證紀錄
 
+## README導航與唯讀進度工具
+- README改為快速入口，舊內容保留HISTORY.md；新增reading-guide/research-index/progress-guide。四份入口的相對連結自動檢查無缺漏，Notebook本體未改動。
+- 新增qt_eval.progress，psutil列為直接依賴；分離宣告狀態、保存進度與程序證據。首次命令未含目標study時只標candidate；--resume-root精確比對；权限不足為unknown，不以running檔案推論存活。
+- 全套68項pytest通過：含六項progress測試，覆蓋僵置running、精確resume歸属、候選程序、權限不足、損壞JSON、完成與checkpoint不反序列化。
+- 真實完成study d206b2e56a查詢顯示6/6 completed_reported、無對應程序；best/final指標分列。工具不輪詢、不修改run、不載入pt。
+
 ## QT106深度對照（進行中）
 - 新增QT106參數1627/量子1378、有限非零gradient、純CNN匯出一致性測試通過。
 - 真MNIST4updates smoke完成，milestone/latest/export保存成功。

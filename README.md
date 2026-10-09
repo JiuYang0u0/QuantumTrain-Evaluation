@@ -1,5 +1,7 @@
 # QuantumTrain Evaluation — 教學型實驗與評估工具
 
+固定10000筆[12000updates完整結果](reports/paper-data-extended/interpretation.md)：QT best-validation平均76.00%，CNN96.33%；QT僅457/6690=6.83%參數，仍差20.33pp。QT固定節點平均39.83%→68.00%→75.83%（4000/8000/12000），三seed皆改善。與論文資料/評估不同，不稱精確重現。
+
 Update-budget長跑已加入[完整checkpoint續訓](docs/checkpoint-recovery.md)：每100updates原子保存模型/Adam/抽樣器/RNG及best狀態。`--recover-from`會保留原目錄，分別沿用完成組、續訓新checkpoint、重跑舊未完成組。
 
 固定10000筆[延長更新協定](docs/paper-data-extended-protocol.md)：CNN/QT16全部三seed從頭跑12000updates，保留4000/8000/12000節點。`uv run python scripts/paper_data_budget.py --extended`；教材06第9節說明慢啟動、選模機會與統一預算。

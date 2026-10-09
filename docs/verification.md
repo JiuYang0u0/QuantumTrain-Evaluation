@@ -1,5 +1,10 @@
 # 驗證紀錄
 
+## 固定10000筆12000updates完成
+- 最終recovery study paper-data-extended-d206b2e56a完成6/6，報告核對完成身份、預算、索引互斥及milestones後成功匯出。
+- 沿用五組、QT33從頭重跑；QT33之4000/8000節點重現中斷前結果，12000完成，三QT export delta0。
+- Best val平均CNN96.33%/QT76%，固定12000節點CNN95.67%/QT75.83%。參數比6.831%，精度維持仍未成立；paper比較限制見reports/paper-data-extended/interpretation.md。
+
 ## 完整續訓保護
 - 全套61項pytest通過；含Dropout的中斷/不中斷對照：模型、Adam state、抽樣器、history及best/final指標一致；資料/預算不匹配拒絕且不覆寫。
 - latest.pt於每個驗證節點原子replace；包含best副本，恢復修正history/best的一致性。保存範圍與限制見checkpoint-recovery.md。

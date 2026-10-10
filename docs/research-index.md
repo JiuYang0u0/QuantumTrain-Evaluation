@@ -30,6 +30,7 @@
 | 固定10000延長 | [設定](paper-data-extended-protocol.md) | [12000updates](../reports/paper-data-extended/interpretation.md) |
 | QT106深度 | [設定](paper-depth-protocol.md) | [12000updates](../reports/paper-depth/interpretation.md) |
 | 匹配預算古典特徵 | [設定](paper-classical-protocol.md) | [結果](../reports/paper-classical/interpretation.md) |
+| 低秩直接訓練基準 | [設定](paper-lowrank-protocol.md) | 進行中：rank 1/2/3/4/6 與QT16/QT106比較 |
 
 ## 證據層次
 原文表格=published；本機小型短測=pilot；反覆validation選設定=exploratory；待凍結方法後的未參與開發評估才能提供更獨立的證據。參數比、生成器與匯出CNN一致性、任務accuracy分別驗證。

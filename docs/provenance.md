@@ -25,3 +25,11 @@
 - 來源是研究方法，不宣稱本專案重現論文的數值、壓縮比或量子優勢。
 
 此專案是新的作品；不可用其結果推斷 2024 年競賽存檔或遺失版本的訓練正確性。
+
+## 後續階段：MNIST paper-guided reconstruction
+
+- 論文採 CC BY-NC-ND 4.0；本 repo 不重製其圖表或全文，只引用表格數字並重新計算參數比例。
+- 比對後發現公開 MNIST notebook 與論文表格不一致（RY/CNOT 對 U3/CU3；mapping activation；評估切分），詳見 [paper-reproduction-audit](paper-reproduction-audit.md)。
+- 因此以明列假設重建：r1（RY/CNOT、原始機率）、r2（加入上游全域 weights/bias 中心化）、r3（加入上游機率後處理 tanh/冪次/中心化）。
+- 目標模型 64→8→10 CNN 共 6690 參數；QT16=457、QT106=1627。所有結果標示為重建實驗，非精確復現。
+- 完整階段清單見 [研究索引](research-index.md)；授權與重用範圍見 [NOTICE](../NOTICE.md)。

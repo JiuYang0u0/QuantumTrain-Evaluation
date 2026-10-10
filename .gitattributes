@@ -1,0 +1,9 @@
+# Normalize line endings for a public repository.
+* text=auto eol=lf
+*.ipynb text eol=lf
+*.png binary
+*.jpg binary
+*.pt binary
+*.npy binary
+*.idx binary
+*.gz binary

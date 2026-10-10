@@ -29,6 +29,7 @@
 | 資料覆蓋 | [設定](paper-data-budget-protocol.md) | [1000/10000](../reports/paper-data-budget/interpretation.md) |
 | 固定10000延長 | [設定](paper-data-extended-protocol.md) | [12000updates](../reports/paper-data-extended/interpretation.md) |
 | QT106深度 | [設定](paper-depth-protocol.md) | [12000updates](../reports/paper-depth/interpretation.md) |
+| 匹配預算古典特徵 | [設定](paper-classical-protocol.md) | 進行中：固定投射＋softmax取代量子電路 |
 
 ## 證據層次
 原文表格=published；本機小型短測=pilot；反覆validation選設定=exploratory；待凍結方法後的未參與開發評估才能提供更獨立的證據。參數比、生成器與匯出CNN一致性、任務accuracy分別驗證。

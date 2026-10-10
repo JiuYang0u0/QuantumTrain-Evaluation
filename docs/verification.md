@@ -6,11 +6,12 @@
 - 全套68項pytest通過：含六項progress測試，覆蓋僵置running、精確resume歸属、候選程序、權限不足、損壞JSON、完成與checkpoint不反序列化。
 - 真實完成study d206b2e56a查詢顯示6/6 completed_reported、無對應程序；best/final指標分列。工具不輪詢、不修改run、不載入pt。
 
-## QT106深度對照（進行中）
+## QT106深度對照（完成）
 - 新增QT106參數1627/量子1378、有限非零gradient、純CNN匯出一致性測試通過。
 - 真MNIST4updates smoke完成，milestone/latest/export保存成功。
-- CPU warmup後3step median：QT16 .166秒、QT106 1.001秒，三seed12000steps估計train-only約10.01小時，非完整工期；原數據results/qt106-step-benchmark.json。
+- CPU warmup後3step median：QT16 .166秒、QT106 1.001秒，非完整工期；原數據results/qt106-step-benchmark.json。
 - 教材06十一節fresh-kernel smoke通過。正式三seed於核心協定commitc00140d後啟動，每100steps完整checkpoint；CNN/QT16引用已完成控制。
+- study paper-depth-3f729b7257三seed完成（多次中斷後由latest.pt續訓）；status completed，控制身份/預算核對後報告匯出。平均best val CNN96.33%、QT106 90.00%、QT16 76.00%；QT106 ratio24.32%、export delta0。限制見reports/paper-depth/interpretation.md。
 
 ## 固定10000筆12000updates完成
 - 最終recovery study paper-data-extended-d206b2e56a完成6/6，報告核對完成身份、預算、索引互斥及milestones後成功匯出。

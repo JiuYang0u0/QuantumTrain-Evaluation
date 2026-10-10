@@ -21,7 +21,7 @@ QT_DEPTH = Path('results/paper-depth-3f729b7257')
 RANKS = [1, 2, 3, 4, 6]
 
 
-def run(output='results', smoke=False):
+def run(output='results', smoke=False, resume_root=None):
     data = load_mnist_pilot('data/mnist', train_size=10000)
     if data['indices'] != json.loads((QT_EXTENDED / 'indices-10000.json').read_text()):
         raise ValueError('MNIST indices differ from the QT control study')
@@ -32,16 +32,32 @@ def run(output='results', smoke=False):
         milestones=[4] if smoke else [4000, 8000, 12000], smoke=smoke, train_size=10000,
         validation_size=200, batch_size=128, lr=.0001, test_access=False,
         method='direct rank-r factorization of target weights; no generator', status='running')
-    root = Path(output) / ('paper-lowrank-' + uuid.uuid4().hex[:10])
-    root.mkdir(parents=True)
-    write_json(root / 'protocol.json', protocol)
-    write_json(root / 'indices.json', data['indices'])
+    if resume_root:
+        root = Path(resume_root)
+        existing = json.loads((root / 'protocol.json').read_text())
+        for key in ('seeds', 'ranks', 'updates', 'eval_every', 'milestones', 'smoke', 'batch_size'):
+            if existing.get(key) != protocol.get(key):
+                raise ValueError(f'Resume protocol mismatch: {key}')
+        if json.loads((root / 'indices.json').read_text()) != data['indices']:
+            raise ValueError('Resume data indices mismatch')
+        protocol = existing
+        print('Resuming study', root, flush=True)
+    else:
+        root = Path(output) / ('paper-lowrank-' + uuid.uuid4().hex[:10])
+        root.mkdir(parents=True)
+        write_json(root / 'protocol.json', protocol)
+        write_json(root / 'indices.json', data['indices'])
+        write_json(root / 'status.json', {'status': 'running'})
     old = torch.get_num_threads()
     torch.set_num_threads(1)
     try:
         for seed in protocol['seeds']:
             for rank in ranks:
                 folder = root / f'rank{rank}-seed{seed}'
+                if (folder / 'result.json').exists() and json.loads(
+                        (folder / 'result.json').read_text()).get('status') == 'completed':
+                    print('skip completed', rank, seed, flush=True)
+                    continue
                 folder.mkdir(exist_ok=True)
                 resume = (folder / 'latest.pt').exists()
                 print('rank', rank, 'seed', seed, flush=True)
@@ -131,9 +147,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--smoke', action='store_true')
     parser.add_argument('--report')
+    parser.add_argument('--resume-root')
     parser.add_argument('--output', default='results')
     args = parser.parse_args()
     if args.report:
         report(args.report, args.output)
     else:
-        run(args.output, args.smoke)
+        run(args.output, args.smoke, args.resume_root)

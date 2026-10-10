@@ -1,5 +1,11 @@
 # 驗證紀錄
 
+## 完整MNIST訓練集覆蓋pilot（進行中）
+- 新增`load_mnist_full`：官方train(60000)分層切出54000train/6000validation；官方test不讀不下載；原`load_mnist_pilot`索引不變。
+- 3項資料測試通過（pilot索引與既有控制一致、full切分互斥分層且只用train檔）；成套79項pytest通過。
+- 修正：最終train指標改可選子集，避免對54000筆做全量評估拖慢QT106。
+- 真MNIST五條件smoke通過；單seed正式run於核心協定提交後背景啟動，未使用official test。
+
 ## 低秩直接訓練基準（完成）
 - 新增低秩模組：目標CNN權重以rank-r因子直接訓練，無生成器與量子電路；參數487·r+50（r=1→537、2→1024、3→1511、4→1998、6→2972）。
 - 4項測試通過（參數量、全秩精確重建、梯度、匯出一致、rank邊界）；成套pytest通過。

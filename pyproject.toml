@@ -2,6 +2,7 @@
 name = "quantumtrain-evaluation"
 version = "0.1.0"
 description = "Reproducible PennyLane QuantumTrain experiments and guided workbooks"
+license = "MIT"
 requires-python = ">=3.11,<3.12"
 dependencies = [
     "pennylane>=0.40",

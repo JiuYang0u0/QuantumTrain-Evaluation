@@ -57,7 +57,7 @@ uv run python -m qt_eval.progress results/<study目錄> --json
 | 論文稽核 | 原文參數—準確率取捨及來源差異，不是本機重現 | [表格](reports/paper-audit/audit.md) |
 | MNIST r3，10000筆／12000updates | QT16為457/6690=6.83%參數，best-validation平均76.00%；CNN96.33%，尚差20.33pp | [結果](reports/paper-data-extended/interpretation.md) |
 | QT106，10000筆／12000updates | 1627/6690=24.32%參數，best-validation平均90.00%；較QT16明顯換回精度（差距20.33pp→6.33pp），但成本約5.5×、seed變異更大 | [結果](reports/paper-depth/interpretation.md) |
-| 匹配預算古典特徵 | 固定投射＋softmax取代量子電路，可訓練數與QT16/QT106相同；判斷是否量子特有（進行中） | [協定](docs/paper-classical-protocol.md) |
+| 匹配預算古典特徵 | 固定投射＋softmax取代量子電路，可訓練數與QT16/QT106相同（457／1627）：量子版每個節點與seed都較高（+33.0／+37.5pp）；量子版慢得多 | [結果](reports/paper-classical/interpretation.md) |
 
 更多階段：[研究與協定索引](docs/research-index.md)。歷史完整入口內容移至[HISTORY](HISTORY.md)。狀態以進度工具與原始結果核對，不以README作即時監控。
 

@@ -1,9 +1,9 @@
 # 驗證紀錄
 
-## 匹配預算古典特徵對照（進行中）
+## 匹配預算古典特徵對照（完成）
 - 新增古典隨機特徵生成器：固定投射＋softmax取代量子電路，mapping與r3後處理不變；可訓練數精確對齊457/1627。
 - 4項針對性測試通過（mapping與量子相同且單一Tanh、參數量、梯度、softmax總和、匯出一致、非量子僅z可訓練）。
-- 真MNIST 2組smoke完成；單步遠快於量子（rf1378三seed估計約0.3小時）。正式6runs於核心協定提交後背景啟動，未使用official test。
+- 真MNIST 2組smoke完成；正式6runs完成（paper-classical-ea7265d9ee）。每個固定節點與seed，量子版都較高：457預算76.0%對43.0%（+33.0pp）、1627預算90.0%對52.5%（+37.5pp）；量子版CPU慢得多。限制見reports/paper-classical/interpretation.md。
 
 ## README導航與唯讀進度工具
 - README改為快速入口，舊內容保留HISTORY.md；新增reading-guide/research-index/progress-guide。四份入口的相對連結自動檢查無缺漏，Notebook本體未改動。

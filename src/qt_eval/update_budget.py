@@ -27,7 +27,7 @@ def data_digest(splits):
     return digest.hexdigest()
 
 
-def train_updates(model,splits,output,updates=4000,batch_size=128,eval_every=100,seed=11,milestones=(),resume=False):
+def train_updates(model,splits,output,updates=4000,batch_size=128,eval_every=100,seed=11,milestones=(),resume=False,train_eval_size=None):
     if set(splits)!={'train','validation'}:raise ValueError('Only train/validation accepted')
     if min(updates,batch_size,eval_every)<1:raise ValueError('Positive budgets required')
     if any(type(m)is not int or m<1 or m>updates or (m%eval_every and m!=updates) for m in milestones):
@@ -81,8 +81,17 @@ def train_updates(model,splits,output,updates=4000,batch_size=128,eval_every=100
                 optimizer_state=optimizer.state_dict(),sampler_rng=generator.get_state(),torch_rng=torch.get_rng_state(),
                 python_rng=random.getstate(),numpy_rng=(ns[0],ns[1].tolist(),ns[2],ns[3],ns[4]),
                 seen=seen,history=history,best_loss=best,best_checkpoint=best_checkpoint,train_seconds=elapsed),path/'latest.pt')
-    loaders={k:DataLoader(v,batch_size=batch_size) for k,v in splits.items()}
-    final={k:evaluate(model,v) for k,v in loaders.items()}
+    def train_loader():
+        if train_eval_size is None:
+            return DataLoader(splits['train'],batch_size=batch_size)
+        subset=torch.utils.data.TensorDataset(
+            *[t[:train_eval_size] for t in splits['train'].tensors])
+        return DataLoader(subset,batch_size=batch_size)
+    final={'train':evaluate(model,train_loader()),
+           'validation':evaluate(model,DataLoader(splits['validation'],batch_size=batch_size))}
     checkpoint=torch.load(path/'best.pt',weights_only=True);model.load_state_dict(checkpoint['model_state'])
     return dict(updates=updates,examples_seen=updates*batch_size,unique_examples_seen=int(seen.sum()),
-        history=history,best_update=checkpoint['update'],final=final,best={k:evaluate(model,v) for k,v in loaders.items()},train_seconds=elapsed)
+        history=history,best_update=checkpoint['update'],final=final,
+        best={'train':evaluate(model,train_loader()),
+              'validation':evaluate(model,DataLoader(splits['validation'],batch_size=batch_size))},
+        train_eval_size=train_eval_size,train_seconds=elapsed)

@@ -1,0 +1,1545 @@
+{
+  "protocol": {
+    "seeds": [
+      11
+    ],
+    "conditions": [
+      "cnn",
+      "lowrank3",
+      "lowrank4",
+      "qt16",
+      "qt106"
+    ],
+    "parameters": {
+      "cnn": 6690,
+      "lowrank3": 1511,
+      "lowrank4": 1998,
+      "qt16": 457,
+      "qt106": 1627
+    },
+    "updates": 12000,
+    "eval_every": 500,
+    "milestones": [
+      6000,
+      12000
+    ],
+    "smoke": false,
+    "train_size": 54000,
+    "validation_size": 6000,
+    "batch_size": 128,
+    "lr": 0.0001,
+    "test_access": false,
+    "train_eval_size": 2000,
+    "official_test_read": false,
+    "source": "train-carved validation; official test untouched",
+    "comparison": "same 12000-update budget as the 10000-image coverage result",
+    "status": "running"
+  },
+  "runs": [
+    {
+      "condition": "cnn",
+      "seed": 11,
+      "result": {
+        "status": "completed",
+        "seed": 11,
+        "condition": "cnn",
+        "parameters": 6690,
+        "export_delta": null,
+        "updates": 12000,
+        "examples_seen": 1536000,
+        "unique_examples_seen": 54000,
+        "history": [
+          {
+            "update": 500,
+            "last_batch_loss": 0.6154769879788939,
+            "validation": {
+              "loss": 0.5116112009649817,
+              "accuracy": 0.8576666666666667,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 1000,
+            "last_batch_loss": 0.31140042351377784,
+            "validation": {
+              "loss": 0.3212560390637601,
+              "accuracy": 0.9095,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 1500,
+            "last_batch_loss": 0.2857437733638224,
+            "validation": {
+              "loss": 0.24896644777699237,
+              "accuracy": 0.9291666666666667,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 2000,
+            "last_batch_loss": 0.12388021196044795,
+            "validation": {
+              "loss": 0.20744827484570572,
+              "accuracy": 0.9376666666666666,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 2500,
+            "last_batch_loss": 0.15473951511474693,
+            "validation": {
+              "loss": 0.17972979833491332,
+              "accuracy": 0.9458333333333333,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 3000,
+            "last_batch_loss": 0.1864713901049339,
+            "validation": {
+              "loss": 0.16022683938588322,
+              "accuracy": 0.951,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 3500,
+            "last_batch_loss": 0.1669414810249797,
+            "validation": {
+              "loss": 0.14449220733830728,
+              "accuracy": 0.958,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 4000,
+            "last_batch_loss": 0.08077728172895725,
+            "validation": {
+              "loss": 0.1322011951725042,
+              "accuracy": 0.9611666666666666,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 4500,
+            "last_batch_loss": 0.09895822315989193,
+            "validation": {
+              "loss": 0.12254482030068556,
+              "accuracy": 0.9635,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 5000,
+            "last_batch_loss": 0.08408235020218455,
+            "validation": {
+              "loss": 0.11534241981897658,
+              "accuracy": 0.9663333333333334,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 5500,
+            "last_batch_loss": 0.11036504723071253,
+            "validation": {
+              "loss": 0.10983188991209988,
+              "accuracy": 0.9665,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 6000,
+            "last_batch_loss": 0.14425635567499806,
+            "validation": {
+              "loss": 0.10337937025091516,
+              "accuracy": 0.9698333333333333,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 6500,
+            "last_batch_loss": 0.07069143031706189,
+            "validation": {
+              "loss": 0.09880100698024726,
+              "accuracy": 0.9715,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 7000,
+            "last_batch_loss": 0.08546138824447985,
+            "validation": {
+              "loss": 0.09552644561713172,
+              "accuracy": 0.9705,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 7500,
+            "last_batch_loss": 0.17821711731648002,
+            "validation": {
+              "loss": 0.09083373902964259,
+              "accuracy": 0.9723333333333334,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 8000,
+            "last_batch_loss": 0.030310258619694365,
+            "validation": {
+              "loss": 0.08893581135365934,
+              "accuracy": 0.9735,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 8500,
+            "last_batch_loss": 0.07813200791707088,
+            "validation": {
+              "loss": 0.08842432144421616,
+              "accuracy": 0.9736666666666667,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 9000,
+            "last_batch_loss": 0.042063194365638976,
+            "validation": {
+              "loss": 0.08529618083189393,
+              "accuracy": 0.9736666666666667,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 9500,
+            "last_batch_loss": 0.05305706349103839,
+            "validation": {
+              "loss": 0.08184181934416586,
+              "accuracy": 0.9751666666666666,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 10000,
+            "last_batch_loss": 0.08784735337597631,
+            "validation": {
+              "loss": 0.07929919362656235,
+              "accuracy": 0.9751666666666666,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 10500,
+            "last_batch_loss": 0.053178672573334265,
+            "validation": {
+              "loss": 0.07943658460676509,
+              "accuracy": 0.9755,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 11000,
+            "last_batch_loss": 0.014481411861933673,
+            "validation": {
+              "loss": 0.07774718696092713,
+              "accuracy": 0.976,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 11500,
+            "last_batch_loss": 0.047709286106282875,
+            "validation": {
+              "loss": 0.0750486768460841,
+              "accuracy": 0.9768333333333333,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 12000,
+            "last_batch_loss": 0.04194329035715023,
+            "validation": {
+              "loss": 0.07372831086860322,
+              "accuracy": 0.977,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          }
+        ],
+        "best_update": 12000,
+        "final": {
+          "train": {
+            "loss": 0.04936958933465315,
+            "accuracy": 0.985,
+            "sample_count": 2000
+          },
+          "validation": {
+            "loss": 0.07372831086860322,
+            "accuracy": 0.977,
+            "sample_count": 6000
+          }
+        },
+        "best": {
+          "train": {
+            "loss": 0.04936958933465315,
+            "accuracy": 0.985,
+            "sample_count": 2000
+          },
+          "validation": {
+            "loss": 0.07372831086860322,
+            "accuracy": 0.977,
+            "sample_count": 6000
+          }
+        },
+        "train_eval_size": 2000,
+        "train_seconds": 272.9729644985928
+      },
+      "environment": {
+        "python": "3.11.15",
+        "platform": "Windows-10-10.0.26200-SP0",
+        "cpu": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+        "device": "cpu",
+        "threads": 1,
+        "dtype": "float64",
+        "source_commit": "d5b654116565ae9550e540e021ab0d4160a15c86",
+        "project_commit": "c83f665dc55119cf24b3d470c9f7a821921ae1f1",
+        "working_tree": "",
+        "packages": {
+          "torch": "2.14.1+cpu",
+          "pennylane": "0.45.1",
+          "numpy": "2.4.6",
+          "scikit-learn": "1.9.1",
+          "pandas": "3.0.6"
+        }
+      }
+    },
+    {
+      "condition": "lowrank3",
+      "seed": 11,
+      "result": {
+        "status": "completed",
+        "seed": 11,
+        "condition": "lowrank3",
+        "parameters": 1511,
+        "export_delta": 0.0,
+        "updates": 12000,
+        "examples_seen": 1536000,
+        "unique_examples_seen": 54000,
+        "history": [
+          {
+            "update": 500,
+            "last_batch_loss": 1.6795119875935267,
+            "validation": {
+              "loss": 1.6229800388874416,
+              "accuracy": 0.4015,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 1000,
+            "last_batch_loss": 1.4111036891701412,
+            "validation": {
+              "loss": 1.318705464926301,
+              "accuracy": 0.5353333333333333,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 1500,
+            "last_batch_loss": 1.1764571216476347,
+            "validation": {
+              "loss": 1.1300906937939377,
+              "accuracy": 0.614,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 2000,
+            "last_batch_loss": 0.843430529357797,
+            "validation": {
+              "loss": 0.9798056345186564,
+              "accuracy": 0.691,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 2500,
+            "last_batch_loss": 0.8048452252896191,
+            "validation": {
+              "loss": 0.875141178862155,
+              "accuracy": 0.7361666666666666,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 3000,
+            "last_batch_loss": 1.0574681806194646,
+            "validation": {
+              "loss": 0.8062226972429748,
+              "accuracy": 0.7618333333333334,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 3500,
+            "last_batch_loss": 0.7530209770675224,
+            "validation": {
+              "loss": 0.7526528285614713,
+              "accuracy": 0.7755,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 4000,
+            "last_batch_loss": 0.8043383122454064,
+            "validation": {
+              "loss": 0.7115364030136351,
+              "accuracy": 0.7923333333333333,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 4500,
+            "last_batch_loss": 0.5984450036292502,
+            "validation": {
+              "loss": 0.6777176572166587,
+              "accuracy": 0.8046666666666666,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 5000,
+            "last_batch_loss": 0.8171282435734848,
+            "validation": {
+              "loss": 0.6503942073419912,
+              "accuracy": 0.8123333333333334,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 5500,
+            "last_batch_loss": 0.7060197169628145,
+            "validation": {
+              "loss": 0.6262729204317609,
+              "accuracy": 0.8148333333333333,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 6000,
+            "last_batch_loss": 0.6037818311396658,
+            "validation": {
+              "loss": 0.6044533232172331,
+              "accuracy": 0.8216666666666667,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 6500,
+            "last_batch_loss": 0.4835047240833984,
+            "validation": {
+              "loss": 0.5864645737617634,
+              "accuracy": 0.8281666666666667,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 7000,
+            "last_batch_loss": 0.4625976390809279,
+            "validation": {
+              "loss": 0.5709309800060071,
+              "accuracy": 0.834,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 7500,
+            "last_batch_loss": 0.6701019288799784,
+            "validation": {
+              "loss": 0.5569919640752131,
+              "accuracy": 0.8368333333333333,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 8000,
+            "last_batch_loss": 0.5779536058170206,
+            "validation": {
+              "loss": 0.5473669147159774,
+              "accuracy": 0.841,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 8500,
+            "last_batch_loss": 0.3952827870001231,
+            "validation": {
+              "loss": 0.5414892759590243,
+              "accuracy": 0.8416666666666667,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 9000,
+            "last_batch_loss": 0.5029950387234731,
+            "validation": {
+              "loss": 0.5258386445670058,
+              "accuracy": 0.8475,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 9500,
+            "last_batch_loss": 0.4331637027321598,
+            "validation": {
+              "loss": 0.5170074744053386,
+              "accuracy": 0.851,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 10000,
+            "last_batch_loss": 0.4947389591782528,
+            "validation": {
+              "loss": 0.5088923205131266,
+              "accuracy": 0.8515,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 10500,
+            "last_batch_loss": 0.49902187220683475,
+            "validation": {
+              "loss": 0.5021734573120442,
+              "accuracy": 0.8561666666666666,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 11000,
+            "last_batch_loss": 0.5055423319660539,
+            "validation": {
+              "loss": 0.49486100090519447,
+              "accuracy": 0.8588333333333333,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 11500,
+            "last_batch_loss": 0.42494892186464445,
+            "validation": {
+              "loss": 0.48944764892780795,
+              "accuracy": 0.8608333333333333,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 12000,
+            "last_batch_loss": 0.5117477021849609,
+            "validation": {
+              "loss": 0.4811396847453747,
+              "accuracy": 0.8611666666666666,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          }
+        ],
+        "best_update": 12000,
+        "final": {
+          "train": {
+            "loss": 0.48879133026926896,
+            "accuracy": 0.861,
+            "sample_count": 2000
+          },
+          "validation": {
+            "loss": 0.4811396847453747,
+            "accuracy": 0.8611666666666666,
+            "sample_count": 6000
+          }
+        },
+        "best": {
+          "train": {
+            "loss": 0.48879133026926896,
+            "accuracy": 0.861,
+            "sample_count": 2000
+          },
+          "validation": {
+            "loss": 0.4811396847453747,
+            "accuracy": 0.8611666666666666,
+            "sample_count": 6000
+          }
+        },
+        "train_eval_size": 2000,
+        "train_seconds": 265.64358529879246
+      },
+      "environment": {
+        "python": "3.11.15",
+        "platform": "Windows-10-10.0.26200-SP0",
+        "cpu": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+        "device": "cpu",
+        "threads": 1,
+        "dtype": "float64",
+        "source_commit": "d5b654116565ae9550e540e021ab0d4160a15c86",
+        "project_commit": "aafb185595e807804a6623216655ab048edece0f",
+        "working_tree": "",
+        "packages": {
+          "torch": "2.14.1+cpu",
+          "pennylane": "0.45.1",
+          "numpy": "2.4.6",
+          "scikit-learn": "1.9.1",
+          "pandas": "3.0.6"
+        }
+      }
+    },
+    {
+      "condition": "lowrank4",
+      "seed": 11,
+      "result": {
+        "status": "completed",
+        "seed": 11,
+        "condition": "lowrank4",
+        "parameters": 1998,
+        "export_delta": 0.0,
+        "updates": 12000,
+        "examples_seen": 1536000,
+        "unique_examples_seen": 54000,
+        "history": [
+          {
+            "update": 500,
+            "last_batch_loss": 1.642285126931508,
+            "validation": {
+              "loss": 1.613449968441965,
+              "accuracy": 0.38766666666666666,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 1000,
+            "last_batch_loss": 1.1391331713980009,
+            "validation": {
+              "loss": 1.0666648216847159,
+              "accuracy": 0.6468333333333334,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 1500,
+            "last_batch_loss": 0.9788920271216313,
+            "validation": {
+              "loss": 0.8614166262360295,
+              "accuracy": 0.7258333333333333,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 2000,
+            "last_batch_loss": 0.5821715378569237,
+            "validation": {
+              "loss": 0.7285339561677238,
+              "accuracy": 0.7795,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 2500,
+            "last_batch_loss": 0.5573253736405369,
+            "validation": {
+              "loss": 0.640266640122598,
+              "accuracy": 0.8115,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 3000,
+            "last_batch_loss": 0.6656417682406705,
+            "validation": {
+              "loss": 0.5798082725268536,
+              "accuracy": 0.8298333333333333,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 3500,
+            "last_batch_loss": 0.5700281449061132,
+            "validation": {
+              "loss": 0.5373255312022353,
+              "accuracy": 0.8465,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 4000,
+            "last_batch_loss": 0.5528949491850675,
+            "validation": {
+              "loss": 0.5040969426621333,
+              "accuracy": 0.8556666666666667,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 4500,
+            "last_batch_loss": 0.46582997358856476,
+            "validation": {
+              "loss": 0.4787602059269706,
+              "accuracy": 0.8611666666666666,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 5000,
+            "last_batch_loss": 0.4682070488618652,
+            "validation": {
+              "loss": 0.46093937262287665,
+              "accuracy": 0.869,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 5500,
+            "last_batch_loss": 0.45311022260091693,
+            "validation": {
+              "loss": 0.44124005139412975,
+              "accuracy": 0.875,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 6000,
+            "last_batch_loss": 0.5132367894810705,
+            "validation": {
+              "loss": 0.42518488558300493,
+              "accuracy": 0.88,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 6500,
+            "last_batch_loss": 0.3656442850872055,
+            "validation": {
+              "loss": 0.41023411224935924,
+              "accuracy": 0.8865,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 7000,
+            "last_batch_loss": 0.32556491055610465,
+            "validation": {
+              "loss": 0.3979647238084992,
+              "accuracy": 0.8901666666666667,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 7500,
+            "last_batch_loss": 0.4634492063777957,
+            "validation": {
+              "loss": 0.38659464957610057,
+              "accuracy": 0.8925,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 8000,
+            "last_batch_loss": 0.33679415356667886,
+            "validation": {
+              "loss": 0.3755871605475731,
+              "accuracy": 0.8965,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 8500,
+            "last_batch_loss": 0.3087010577141926,
+            "validation": {
+              "loss": 0.3665218031511994,
+              "accuracy": 0.8988333333333334,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 9000,
+            "last_batch_loss": 0.34443640808061493,
+            "validation": {
+              "loss": 0.3558741411268379,
+              "accuracy": 0.8985,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 9500,
+            "last_batch_loss": 0.39819743814760217,
+            "validation": {
+              "loss": 0.3485526211598422,
+              "accuracy": 0.9011666666666667,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 10000,
+            "last_batch_loss": 0.41537576628237366,
+            "validation": {
+              "loss": 0.34023726396532566,
+              "accuracy": 0.9015,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 10500,
+            "last_batch_loss": 0.31642951415045123,
+            "validation": {
+              "loss": 0.33322373516837117,
+              "accuracy": 0.9041666666666667,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 11000,
+            "last_batch_loss": 0.20804059968558392,
+            "validation": {
+              "loss": 0.32690170359507337,
+              "accuracy": 0.9066666666666666,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 11500,
+            "last_batch_loss": 0.25094402126400067,
+            "validation": {
+              "loss": 0.32009333105318194,
+              "accuracy": 0.9091666666666667,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          },
+          {
+            "update": 12000,
+            "last_batch_loss": 0.269528655440865,
+            "validation": {
+              "loss": 0.3116834030247431,
+              "accuracy": 0.911,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": null
+          }
+        ],
+        "best_update": 12000,
+        "final": {
+          "train": {
+            "loss": 0.2994574245097837,
+            "accuracy": 0.92,
+            "sample_count": 2000
+          },
+          "validation": {
+            "loss": 0.3116834030247431,
+            "accuracy": 0.911,
+            "sample_count": 6000
+          }
+        },
+        "best": {
+          "train": {
+            "loss": 0.2994574245097837,
+            "accuracy": 0.92,
+            "sample_count": 2000
+          },
+          "validation": {
+            "loss": 0.3116834030247431,
+            "accuracy": 0.911,
+            "sample_count": 6000
+          }
+        },
+        "train_eval_size": 2000,
+        "train_seconds": 265.5647054016008
+      },
+      "environment": {
+        "python": "3.11.15",
+        "platform": "Windows-10-10.0.26200-SP0",
+        "cpu": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+        "device": "cpu",
+        "threads": 1,
+        "dtype": "float64",
+        "source_commit": "d5b654116565ae9550e540e021ab0d4160a15c86",
+        "project_commit": "aafb185595e807804a6623216655ab048edece0f",
+        "working_tree": "",
+        "packages": {
+          "torch": "2.14.1+cpu",
+          "pennylane": "0.45.1",
+          "numpy": "2.4.6",
+          "scikit-learn": "1.9.1",
+          "pandas": "3.0.6"
+        }
+      }
+    },
+    {
+      "condition": "qt16",
+      "seed": 11,
+      "result": {
+        "status": "completed",
+        "seed": 11,
+        "condition": "qt16",
+        "parameters": 457,
+        "export_delta": 0.0,
+        "updates": 12000,
+        "examples_seen": 1536000,
+        "unique_examples_seen": 54000,
+        "history": [
+          {
+            "update": 500,
+            "last_batch_loss": 2.250632849526545,
+            "validation": {
+              "loss": 2.193426278395611,
+              "accuracy": 0.21683333333333332,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 0.28529955357264053
+          },
+          {
+            "update": 1000,
+            "last_batch_loss": 2.2507320449084998,
+            "validation": {
+              "loss": 2.1567471846770725,
+              "accuracy": 0.18733333333333332,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 0.6105092449654949
+          },
+          {
+            "update": 1500,
+            "last_batch_loss": 2.11278468555508,
+            "validation": {
+              "loss": 2.114118450133237,
+              "accuracy": 0.21883333333333332,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 2.552169956587918
+          },
+          {
+            "update": 2000,
+            "last_batch_loss": 1.9648816572501153,
+            "validation": {
+              "loss": 2.0430043741500756,
+              "accuracy": 0.262,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 1.8917754199844912
+          },
+          {
+            "update": 2500,
+            "last_batch_loss": 1.9825854832669758,
+            "validation": {
+              "loss": 1.9486414096065774,
+              "accuracy": 0.30366666666666664,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 2.839551248095964
+          },
+          {
+            "update": 3000,
+            "last_batch_loss": 1.9402556164274225,
+            "validation": {
+              "loss": 1.8553350246699722,
+              "accuracy": 0.358,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 2.7507052677065555
+          },
+          {
+            "update": 3500,
+            "last_batch_loss": 1.6812880981281182,
+            "validation": {
+              "loss": 1.7586061324853417,
+              "accuracy": 0.399,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 4.639219327422271
+          },
+          {
+            "update": 4000,
+            "last_batch_loss": 1.6034199644763676,
+            "validation": {
+              "loss": 1.665239262282638,
+              "accuracy": 0.45466666666666666,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 9.154848660586232
+          },
+          {
+            "update": 4500,
+            "last_batch_loss": 1.4039765452716642,
+            "validation": {
+              "loss": 1.5580717732463734,
+              "accuracy": 0.48683333333333334,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 5.038464477372508
+          },
+          {
+            "update": 5000,
+            "last_batch_loss": 1.4048024192193242,
+            "validation": {
+              "loss": 1.442857633964384,
+              "accuracy": 0.5261666666666667,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 8.513051769486143
+          },
+          {
+            "update": 5500,
+            "last_batch_loss": 1.2339126753940675,
+            "validation": {
+              "loss": 1.3519223113830534,
+              "accuracy": 0.5658333333333333,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 8.69548112869964
+          },
+          {
+            "update": 6000,
+            "last_batch_loss": 1.3674062792537363,
+            "validation": {
+              "loss": 1.2531555803166357,
+              "accuracy": 0.6006666666666667,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 7.726843975659625
+          },
+          {
+            "update": 6500,
+            "last_batch_loss": 1.0338547907324345,
+            "validation": {
+              "loss": 1.1634920582398836,
+              "accuracy": 0.6221666666666666,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 9.66204217560378
+          },
+          {
+            "update": 7000,
+            "last_batch_loss": 0.9649614555423005,
+            "validation": {
+              "loss": 1.0889928916213847,
+              "accuracy": 0.6548333333333334,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 10.343451987618772
+          },
+          {
+            "update": 7500,
+            "last_batch_loss": 1.0205024677967212,
+            "validation": {
+              "loss": 1.0324962468457783,
+              "accuracy": 0.6698333333333333,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 16.40580052095165
+          },
+          {
+            "update": 8000,
+            "last_batch_loss": 1.03286589285702,
+            "validation": {
+              "loss": 0.9797040611555937,
+              "accuracy": 0.6933333333333334,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 18.11126585319907
+          },
+          {
+            "update": 8500,
+            "last_batch_loss": 0.836976799888989,
+            "validation": {
+              "loss": 0.9221371340441131,
+              "accuracy": 0.7151666666666666,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 18.338749533266217
+          },
+          {
+            "update": 9000,
+            "last_batch_loss": 0.8564666886309285,
+            "validation": {
+              "loss": 0.8740492163623973,
+              "accuracy": 0.729,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 17.912849645866835
+          },
+          {
+            "update": 9500,
+            "last_batch_loss": 0.7364886795184993,
+            "validation": {
+              "loss": 0.8402570813896488,
+              "accuracy": 0.739,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 10.227962775213248
+          },
+          {
+            "update": 10000,
+            "last_batch_loss": 0.8945708312766887,
+            "validation": {
+              "loss": 0.8033355864367789,
+              "accuracy": 0.7538333333333334,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 14.632969425804784
+          },
+          {
+            "update": 10500,
+            "last_batch_loss": 0.803163898513137,
+            "validation": {
+              "loss": 0.7751380754791444,
+              "accuracy": 0.761,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 20.07178205188165
+          },
+          {
+            "update": 11000,
+            "last_batch_loss": 0.7538422985100198,
+            "validation": {
+              "loss": 0.752806425045381,
+              "accuracy": 0.7673333333333333,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 18.13224073897155
+          },
+          {
+            "update": 11500,
+            "last_batch_loss": 0.6686514187048705,
+            "validation": {
+              "loss": 0.7269438622832448,
+              "accuracy": 0.7758333333333334,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 12.780863812849569
+          },
+          {
+            "update": 12000,
+            "last_batch_loss": 0.6339344978472681,
+            "validation": {
+              "loss": 0.7065338863098768,
+              "accuracy": 0.7791666666666667,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 10.597254404286188
+          }
+        ],
+        "best_update": 12000,
+        "final": {
+          "train": {
+            "loss": 0.6887975516182301,
+            "accuracy": 0.788,
+            "sample_count": 2000
+          },
+          "validation": {
+            "loss": 0.7065338863098768,
+            "accuracy": 0.7791666666666667,
+            "sample_count": 6000
+          }
+        },
+        "best": {
+          "train": {
+            "loss": 0.6887975516182301,
+            "accuracy": 0.788,
+            "sample_count": 2000
+          },
+          "validation": {
+            "loss": 0.7065338863098768,
+            "accuracy": 0.7791666666666667,
+            "sample_count": 6000
+          }
+        },
+        "train_eval_size": 2000,
+        "train_seconds": 2135.829322299658
+      },
+      "environment": {
+        "python": "3.11.15",
+        "platform": "Windows-10-10.0.26200-SP0",
+        "cpu": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+        "device": "cpu",
+        "threads": 1,
+        "dtype": "float64",
+        "source_commit": "d5b654116565ae9550e540e021ab0d4160a15c86",
+        "project_commit": "aafb185595e807804a6623216655ab048edece0f",
+        "working_tree": "",
+        "packages": {
+          "torch": "2.14.1+cpu",
+          "pennylane": "0.45.1",
+          "numpy": "2.4.6",
+          "scikit-learn": "1.9.1",
+          "pandas": "3.0.6"
+        }
+      }
+    },
+    {
+      "condition": "qt106",
+      "seed": 11,
+      "result": {
+        "status": "completed",
+        "seed": 11,
+        "condition": "qt106",
+        "parameters": 1627,
+        "export_delta": 0.0,
+        "updates": 12000,
+        "examples_seen": 1536000,
+        "unique_examples_seen": 54000,
+        "history": [
+          {
+            "update": 500,
+            "last_batch_loss": 2.297733368357167,
+            "validation": {
+              "loss": 2.295476353075235,
+              "accuracy": 0.09933333333333333,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 0.07383845917382009
+          },
+          {
+            "update": 1000,
+            "last_batch_loss": 2.200289621720239,
+            "validation": {
+              "loss": 2.140626752180066,
+              "accuracy": 0.221,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 2.589504890490048
+          },
+          {
+            "update": 1500,
+            "last_batch_loss": 1.6919278584307083,
+            "validation": {
+              "loss": 1.6486890941309957,
+              "accuracy": 0.4603333333333333,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 9.779787086135324
+          },
+          {
+            "update": 2000,
+            "last_batch_loss": 0.8432682192551221,
+            "validation": {
+              "loss": 1.1278044516432173,
+              "accuracy": 0.6345,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 19.74820003737628
+          },
+          {
+            "update": 2500,
+            "last_batch_loss": 0.7818946430102602,
+            "validation": {
+              "loss": 0.7980433825227734,
+              "accuracy": 0.7566666666666667,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 46.13469573854659
+          },
+          {
+            "update": 3000,
+            "last_batch_loss": 0.816106370603603,
+            "validation": {
+              "loss": 0.6060491335540332,
+              "accuracy": 0.8156666666666667,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 35.94264708002427
+          },
+          {
+            "update": 3500,
+            "last_batch_loss": 0.6761469649792998,
+            "validation": {
+              "loss": 0.5399053264540811,
+              "accuracy": 0.8345,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 35.235311203344594
+          },
+          {
+            "update": 4000,
+            "last_batch_loss": 0.5703615968723051,
+            "validation": {
+              "loss": 0.4555754941554342,
+              "accuracy": 0.864,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 25.929773809584894
+          },
+          {
+            "update": 4500,
+            "last_batch_loss": 0.3211865321033072,
+            "validation": {
+              "loss": 0.4234678719469272,
+              "accuracy": 0.877,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 26.465498480607323
+          },
+          {
+            "update": 5000,
+            "last_batch_loss": 0.46273131755441754,
+            "validation": {
+              "loss": 0.3908090335751543,
+              "accuracy": 0.8868333333333334,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 39.02096096532235
+          },
+          {
+            "update": 5500,
+            "last_batch_loss": 0.4014282623329204,
+            "validation": {
+              "loss": 0.3579087903277167,
+              "accuracy": 0.8978333333333334,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 30.14528619731585
+          },
+          {
+            "update": 6000,
+            "last_batch_loss": 0.37537946305195746,
+            "validation": {
+              "loss": 0.33834058332806527,
+              "accuracy": 0.9036666666666666,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 28.856549601884993
+          },
+          {
+            "update": 6500,
+            "last_batch_loss": 0.2825274042348214,
+            "validation": {
+              "loss": 0.33894517189791007,
+              "accuracy": 0.9021666666666667,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 25.363185277882614
+          },
+          {
+            "update": 7000,
+            "last_batch_loss": 0.36856087689674083,
+            "validation": {
+              "loss": 0.3179056186876463,
+              "accuracy": 0.9078333333333334,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 37.41719461923477
+          },
+          {
+            "update": 7500,
+            "last_batch_loss": 0.41913989958229647,
+            "validation": {
+              "loss": 0.294328106418018,
+              "accuracy": 0.9183333333333333,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 24.724781972764557
+          },
+          {
+            "update": 8000,
+            "last_batch_loss": 0.20082081156443538,
+            "validation": {
+              "loss": 0.28633455916475103,
+              "accuracy": 0.922,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 19.508377968675795
+          },
+          {
+            "update": 8500,
+            "last_batch_loss": 0.19333118050420534,
+            "validation": {
+              "loss": 0.27458174147990777,
+              "accuracy": 0.9208333333333333,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 20.88650736426041
+          },
+          {
+            "update": 9000,
+            "last_batch_loss": 0.17750988069540913,
+            "validation": {
+              "loss": 0.25760231482889795,
+              "accuracy": 0.9276666666666666,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 22.913218212753804
+          },
+          {
+            "update": 9500,
+            "last_batch_loss": 0.23027577109544511,
+            "validation": {
+              "loss": 0.25114233573093386,
+              "accuracy": 0.93,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 17.103451583640492
+          },
+          {
+            "update": 10000,
+            "last_batch_loss": 0.3758865205132878,
+            "validation": {
+              "loss": 0.25540947319917967,
+              "accuracy": 0.9276666666666666,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 33.89110244064481
+          },
+          {
+            "update": 10500,
+            "last_batch_loss": 0.21257906594960566,
+            "validation": {
+              "loss": 0.24116564537790186,
+              "accuracy": 0.931,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 26.40681532941224
+          },
+          {
+            "update": 11000,
+            "last_batch_loss": 0.1358050058660483,
+            "validation": {
+              "loss": 0.22888331521486832,
+              "accuracy": 0.932,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 23.837154686902124
+          },
+          {
+            "update": 11500,
+            "last_batch_loss": 0.18920612975415005,
+            "validation": {
+              "loss": 0.21644201526105944,
+              "accuracy": 0.9373333333333334,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 28.527841387726536
+          },
+          {
+            "update": 12000,
+            "last_batch_loss": 0.19727345492899184,
+            "validation": {
+              "loss": 0.2100263326432881,
+              "accuracy": 0.939,
+              "sample_count": 6000
+            },
+            "quantum_last_batch_grad_norm": 14.659487094544208
+          }
+        ],
+        "best_update": 12000,
+        "final": {
+          "train": {
+            "loss": 0.2040089140924377,
+            "accuracy": 0.936,
+            "sample_count": 2000
+          },
+          "validation": {
+            "loss": 0.2100263326432881,
+            "accuracy": 0.939,
+            "sample_count": 6000
+          }
+        },
+        "best": {
+          "train": {
+            "loss": 0.2040089140924377,
+            "accuracy": 0.936,
+            "sample_count": 2000
+          },
+          "validation": {
+            "loss": 0.2100263326432881,
+            "accuracy": 0.939,
+            "sample_count": 6000
+          }
+        },
+        "train_eval_size": 2000,
+        "train_seconds": 13002.924722399504
+      },
+      "environment": {
+        "python": "3.11.15",
+        "platform": "Windows-10-10.0.26200-SP0",
+        "cpu": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+        "device": "cpu",
+        "threads": 1,
+        "dtype": "float64",
+        "source_commit": "d5b654116565ae9550e540e021ab0d4160a15c86",
+        "project_commit": "aafb185595e807804a6623216655ab048edece0f",
+        "working_tree": "",
+        "packages": {
+          "torch": "2.14.1+cpu",
+          "pennylane": "0.45.1",
+          "numpy": "2.4.6",
+          "scikit-learn": "1.9.1",
+          "pandas": "3.0.6"
+        }
+      }
+    }
+  ]
+}

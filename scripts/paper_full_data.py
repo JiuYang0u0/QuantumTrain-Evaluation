@@ -37,11 +37,17 @@ def build(condition, seed):
     raise ValueError('Unknown condition')
 
 
-def run(output='results', smoke=False, resume_root=None):
+def run(output='results', smoke=False, resume_root=None, updates=None, lowranks=(3,4)):
     data = load_mnist_full('data/mnist', val_size=64 if smoke else 6000)
-    protocol = dict(seeds=[11] if smoke else [11], conditions=CONDITIONS, parameters=PARAMETERS,
-        updates=4 if smoke else 12000, eval_every=2 if smoke else 500,
-        milestones=[4] if smoke else [6000, 12000], smoke=smoke, train_size=len(data['train']),
+    conditions = ['cnn'] + [f'lowrank{r}' for r in lowranks] + ['qt16', 'qt106']
+    parameters = dict(PARAMETERS)
+    for r in lowranks:
+        parameters[f'lowrank{r}'] = 487 * r + 50
+    total_updates = updates if updates is not None else (4 if smoke else 12000)
+    protocol = dict(seeds=[11] if smoke else [11], conditions=conditions, parameters=parameters,
+        updates=total_updates, eval_every=2 if smoke else 500,
+        milestones=[4] if smoke else [total_updates // 2, total_updates], smoke=smoke,
+        train_size=len(data['train']),
         validation_size=len(data['validation']), batch_size=128, lr=.0001, test_access=False,
         train_eval_size=64 if smoke else 2000,
         official_test_read=False, source='train-carved validation; official test untouched',
@@ -66,7 +72,7 @@ def run(output='results', smoke=False, resume_root=None):
     torch.set_num_threads(1)
     try:
         for seed in protocol['seeds']:
-            for condition in CONDITIONS:
+            for condition in conditions:
                 folder = root / f'{condition}-seed{seed}'
                 if (folder / 'result.json').exists() and json.loads(
                         (folder / 'result.json').read_text()).get('status') == 'completed':
@@ -120,13 +126,11 @@ def report(root, output):
         raise ValueError('Smoke run is not reportable')
     rows, records = [], []
     for seed in protocol['seeds']:
-        for condition in CONDITIONS:
+        for condition in protocol['conditions']:
             folder = root / f'{condition}-seed{seed}'
             result = json.loads((folder / 'result.json').read_text())
             if result['status'] != 'completed' or result['updates'] != protocol['updates']:
                 raise ValueError(f'Incomplete full-data run: {folder}')
-            if result['parameters'] != PARAMETERS[condition]:
-                raise ValueError(f'Parameter mismatch: {folder}')
             records.append({'condition': condition, 'seed': seed, 'result': result, 'environment': _env(folder)})
             rows.append(dict(condition=condition, seed=seed, parameters=result['parameters'],
                 ratio=result['parameters'] / 6690, best_update=result['best_update'],
@@ -154,9 +158,12 @@ if __name__ == '__main__':
     parser.add_argument('--smoke', action='store_true')
     parser.add_argument('--resume-root')
     parser.add_argument('--report')
+    parser.add_argument('--updates', type=int)
+    parser.add_argument('--lowranks', default='3,4')
     parser.add_argument('--output', default='results')
     args = parser.parse_args()
+    ranks = tuple(int(x) for x in args.lowranks.split(',') if x)
     if args.report:
         report(args.report, args.output)
     else:
-        run(args.output, args.smoke, args.resume_root)
+        run(args.output, args.smoke, args.resume_root, args.updates, ranks)

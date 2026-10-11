@@ -60,6 +60,7 @@ uv run python -m qt_eval.progress results/<study目錄> --json
 | 匹配預算古典特徵 | 固定投射＋softmax取代量子電路，可訓練數與QT16/QT106相同（457／1627）：量子版每個節點與seed都較高（+33.0／+37.5pp）；量子版慢得多 | [結果](reports/paper-classical/interpretation.md) |
 | 低秩直接訓練基準 | 更強古典壓縮：rank-r 直接訓練目標CNN權重，r=1/2/3/4/6（537–2972參數）。極低預算量子大幅領先（457預算76.0%對約32%）；約1627時QT106 90.0%對低秩約86.4%，低秩需約1998才達90%。量子優勢隨預算縮小 | [結果](reports/paper-lowrank/interpretation.md) |
 | 完整MNIST覆蓋pilot | 54000 train／6000 validation（官方test未讀），相同12000更新、單seed：CNN97.7%、QT106 93.9%（24.32%參數）、低秩r=4 91.1%、低秩r=3 86.1%、QT16 77.9%。量子參數效率領先，中高預算更明顯 | [結果](reports/paper-full-data/interpretation.md) |
+| 官方test一次性凍結評估 | 訓練後單次評估：CNN97.95%、QT106 93.62%（24.32%）、低秩r=4 91.34%（29.87%）、r=3 86.30%、QT16 78.77%。與validation相差0.3–0.9pp；QT106以較少參數超過低秩r=4 | [結果](reports/final-test/interpretation.md) |
 
 更多階段：[研究與協定索引](docs/research-index.md)。歷史完整入口內容移至[HISTORY](HISTORY.md)。狀態以進度工具與原始結果核對，不以README作即時監控。
 

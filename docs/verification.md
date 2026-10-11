@@ -1,7 +1,11 @@
 # 驗證紀錄
 
-## 完整MNIST訓練集覆蓋pilot（完成）
-- 新增`load_mnist_full`：官方train(60000)分層切出54000train/6000validation；官方test不讀不下載；原`load_mnist_pilot`索引不變。
+## 官方test一次性凍結評估（完成）
+- 新增`load_mnist_test`與`final_test_eval`：訓練一律不讀官方test；評估只做一次並記錄`official_test_read=True`。鏡像gzip雜湊與經典MNIST不同，改以解碼內容驗證（IDX標頭、標籤直方圖、像素範圍）。
+- 2項測試通過；成套81項pytest通過。
+- 對paper-full-a2b562c3a9完成一次性評估：CNN97.95%、QT106 93.62%、低秩r=4 91.34%、r=3 86.30%、QT16 78.77%；與validation差0.3–0.9pp，所有QT export delta0。解讀見reports/final-test/interpretation.md。協定見paper-final-test-protocol.md。
+
+## 完整MNIST訓練集覆蓋pilot（完成）- 新增`load_mnist_full`：官方train(60000)分層切出54000train/6000validation；官方test不讀不下載；原`load_mnist_pilot`索引不變。
 - 3項資料測試通過；成套79項pytest通過。最終train指標改可選子集，避免對54000筆做全量評估。
 - 正式5/5完成（paper-full-a2b562c3a9）：CNN97.7%、QT106 93.9%（24.32%）、低秩r=4 91.1%、r=3 86.1%、QT16 77.9%。量子參數效率領先保留且中高預算更明顯（QT106比低秩r=4少約19%參數仍高2.8pp）。單seed、train-carved validation、12000updates；非論文50epochs與official test。報告reports/paper-full-data/interpretation.md。
 

@@ -44,24 +44,31 @@ def run(output='results', smoke=False, resume_root=None, updates=None, lowranks=
     for r in lowranks:
         parameters[f'lowrank{r}'] = 487 * r + 50
     total_updates = updates if updates is not None else (4 if smoke else 12000)
+    eval_every = 2 if smoke else min(500, max(1, total_updates // 4))
+    half = total_updates // 2
+    half_aligned = max(eval_every, half - (half % eval_every))
+    milestones = [4] if smoke else [m for m in (half_aligned, total_updates) if m <= total_updates]
     protocol = dict(seeds=[11] if smoke else [11], conditions=conditions, parameters=parameters,
-        updates=total_updates, eval_every=2 if smoke else 500,
-        milestones=[4] if smoke else [total_updates // 2, total_updates], smoke=smoke,
-        train_size=len(data['train']),
+        updates=total_updates, eval_every=eval_every,
+        milestones=milestones, smoke=smoke, train_size=len(data['train']),
         validation_size=len(data['validation']), batch_size=128, lr=.0001, test_access=False,
         train_eval_size=64 if smoke else 2000,
         official_test_read=False, source='train-carved validation; official test untouched',
         comparison='same 12000-update budget as the 10000-image coverage result', status='running')
     if resume_root:
         root = Path(resume_root)
+        if not (root / 'protocol.json').exists():
+            raise ValueError('Resume target has no protocol.json')
         existing = json.loads((root / 'protocol.json').read_text())
-        for key in ('seeds', 'conditions', 'updates', 'eval_every', 'milestones', 'smoke', 'batch_size'):
-            if existing.get(key) != protocol.get(key):
-                raise ValueError(f'Resume protocol mismatch: {key}')
+        if existing.get('smoke'):
+            raise ValueError('Smoke studies are not resumable')
         if json.loads((root / 'indices.json').read_text()) != data['indices']:
             raise ValueError('Resume data indices mismatch')
         protocol = existing
-        print('Resuming', root, flush=True)
+        print('Resuming', root, 'with conditions', protocol['conditions'], flush=True)
+        ranks = tuple(int(c[len('lowrank'):]) for c in protocol['conditions'] if c.startswith('lowrank'))
+        conditions = protocol['conditions']
+        total_updates = protocol['updates']
     else:
         root = Path(output) / ('paper-full-' + uuid.uuid4().hex[:10])
         root.mkdir(parents=True)

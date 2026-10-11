@@ -30,8 +30,8 @@ def data_digest(splits):
 def train_updates(model,splits,output,updates=4000,batch_size=128,eval_every=100,seed=11,milestones=(),resume=False,train_eval_size=None):
     if set(splits)!={'train','validation'}:raise ValueError('Only train/validation accepted')
     if min(updates,batch_size,eval_every)<1:raise ValueError('Positive budgets required')
-    if any(type(m)is not int or m<1 or m>updates or (m%eval_every and m!=updates) for m in milestones):
-        raise ValueError('Milestones must be scheduled evaluation updates')
+    if any(type(m) is not int or m<1 or m>updates for m in milestones):
+        raise ValueError('Milestones must be integers within the update budget')
     path=Path(output);path.mkdir(parents=True,exist_ok=True)
     protocol=dict(updates=updates,batch_size=batch_size,eval_every=eval_every,seed=seed,milestones=list(milestones),
         data_sha256=data_digest(splits),model_repr=repr(model),torch_version=str(torch.__version__),threads=torch.get_num_threads(),
@@ -65,7 +65,7 @@ def train_updates(model,splits,output,updates=4000,batch_size=128,eval_every=100
         if any(p.grad is None or not torch.isfinite(p.grad).all() for p in model.parameters() if p.requires_grad):raise RuntimeError('Invalid gradient')
         qgrad=float(model.theta.grad.norm()) if hasattr(model,'theta') else None
         optimizer.step();elapsed+=time.perf_counter()-start
-        if step%eval_every==0 or step==updates:
+        if step%eval_every==0 or step==updates or step in milestones:
             with torch.random.fork_rng(devices=[]):
                 val=evaluate(model,DataLoader(splits['validation'],batch_size=batch_size))
             history.append(dict(update=step,last_batch_loss=float(loss.detach()),validation=val,quantum_last_batch_grad_norm=qgrad))

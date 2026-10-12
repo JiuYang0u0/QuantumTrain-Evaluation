@@ -4,6 +4,9 @@
 
 本作品尚未精確重現原論文。早期 digits 實驗是工程診斷，不是壓縮證據；MNIST 重建才使用較少可訓練參數生成較大 CNN。先讀[來源稽核](docs/paper-reproduction-audit.md)，再解讀準確率。
 
+> **單頁總覽：[reports/OVERVIEW.md](reports/OVERVIEW.md)**——目標、已驗證／未驗證、關鍵數字與下一步。
+> 若要移到有 GPU 的桌機重跑，先讀 [reports/gpu-portability.md](reports/gpu-portability.md)。
+
 ## 五分鐘開始
 
 在專案根目錄的 PowerShell 執行：
@@ -62,6 +65,8 @@ uv run python -m qt_eval.progress results/<study目錄> --json
 | 完整MNIST覆蓋pilot | 54000 train／6000 validation（官方test未讀），相同12000更新、單seed：CNN97.7%、QT106 93.9%（24.32%參數）、低秩r=4 91.1%、低秩r=3 86.1%、QT16 77.9%。量子參數效率領先，中高預算更明顯 | [結果](reports/paper-full-data/interpretation.md) |
 | 官方test一次性凍結評估 | 訓練後單次評估：CNN97.95%、QT106 93.62%（24.32%）、低秩r=4 91.34%（29.87%）、r=3 86.30%、QT16 78.77%。與validation相差0.3–0.9pp；QT106以較少參數超過低秩r=4 | [結果](reports/final-test/interpretation.md) |
 | **50 epochs 完整資料** | 54,000 train／6,000 validation、23,450 updates。官方test：CNN98.43%、QT106 96.08%（24.32%參數，低2.35pp）、低秩r=4 93.68%（29.87%）、r=3 89.14%、QT16 85.89%（6.83%）、r=2 71.90%、r=1 34.22%。同預算下量子明顯領先低秩 | [評估](reports/final-test-50ep/interpretation.md) · [壓縮曲線](reports/final-test-50ep/compression-curve.md) |
+
+更多：[單頁總覽](reports/OVERVIEW.md)。
 
 更多階段：[研究與協定索引](docs/research-index.md)。歷史完整入口內容移至[HISTORY](HISTORY.md)。狀態以進度工具與原始結果核對，不以README作即時監控。
 

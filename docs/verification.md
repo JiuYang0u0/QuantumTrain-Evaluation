@@ -1,5 +1,11 @@
 # 驗證紀錄
 
+## 50 epochs完整資料（完成）
+- study paper-full-7c5d8eb96d：54,000 train／6,000 validation、23,450 updates（≈50 epochs）、七條件（CNN、低秩r1–r4、QT16、QT106）、官方test未參與訓練。
+- 報告與官方test一次性評估成功。官方test：CNN98.43%、QT106 96.08%（24.32%參數）、低秩r=4 93.68%（29.87%）、r=3 89.14%、QT16 85.89%（6.83%）、r=2 71.90%、r=1 34.22%。
+- val與official test差0.1–0.3pp；所有QT匯出純CNN需重新以統一報告腳本核對（final_test_eval會輸出export_delta）。
+- 解讀、壓縮曲線與限制見reports/final-test-50ep/。QT106官方test 96.08%已超過論文QT-16報告的81.08%，但架構/協定不同，不得稱重現或超越論文。
+
 ## 官方test一次性凍結評估（完成）
 - 新增`load_mnist_test`與`final_test_eval`：訓練一律不讀官方test；評估只做一次並記錄`official_test_read=True`。鏡像gzip雜湊與經典MNIST不同，改以解碼內容驗證（IDX標頭、標籤直方圖、像素範圍）。
 - 2項測試通過；成套81項pytest通過。

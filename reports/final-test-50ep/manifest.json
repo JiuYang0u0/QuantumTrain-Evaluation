@@ -1,0 +1,298 @@
+{
+  "protocol": {
+    "seeds": [
+      11
+    ],
+    "conditions": [
+      "cnn",
+      "lowrank1",
+      "lowrank2",
+      "lowrank3",
+      "lowrank4",
+      "qt16",
+      "qt106"
+    ],
+    "parameters": {
+      "cnn": 6690,
+      "lowrank3": 1511,
+      "lowrank4": 1998,
+      "qt16": 457,
+      "qt106": 1627,
+      "lowrank1": 537,
+      "lowrank2": 1024
+    },
+    "updates": 23450,
+    "eval_every": 500,
+    "milestones": [
+      11500,
+      23450
+    ],
+    "smoke": false,
+    "train_size": 54000,
+    "validation_size": 6000,
+    "batch_size": 128,
+    "lr": 0.0001,
+    "test_access": false,
+    "train_eval_size": 2000,
+    "official_test_read": false,
+    "source": "train-carved validation; official test untouched",
+    "comparison": "same 12000-update budget as the 10000-image coverage result",
+    "status": "running"
+  },
+  "official_test_read": true,
+  "note": "single post-hoc evaluation; not used for model selection",
+  "runs": [
+    {
+      "condition": "cnn",
+      "seed": 11,
+      "source": "results\\full50\\paper-full-7c5d8eb96d\\cnn-seed11",
+      "scores": {
+        "test": {
+          "loss": 0.04984656224949283,
+          "accuracy": 0.9843,
+          "sample_count": 10000
+        },
+        "validation": {
+          "loss": 0.060363360815034864,
+          "accuracy": 0.9811666666666666,
+          "sample_count": 6000
+        }
+      },
+      "export_delta": null,
+      "environment": {
+        "python": "3.11.15",
+        "platform": "Windows-10-10.0.26200-SP0",
+        "cpu": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+        "device": "cpu",
+        "threads": 1,
+        "dtype": "float64",
+        "source_commit": "d5b654116565ae9550e540e021ab0d4160a15c86",
+        "project_commit": "6bb0aa2bff325371d72d58d8a95e396c1235fa35",
+        "working_tree": "",
+        "packages": {
+          "torch": "2.14.1+cpu",
+          "pennylane": "0.45.1",
+          "numpy": "2.4.6",
+          "scikit-learn": "1.9.1",
+          "pandas": "3.0.6"
+        }
+      }
+    },
+    {
+      "condition": "lowrank1",
+      "seed": 11,
+      "source": "results\\full50\\paper-full-7c5d8eb96d\\lowrank1-seed11",
+      "scores": {
+        "test": {
+          "loss": 1.618568774303397,
+          "accuracy": 0.3422,
+          "sample_count": 10000
+        },
+        "validation": {
+          "loss": 1.618927133109026,
+          "accuracy": 0.3415,
+          "sample_count": 6000
+        }
+      },
+      "export_delta": 0.0,
+      "environment": {
+        "python": "3.11.15",
+        "platform": "Windows-10-10.0.26200-SP0",
+        "cpu": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+        "device": "cpu",
+        "threads": 1,
+        "dtype": "float64",
+        "source_commit": "d5b654116565ae9550e540e021ab0d4160a15c86",
+        "project_commit": "6bb0aa2bff325371d72d58d8a95e396c1235fa35",
+        "working_tree": "",
+        "packages": {
+          "torch": "2.14.1+cpu",
+          "pennylane": "0.45.1",
+          "numpy": "2.4.6",
+          "scikit-learn": "1.9.1",
+          "pandas": "3.0.6"
+        }
+      }
+    },
+    {
+      "condition": "lowrank2",
+      "seed": 11,
+      "source": "results\\full50\\paper-full-7c5d8eb96d\\lowrank2-seed11",
+      "scores": {
+        "test": {
+          "loss": 0.9105324687493809,
+          "accuracy": 0.719,
+          "sample_count": 10000
+        },
+        "validation": {
+          "loss": 0.8998112996060817,
+          "accuracy": 0.7133333333333334,
+          "sample_count": 6000
+        }
+      },
+      "export_delta": 0.0,
+      "environment": {
+        "python": "3.11.15",
+        "platform": "Windows-10-10.0.26200-SP0",
+        "cpu": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+        "device": "cpu",
+        "threads": 1,
+        "dtype": "float64",
+        "source_commit": "d5b654116565ae9550e540e021ab0d4160a15c86",
+        "project_commit": "6bb0aa2bff325371d72d58d8a95e396c1235fa35",
+        "working_tree": "",
+        "packages": {
+          "torch": "2.14.1+cpu",
+          "pennylane": "0.45.1",
+          "numpy": "2.4.6",
+          "scikit-learn": "1.9.1",
+          "pandas": "3.0.6"
+        }
+      }
+    },
+    {
+      "condition": "lowrank3",
+      "seed": 11,
+      "source": "results\\full50\\paper-full-7c5d8eb96d\\lowrank3-seed11",
+      "scores": {
+        "test": {
+          "loss": 0.37919387294589135,
+          "accuracy": 0.8914,
+          "sample_count": 10000
+        },
+        "validation": {
+          "loss": 0.3796555841905295,
+          "accuracy": 0.889,
+          "sample_count": 6000
+        }
+      },
+      "export_delta": 0.0,
+      "environment": {
+        "python": "3.11.15",
+        "platform": "Windows-10-10.0.26200-SP0",
+        "cpu": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+        "device": "cpu",
+        "threads": 1,
+        "dtype": "float64",
+        "source_commit": "d5b654116565ae9550e540e021ab0d4160a15c86",
+        "project_commit": "6bb0aa2bff325371d72d58d8a95e396c1235fa35",
+        "working_tree": "",
+        "packages": {
+          "torch": "2.14.1+cpu",
+          "pennylane": "0.45.1",
+          "numpy": "2.4.6",
+          "scikit-learn": "1.9.1",
+          "pandas": "3.0.6"
+        }
+      }
+    },
+    {
+      "condition": "lowrank4",
+      "seed": 11,
+      "source": "results\\full50\\paper-full-7c5d8eb96d\\lowrank4-seed11",
+      "scores": {
+        "test": {
+          "loss": 0.21293959756685918,
+          "accuracy": 0.9368,
+          "sample_count": 10000
+        },
+        "validation": {
+          "loss": 0.23776041063414202,
+          "accuracy": 0.9313333333333333,
+          "sample_count": 6000
+        }
+      },
+      "export_delta": 0.0,
+      "environment": {
+        "python": "3.11.15",
+        "platform": "Windows-10-10.0.26200-SP0",
+        "cpu": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+        "device": "cpu",
+        "threads": 1,
+        "dtype": "float64",
+        "source_commit": "d5b654116565ae9550e540e021ab0d4160a15c86",
+        "project_commit": "6bb0aa2bff325371d72d58d8a95e396c1235fa35",
+        "working_tree": "",
+        "packages": {
+          "torch": "2.14.1+cpu",
+          "pennylane": "0.45.1",
+          "numpy": "2.4.6",
+          "scikit-learn": "1.9.1",
+          "pandas": "3.0.6"
+        }
+      }
+    },
+    {
+      "condition": "qt16",
+      "seed": 11,
+      "source": "results\\full50\\paper-full-7c5d8eb96d\\qt16-seed11",
+      "scores": {
+        "test": {
+          "loss": 0.47233384734150924,
+          "accuracy": 0.8589,
+          "sample_count": 10000
+        },
+        "validation": {
+          "loss": 0.4908477024714775,
+          "accuracy": 0.8566666666666667,
+          "sample_count": 6000
+        }
+      },
+      "export_delta": 1.0658141036401503e-14,
+      "environment": {
+        "python": "3.11.15",
+        "platform": "Windows-10-10.0.26200-SP0",
+        "cpu": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+        "device": "cpu",
+        "threads": 1,
+        "dtype": "float64",
+        "source_commit": "d5b654116565ae9550e540e021ab0d4160a15c86",
+        "project_commit": "6bb0aa2bff325371d72d58d8a95e396c1235fa35",
+        "working_tree": "",
+        "packages": {
+          "torch": "2.14.1+cpu",
+          "pennylane": "0.45.1",
+          "numpy": "2.4.6",
+          "scikit-learn": "1.9.1",
+          "pandas": "3.0.6"
+        }
+      }
+    },
+    {
+      "condition": "qt106",
+      "seed": 11,
+      "source": "results\\full50\\paper-full-7c5d8eb96d\\qt106-seed11",
+      "scores": {
+        "test": {
+          "loss": 0.1311942732251417,
+          "accuracy": 0.9608,
+          "sample_count": 10000
+        },
+        "validation": {
+          "loss": 0.14243563445840168,
+          "accuracy": 0.9598333333333333,
+          "sample_count": 6000
+        }
+      },
+      "export_delta": 8.881784197001252e-15,
+      "environment": {
+        "python": "3.11.15",
+        "platform": "Windows-10-10.0.26200-SP0",
+        "cpu": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+        "device": "cpu",
+        "threads": 1,
+        "dtype": "float64",
+        "source_commit": "d5b654116565ae9550e540e021ab0d4160a15c86",
+        "project_commit": "6bb0aa2bff325371d72d58d8a95e396c1235fa35",
+        "working_tree": "",
+        "packages": {
+          "torch": "2.14.1+cpu",
+          "pennylane": "0.45.1",
+          "numpy": "2.4.6",
+          "scikit-learn": "1.9.1",
+          "pandas": "3.0.6"
+        }
+      }
+    }
+  ]
+}

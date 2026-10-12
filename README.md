@@ -61,6 +61,7 @@ uv run python -m qt_eval.progress results/<study目錄> --json
 | 低秩直接訓練基準 | 更強古典壓縮：rank-r 直接訓練目標CNN權重，r=1/2/3/4/6（537–2972參數）。極低預算量子大幅領先（457預算76.0%對約32%）；約1627時QT106 90.0%對低秩約86.4%，低秩需約1998才達90%。量子優勢隨預算縮小 | [結果](reports/paper-lowrank/interpretation.md) |
 | 完整MNIST覆蓋pilot | 54000 train／6000 validation（官方test未讀），相同12000更新、單seed：CNN97.7%、QT106 93.9%（24.32%參數）、低秩r=4 91.1%、低秩r=3 86.1%、QT16 77.9%。量子參數效率領先，中高預算更明顯 | [結果](reports/paper-full-data/interpretation.md) |
 | 官方test一次性凍結評估 | 訓練後單次評估：CNN97.95%、QT106 93.62%（24.32%）、低秩r=4 91.34%（29.87%）、r=3 86.30%、QT16 78.77%。與validation相差0.3–0.9pp；QT106以較少參數超過低秩r=4 | [結果](reports/final-test/interpretation.md) |
+| **50 epochs 完整資料** | 54,000 train／6,000 validation、23,450 updates。官方test：CNN98.43%、QT106 96.08%（24.32%參數，低2.35pp）、低秩r=4 93.68%（29.87%）、r=3 89.14%、QT16 85.89%（6.83%）、r=2 71.90%、r=1 34.22%。同預算下量子明顯領先低秩 | [評估](reports/final-test-50ep/interpretation.md) · [壓縮曲線](reports/final-test-50ep/compression-curve.md) |
 
 更多階段：[研究與協定索引](docs/research-index.md)。歷史完整入口內容移至[HISTORY](HISTORY.md)。狀態以進度工具與原始結果核對，不以README作即時監控。
 

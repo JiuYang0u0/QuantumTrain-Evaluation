@@ -33,6 +33,7 @@
 | 低秩直接訓練基準 | [設定](paper-lowrank-protocol.md) | [結果](../reports/paper-lowrank/interpretation.md) |
 | 完整MNIST覆蓋pilot | [設定](paper-full-data-protocol.md) | [結果](../reports/paper-full-data/interpretation.md) |
 | 官方test凍結評估 | [設定](paper-final-test-protocol.md) | [結果](../reports/final-test/interpretation.md) |
+| 50 epochs完整資料 | [協定](paper-full-data-protocol.md) | [官方test](../reports/final-test-50ep/interpretation.md)、[壓縮曲線](../reports/final-test-50ep/compression-curve.md) |
 
 ## 證據層次
 原文表格=published；本機小型短測=pilot；反覆validation選設定=exploratory；待凍結方法後的未參與開發評估才能提供更獨立的證據。參數比、生成器與匯出CNN一致性、任務accuracy分別驗證。
